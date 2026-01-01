@@ -47,9 +47,9 @@ class PropertyController extends Controller
 
     public function store(Request $request)
     {
-
-        // dd($request->all());
-        if (\Auth::user()->can('create property')) {
+        try {
+            // dd($request->all());
+            if (\Auth::user()->can('create property')) {
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -61,7 +61,9 @@ class PropertyController extends Controller
                     'city' => 'required',
                     'zip_code' => 'required',
                     'address' => 'required',
-                    'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                    'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'advantages' => 'nullable|array',
+                    'advantages.*' => 'exists:advantages,id',
                 ]
             );
             if ($validator->fails()) {
@@ -70,20 +72,40 @@ class PropertyController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'msg' => $messages->first(),
-
-                ]);
+                    'errors' => $messages->all(),
+                    'message' => $messages->first(),
+                ], 422);
             }
 
             $ids = parentId();
             $authUser = \App\Models\User::find($ids);
+            
+            if (!$authUser) {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => __('User not found.'),
+                    'message' => __('User not found.'),
+                ], 422);
+            }
+            
             $totalProperty = $authUser->totalProperty();
             $subscription = Subscription::find($authUser->subscription);
+            
+            if (!$subscription) {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => __('Subscription not found.'),
+                    'message' => __('Subscription not found.'),
+                ], 422);
+            }
+            
             if ($totalProperty >= $subscription->property_limit && $subscription->property_limit != 0) {
                 return response()->json([
                     'status' => 'error',
                     'msg' => __('Your property limit is over, please upgrade your subscription.'),
+                    'message' => __('Your property limit is over, please upgrade your subscription.'),
                     'id' => 0,
-                ]);
+                ], 422);
             }
 
 
@@ -97,39 +119,64 @@ class PropertyController extends Controller
             $property->state = $request->state;
             $property->city = $request->city;
             $property->zip_code = $request->zip_code;
-            $property->listing_type = $request->listing_type;
-            $property->price = $request->price;
+            $property->listing_type = $request->listing_type ?? null;
+            // Ensure price is always a valid number (not null or empty string)
+            $property->price = (!empty($request->price) && is_numeric($request->price)) ? (int)$request->price : 0;
             $property->address = $request->address;
             $property->parent_id = parentId();
             $property->save();
 
 
             if ($request->hasFile('thumbnail')) {
-                $uploadResult = handleFileUpload($request->file('thumbnail'), 'upload/property/thumbnail/');
-                if ($uploadResult['flag'] == 0) {
-                    return redirect()->back()->with('error', $uploadResult['msg']);
+                try {
+                    $uploadResult = handleFileUpload($request->file('thumbnail'), 'upload/property/thumbnail/');
+                    if ($uploadResult['flag'] == 0) {
+                        return response()->json([
+                            'status' => 'error',
+                            'msg' => $uploadResult['msg'] ?? __('Failed to upload thumbnail.'),
+                            'message' => $uploadResult['msg'] ?? __('Failed to upload thumbnail.'),
+                        ], 422);
+                    }
+                    $thumbnail = new PropertyImage();
+                    $thumbnail->property_id = $property->id;
+                    $thumbnail->image = $uploadResult['filename'];
+                    $thumbnail->type = 'thumbnail';
+                    $thumbnail->save();
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'status' => 'error',
+                        'msg' => __('Error uploading thumbnail: ') . $e->getMessage(),
+                        'message' => __('Error uploading thumbnail: ') . $e->getMessage(),
+                    ], 422);
                 }
-                $thumbnail = new PropertyImage();
-                $thumbnail->property_id = $property->id;
-                $thumbnail->image = $uploadResult['filename'];
-                $thumbnail->type = 'thumbnail';
-                $thumbnail->save();
             }
 
 
             if ($request->hasFile('property_images')) {
-                foreach ($request->file('property_images') as $image) {
-                    $uploadResult = handleFileUpload($image, 'upload/property/image/');
+                try {
+                    foreach ($request->file('property_images') as $image) {
+                        $uploadResult = handleFileUpload($image, 'upload/property/image/');
 
-                    if ($uploadResult['flag'] == 1) {
-                        PropertyImage::create([
-                            'property_id' => $property->id,
-                            'image'    => $uploadResult['filename'],
-                            'type'   => 'extra',
-                        ]);
-                    } else {
-                        return redirect()->back()->with('error', $uploadResult['msg']);
+                        if ($uploadResult['flag'] == 1) {
+                            PropertyImage::create([
+                                'property_id' => $property->id,
+                                'image'    => $uploadResult['filename'],
+                                'type'   => 'extra',
+                            ]);
+                        } else {
+                            return response()->json([
+                                'status' => 'error',
+                                'msg' => $uploadResult['msg'] ?? __('Failed to upload property image.'),
+                                'message' => $uploadResult['msg'] ?? __('Failed to upload property image.'),
+                            ], 422);
+                        }
                     }
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'status' => 'error',
+                        'msg' => __('Error uploading property images: ') . $e->getMessage(),
+                        'message' => __('Error uploading property images: ') . $e->getMessage(),
+                    ], 422);
                 }
             }
 
@@ -163,13 +210,27 @@ class PropertyController extends Controller
             }
 
 
+                return response()->json([
+                    'status' => 'success',
+                    'msg' => __('Property successfully created.'),
+                    'id' => Crypt::encrypt($property->id),
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => __('Permission Denied!'),
+                    'message' => __('Permission Denied!'),
+                ], 403);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Property creation error: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            
             return response()->json([
-                'status' => 'success',
-                'msg' => __('Property successfully created.'),
-                'id' => Crypt::encrypt($property->id),
-            ]);
-        } else {
-            return redirect()->back()->with('error', __('Permission Denied!'));
+                'status' => 'error',
+                'msg' => __('Server Error: ') . $e->getMessage(),
+                'message' => __('Server Error: ') . $e->getMessage(),
+            ], 500);
         }
     }
 

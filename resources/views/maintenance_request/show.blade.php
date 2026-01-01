@@ -27,8 +27,12 @@
                                 <div class="card-header">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
+                                            @php
+                                                $maintainerProfileUrl = !empty($maintainer->user->profile) ? fetch_file($maintainer->user->profile, 'upload/profile/') : '';
+                                                $maintainerProfileUrl = !empty($maintainerProfileUrl) ? $maintainerProfileUrl : $profile;
+                                            @endphp
                                             <img class="img-radius img-fluid wid-80"
-                                                src= "{{ !empty($maintainer->user->profile) ? fetch_file($maintainer->user->profile, 'upload/profile/') : $profile }}"
+                                                src="{{ $maintainerProfileUrl }}"
                                                 alt="User image" />
                                         </div>
                                         <div class="flex-grow-1 mx-3">
@@ -203,10 +207,12 @@
                             <div class="bg-light rounded p-2 mb-3 position-relative">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="flex-shrink-0">
+                                        @php
+                                            $profileUrl = !empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : '';
+                                            $profileUrl = !empty($profileUrl) ? $profileUrl : $profile;
+                                        @endphp
                                         <img class="img-radius img-fluid wid-40"
-                                            src="{{ !empty($user->profile)
-                                                ? asset(Storage::url('upload/profile/' . $user->profile))
-                                                : asset(Storage::url('upload/profile/avatar.png')) }}"
+                                            src="{{ $profileUrl }}"
                                             alt="profile" />
                                     </div>
 
@@ -253,8 +259,12 @@
                     {{ Form::open(['route' => ['maintenance-request.comment', $maintenanceRequest->id], 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
                     <div class="d-flex align-items-center mt-3">
                         <div class="flex-shrink-0">
+                            @php
+                                $maintainerProfileUrl = !empty($maintainer->user->profile) ? fetch_file($maintainer->user->profile, 'upload/profile/') : '';
+                                $maintainerProfileUrl = !empty($maintainerProfileUrl) ? $maintainerProfileUrl : $profile;
+                            @endphp
                             <img class="img-radius d-none d-sm-inline-flex me-3 img-fluid wid-35"
-                                src="{{ asset(Storage::url('upload/profile/' . $maintainer->user->profile)) }}"
+                                src="{{ $maintainerProfileUrl }}"
                                 alt="{{ $maintainer->user->first_name }}" />
                         </div>
                         <div class="flex-grow-1 me-3">

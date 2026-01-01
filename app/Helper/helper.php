@@ -1046,7 +1046,7 @@ if (!function_exists('HomePageSection')) {
             [
                 'title' => 'Banner',
                 'section' => 'Section 1',
-                'content_value' => '{"name":"Banner","section_enabled":"active","title":"Smart Tenant - Property Management System","sub_title":"Property management refers to the administration, operation, and oversight of real estate properties on behalf of property owners. It involves various tasks such as marketing rental properties, finding tenants, collecting rent and ensuring legal compliance.","btn_name":"Get Started","btn_link":"#","section_footer_text":"Manage your business efficiently with our all-in-one solution designed for performance, security, and scalability.","section_footer_image":{},"section_main_image":{},"section_footer_image_path":"upload\/homepage\/banner_2.png","section_main_image_path":"upload\/homepage\/banner_1.png","box_image_1_path":"","box_image_2_path":"","box_image_3_path":"","Box1_image_path":"","Box2_image_path":"","Sec4_box1_image_path":"","Sec4_box2_image_path":"","Sec4_box3_image_path":"","Sec4_box4_image_path":"","Sec4_box5_image_path":"","Sec4_box6_image_path":"","Sec7_box1_image_path":"","Sec7_box2_image_path":"","Sec7_box3_image_path":"","Sec7_box4_image_path":"","Sec7_box5_image_path":"","Sec7_box6_image_path":"","Sec7_box7_image_path":"","Sec7_box8_image_path":""}'
+                'content_value' => '{"name":"Banner","section_enabled":"active","title":"Rentex","sub_title":"Property management refers to the administration, operation, and oversight of real estate properties on behalf of property owners. It involves various tasks such as marketing rental properties, finding tenants, collecting rent and ensuring legal compliance.","btn_name":"Get Started","btn_link":"#","section_footer_text":"Manage your business efficiently with our all-in-one solution designed for performance, security, and scalability.","section_footer_image":{},"section_main_image":{},"section_footer_image_path":"upload\/homepage\/banner_2.png","section_main_image_path":"upload\/homepage\/banner_1.png","box_image_1_path":"","box_image_2_path":"","box_image_3_path":"","Box1_image_path":"","Box2_image_path":"","Sec4_box1_image_path":"","Sec4_box2_image_path":"","Sec4_box3_image_path":"","Sec4_box4_image_path":"","Sec4_box5_image_path":"","Sec4_box6_image_path":"","Sec7_box1_image_path":"","Sec7_box2_image_path":"","Sec7_box3_image_path":"","Sec7_box4_image_path":"","Sec7_box5_image_path":"","Sec7_box6_image_path":"","Sec7_box7_image_path":"","Sec7_box8_image_path":""}'
             ],
             [
                 'title' => 'OverView',
@@ -1096,7 +1096,7 @@ if (!function_exists('HomePageSection')) {
             [
                 'title' => 'AboutUS - Footer',
                 'section' => 'Section 10',
-                'content_value' => '{"name":"AboutUS - Footer","section_enabled":"active","Sec10_title":"About Smart Tenant SaaS",
+                'content_value' => '{"name":"AboutUS - Footer","section_enabled":"active","Sec10_title":"About Rentex",
                 "Sec10_info":"Property management refers to the administration, operation, and oversight of real estate properties on behalf of
                 property owners. It involves various tasks such as marketing rental properties, finding tenants, collecting rent
                 and ensuring legal compliance.","section_footer_image_path":"","section_main_image_path":"","box_image_1_path":"","box_image_2_path":"","box_image_3_path":"","Box1_image_path":"","Box2_image_path":"","Sec4_box1_image_path":"","Sec4_box2_image_path":"","Sec4_box3_image_path":"","Sec4_box4_image_path":"","Sec4_box5_image_path":"","Sec4_box6_image_path":"","Sec7_box1_image_path":"","Sec7_box2_image_path":"","Sec7_box3_image_path":"","Sec7_box4_image_path":"","Sec7_box5_image_path":"","Sec7_box6_image_path":"","Sec7_box7_image_path":"","Sec7_box8_image_path":""}'
@@ -1408,9 +1408,56 @@ if (!function_exists('FilesExtension')) {
 if (!function_exists('fetch_file')) {
     function fetch_file($filename = '', $path = '')
     {
+        if (empty($filename)) {
+            return '';
+        }
+
         $settings = settings(1);
 
         try {
+            // For local storage, handle differently
+            if ($settings['storage_type'] == 'local') {
+                // Check if file exists in storage/app/public (preferred location for new uploads)
+                $publicPath = storage_path('app/public/' . $path . $filename);
+                if (file_exists($publicPath)) {
+                    return \Storage::disk('public')->url($path . $filename);
+                }
+                
+                // Check if file exists in storage/upload (legacy location - where handleFileUpload saves)
+                $legacyPath = storage_path('upload/' . $path . $filename);
+                if (file_exists($legacyPath)) {
+                    // For legacy files in storage/upload, create a route or use direct file access
+                    // Since Laravel's Storage::url() won't work for files outside app/public,
+                    // we'll use a helper route or direct file serving
+                    // For now, try to use the storage symlink if it exists
+                    $urlPath = trim($path, '/');
+                    $fullUrl = $urlPath ? $urlPath . '/' . $filename : $filename;
+                    
+                    // Try using Storage::disk('local')->url() which should work if configured correctly
+                    try {
+                        $url = \Storage::disk('local')->url('upload/' . $fullUrl);
+                        if (!empty($url)) {
+                            return $url;
+                        }
+                    } catch (\Exception $e) {
+                        // If that fails, construct URL manually
+                    }
+                    
+                    // Fallback: construct URL manually
+                    return url('storage/upload/' . $fullUrl);
+                }
+                
+                // Check if file exists in public/upload (direct public access)
+                $publicUploadPath = public_path('upload/' . $path . $filename);
+                if (file_exists($publicUploadPath)) {
+                    return asset('upload/' . $path . $filename);
+                }
+                
+                // If file doesn't exist, return empty
+                return '';
+            }
+            
+            // For cloud storage (wasabi, s3)
             if ($settings['storage_type'] == 'wasabi') {
                 config(
                     [
@@ -1433,8 +1480,17 @@ if (!function_exists('fetch_file')) {
                 );
             }
 
-            return \Storage::disk($settings['storage_type'])->url($path . $filename);
+            $url = \Storage::disk($settings['storage_type'])->url($path . $filename);
+            
+            // If URL is empty or invalid, return empty string
+            if (empty($url)) {
+                return '';
+            }
+            
+            return $url;
         } catch (\Throwable $th) {
+            // Log error for debugging
+            \Log::error('fetch_file error: ' . $th->getMessage());
             return '';
         }
     }
@@ -1504,7 +1560,8 @@ if (!function_exists('handleFileUpload')) {
 
             // Upload logic
             if ($disk === 'local') {
-                $destination = storage_path($uploadPath);
+                // For local storage, save to storage/app/public for web accessibility
+                $destination = storage_path('app/public/' . $uploadPath);
                 if (!file_exists($destination)) {
                     mkdir($destination, 0777, true);
                 }
@@ -1659,7 +1716,7 @@ if (!function_exists('FrontHomePageSection')) {
                 'title' => 'Banner',
                 'section' => 'Section 0',
                 'content' => '',
-                'content_value' => '{"name":"Banner","section_enabled":"active","title":"Smart Tenant - Property Management System","sub_title":"Property management refers to the administration, operation, and oversight of real estate properties on behalf of property owners. It involves various tasks such as marketing rental properties, finding tenants, collecting rent and ensuring legal compliance.","banner_image1":{},"banner_image1_path":"upload\/fronthomepage\/prop_banner_image1_20250811051336pm.jpg"}',
+                'content_value' => '{"name":"Banner","section_enabled":"active","title":"Rentex","sub_title":"Property management refers to the administration, operation, and oversight of real estate properties on behalf of property owners. It involves various tasks such as marketing rental properties, finding tenants, collecting rent and ensuring legal compliance.","banner_image1":{},"banner_image1_path":"upload\/fronthomepage\/prop_banner_image1_20250811051336pm.jpg"}',
             ],
             [
                 'title' => 'Offer',

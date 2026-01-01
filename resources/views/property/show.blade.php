@@ -5,6 +5,98 @@
 @section('page-class')
     product-detail-page
 @endsection
+
+@push('head-page')
+    <style>
+        .property-detail-modern {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .property-detail-modern .card {
+            border: none !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+            border-radius: 12px !important;
+        }
+        .property-detail-modern .card-header {
+            background: transparent !important;
+            border-bottom: 2px solid #000 !important;
+            padding: 1.5rem !important;
+        }
+        .property-detail-modern .nav-tabs {
+            border-bottom: 2px solid #e0e0e0 !important;
+        }
+        .property-detail-modern .nav-tabs .nav-link {
+            color: #666 !important;
+            border: none !important;
+            border-bottom: 3px solid transparent !important;
+            padding: 1rem 1.5rem !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+        }
+        .property-detail-modern .nav-tabs .nav-link:hover {
+            color: #000 !important;
+            background: #f8f9fa !important;
+        }
+        .property-detail-modern .nav-tabs .nav-link.active {
+            color: #000 !important;
+            background: transparent !important;
+            border-bottom-color: #000 !important;
+            font-weight: 600 !important;
+        }
+        .property-detail-modern .badge {
+            background-color: #000 !important;
+            color: #fff !important;
+            border-radius: 20px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+        }
+        .property-detail-modern h3, .property-detail-modern h5 {
+            color: #000 !important;
+            font-weight: 700 !important;
+        }
+        .property-detail-modern hr {
+            border-color: #e0e0e0 !important;
+            opacity: 1 !important;
+        }
+        .property-detail-modern .btn-secondary {
+            background-color: #000 !important;
+            border-color: #000 !important;
+            color: #fff !important;
+            border-radius: 8px !important;
+        }
+        .property-detail-modern .btn-secondary:hover {
+            background-color: #333 !important;
+            border-color: #333 !important;
+        }
+        .property-detail-modern .follower-card {
+            border: 1px solid #e0e0e0 !important;
+            border-radius: 12px !important;
+            transition: all 0.3s ease !important;
+        }
+        .property-detail-modern .follower-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+            transform: translateY(-2px) !important;
+        }
+        .property-detail-modern .text-success {
+            color: #000 !important;
+            font-weight: 600 !important;
+        }
+        .property-detail-modern .text-danger {
+            color: #000 !important;
+            font-weight: 600 !important;
+        }
+        .property-detail-modern .dropdown-toggle {
+            color: #000 !important;
+        }
+        .property-detail-modern .carousel-indicators li {
+            border: 2px solid #000 !important;
+        }
+        .property-detail-modern .carousel-indicators li.active {
+            background-color: #000 !important;
+        }
+    </style>
+@endpush
+
 @push('script-page')
 @endpush
 
@@ -23,28 +115,29 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="">
-                <div class="card-header">
+                <div class="card-header" style="background: transparent; border-bottom: 2px solid #000; padding: 1.5rem 0;">
                     <div class="row align-items-center g-2">
                         <div class="col">
-
+                            <h5 style="color: #000; font-weight: 700; margin: 0;">{{ __('Property Details') }}</h5>
                         </div>
                         @can('create property')
                             <div class="col-auto">
                                 <a class="btn btn-secondary customModal" data-size="lg" href="#"
-                                    data-url="{{ route('unit.create', $property->id) }}" data-title="{{ __('Add Unit') }}"> <i
-                                        class="ti ti-circle-plus align-text-bottom "></i>
-                                    {{ __('Add Unit') }}</a>
+                                    data-url="{{ route('unit.create', $property->id) }}" data-title="{{ __('Add Unit') }}"
+                                    style="border-radius: 8px;"> 
+                                    <i class="ti ti-circle-plus align-text-bottom"></i>
+                                    {{ __('Add Unit') }}
+                                </a>
                             </div>
                         @endcan
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-    <div class="row property-page mt-3">
+    <div class="row property-page mt-3 property-detail-modern">
         <div class="col-sm-12">
-            <div class="card">
+            <div class="card border-0 shadow-sm">
                 <div class="card-header pb-0">
                     <ul class="nav nav-tabs profile-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -86,87 +179,105 @@
                                 <div class="col-sm-12">
                                     <div class="row justify-content-center">
                                         <div class="col-xl-12 col-xxl-12">
-                                            <div class="card border">
-                                                <div class="card-body">
+                                            <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                                                <div class="card-body p-4">
                                                     <div class="row">
                                                         <div class="col-md-5">
                                                             <div class="sticky-md-top product-sticky">
                                                                 <div id="carouselExampleCaptions"
                                                                     class="carousel slide carousel-fade"
-                                                                    data-bs-ride="carousel">
+                                                                    data-bs-ride="carousel"
+                                                                    style="border-radius: 12px; overflow: hidden;">
                                                                     <div class="carousel-inner">
-                                                                        @foreach ($property->propertyImages as $key => $image)
-                                                                            <div
-                                                                                class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                                                                                <img src="{{ fetch_file($image->image, 'upload/property/image/') }}"
-                                                                                    class="d-block w-100 rounded"
-                                                                                    alt="Product image" />
+                                                                        @if($property->propertyImages->count() > 0)
+                                                                            @foreach ($property->propertyImages as $key => $image)
+                                                                                <div
+                                                                                    class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                                                                    <img src="{{ fetch_file($image->image, 'upload/property/image/') }}"
+                                                                                        class="d-block w-100"
+                                                                                        alt="Property image"
+                                                                                        style="height: 400px; object-fit: cover;" />
+                                                                                </div>
+                                                                            @endforeach
+                                                                        @else
+                                                                            <div class="carousel-item active">
+                                                                                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 400px;">
+                                                                                    <i class="material-icons-two-tone" style="font-size: 100px; color: #000; opacity: 0.3;">home</i>
+                                                                                </div>
                                                                             </div>
-                                                                        @endforeach
+                                                                        @endif
                                                                     </div>
-                                                                    <ol
-                                                                        class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0">
-                                                                        @foreach ($property->propertyImages as $key => $image)
-                                                                            <li data-bs-target="#carouselExampleCaptions"
-                                                                                data-bs-slide-to="{{ $key }}"
-                                                                                class="{{ $key === 0 ? 'active' : '' }} w-25 h-auto">
-                                                                                <img src="{{ fetch_file($image->image, 'upload/property/image/') }}"
-                                                                                    class="d-block wid-50 rounded"
-                                                                                    alt="Product image" />
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ol>
+                                                                    @if($property->propertyImages->count() > 1)
+                                                                        <ol
+                                                                            class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0">
+                                                                            @foreach ($property->propertyImages as $key => $image)
+                                                                                <li data-bs-target="#carouselExampleCaptions"
+                                                                                    data-bs-slide-to="{{ $key }}"
+                                                                                    class="{{ $key === 0 ? 'active' : '' }} w-25 h-auto"
+                                                                                    style="border: 2px solid #000;">
+                                                                                    <img src="{{ fetch_file($image->image, 'upload/property/image/') }}"
+                                                                                        class="d-block wid-50 rounded"
+                                                                                        alt="Property image"
+                                                                                        style="object-fit: cover; height: 60px;" />
+                                                                                </li>
+                                                                            @endforeach
+                                                                        </ol>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-7">
 
-                                                            <h3 class="">
-                                                                {{ ucfirst($property->name) }}
-
-                                                            </h3>
-                                                            <span class="badge bg-light-primary f-14 mt-1"
-                                                                data-bs-toggle="tooltip"
-                                                                data-bs-original-title="{{ __('Type') }}">{{ \App\Models\Property::$Type[$property->type] }}</span>
-                                                            <h5 class="mt-4">{{ __('Property Details') }}</h5>
-                                                            <hr class="my-3" />
-                                                            <p class="text-muted">
+                                                            <div class="d-flex align-items-center gap-3 mb-3">
+                                                                <h3 class="mb-0" style="color: #000; font-weight: 700;">
+                                                                    {{ ucfirst($property->name) }}
+                                                                </h3>
+                                                                <span class="badge bg-dark text-white px-3 py-2"
+                                                                    style="border-radius: 20px; font-weight: 500;"
+                                                                    data-bs-toggle="tooltip"
+                                                                    data-bs-original-title="{{ __('Type') }}">
+                                                                    {{ \App\Models\Property::$Type[$property->type] }}
+                                                                </span>
+                                                            </div>
+                                                            <h5 class="mt-4 mb-3" style="color: #000; font-weight: 700;">{{ __('Property Details') }}</h5>
+                                                            <hr class="my-3" style="border-color: #e0e0e0; opacity: 1;" />
+                                                            <p class="text-muted mb-4" style="line-height: 1.8; color: #666;">
                                                                 {!! $property->description !!}
                                                             </p>
 
-                                                            <h5>{{ __('Property Address') }}</h5>
-                                                            <hr class="my-3" />
-                                                            <div class="mb-1 row">
+                                                            <h5 class="mb-3" style="color: #000; font-weight: 700;">{{ __('Property Address') }}</h5>
+                                                            <hr class="my-3" style="border-color: #e0e0e0; opacity: 1;" />
+                                                            <div class="mb-3 row">
                                                                 <label
-                                                                    class="col-form-label col-lg-3 col-sm-12 text-lg-end">
-                                                                    {{ __('Address') }} :
-
+                                                                    class="col-form-label col-lg-3 col-sm-12 text-lg-end fw-semibold"
+                                                                    style="color: #000;">
+                                                                    {{ __('Address') }}:
                                                                 </label>
                                                                 <div
-                                                                    class="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center">
-                                                                    {{ $property->address }}
+                                                                    class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center">
+                                                                    <span style="color: #666;">{{ $property->address }}</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-1 row">
+                                                            <div class="mb-3 row">
                                                                 <label
-                                                                    class="col-form-label col-lg-3 col-sm-12 text-lg-end">
-                                                                    {{ __('Location') }} :
-
+                                                                    class="col-form-label col-lg-3 col-sm-12 text-lg-end fw-semibold"
+                                                                    style="color: #000;">
+                                                                    {{ __('Location') }}:
                                                                 </label>
                                                                 <div
-                                                                    class="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center">
-                                                                    {{ $property->city . ', ' . $property->state . ', ' . $property->country }}
+                                                                    class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center">
+                                                                    <span style="color: #666;">{{ $property->city . ', ' . $property->state . ', ' . $property->country }}</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-1 row">
+                                                            <div class="mb-3 row">
                                                                 <label
-                                                                    class="col-form-label col-lg-3 col-sm-12 text-lg-end">
-                                                                    {{ __('Zip Code') }} :
-
+                                                                    class="col-form-label col-lg-3 col-sm-12 text-lg-end fw-semibold"
+                                                                    style="color: #000;">
+                                                                    {{ __('Zip Code') }}:
                                                                 </label>
                                                                 <div
-                                                                    class="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center">
-                                                                    {{ $property->zip_code }}
+                                                                    class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center">
+                                                                    <span style="color: #666;">{{ $property->zip_code }}</span>
                                                                 </div>
                                                             </div>
 
@@ -188,28 +299,31 @@
                                 @if ($units->count())
                                     @foreach ($units as $unit)
                                         <div class="col-xxl-3 col-xl-4 col-md-6">
-                                            <div class="card follower-card">
-                                                <div class="card-body p-3">
+                                            <div class="card follower-card border-0 shadow-sm">
+                                                <div class="card-body p-4">
                                                     <div class="d-flex align-items-start mb-3">
-                                                        <div class="flex-grow-1 ">
-                                                            <h2 class="mb-1 text-truncate">{{ ucfirst($unit->name) }}</h2>
+                                                        <div class="flex-grow-1">
+                                                            <h4 class="mb-1 text-truncate" style="color: #000; font-weight: 700;">{{ ucfirst($unit->name) }}</h4>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                             <div class="dropdown">
-                                                                <a class="dropdown-toggle text-primary opacity-50 arrow-none"
+                                                                <a class="dropdown-toggle text-dark opacity-75 arrow-none bg-white rounded-circle d-flex align-items-center justify-content-center"
                                                                     href="#" data-bs-toggle="dropdown"
-                                                                    aria-haspopup="true" aria-expanded="false">
-                                                                    <i class="ti ti-dots f-16"></i>
+                                                                    aria-haspopup="true" aria-expanded="false"
+                                                                    style="width: 32px; height: 32px; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                                                    <i class="ti ti-dots" style="font-size: 16px;"></i>
                                                                 </a>
-                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                <div class="dropdown-menu dropdown-menu-end border-0 shadow-lg" style="border-radius: 8px; min-width: 160px;">
 
                                                                     @can('edit unit')
-                                                                        <a class="dropdown-item customModal" href="#"
+                                                                        <a class="dropdown-item text-dark d-flex align-items-center py-2 customModal" href="#"
                                                                             data-url="{{ route('unit.edit', [$property->id, $unit->id]) }}"
                                                                             data-title="{{ __('Edit Unit') }}"
-                                                                            data-size="lg">
-                                                                            <i
-                                                                                class="material-icons-two-tone">edit</i>{{ __('Edit Unit') }}</a>
+                                                                            data-size="lg"
+                                                                            style="transition: background 0.2s;">
+                                                                            <i class="material-icons-two-tone me-2" style="font-size: 20px;">edit</i>
+                                                                            {{ __('Edit Unit') }}
+                                                                        </a>
                                                                     @endcan
 
                                                                     @can('delete unit')
@@ -219,11 +333,11 @@
                                                                             'id' => 'unit-' . $unit->id,
                                                                         ]) !!}
 
-                                                                        <a class="dropdown-item confirm_dialog"
-                                                                            href="#">
-                                                                            <i class="material-icons-two-tone">delete</i>
+                                                                        <a class="dropdown-item text-dark d-flex align-items-center py-2 confirm_dialog"
+                                                                            href="#"
+                                                                            style="transition: background 0.2s;">
+                                                                            <i class="material-icons-two-tone me-2" style="font-size: 20px;">delete</i>
                                                                             {{ __('Delete Unit') }}
-
                                                                         </a>
                                                                         {!! Form::close() !!}
                                                                     @endcan
@@ -231,34 +345,31 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <hr class="my-3" />
-
+                                                    <hr class="my-3" style="border-color: #e0e0e0; opacity: 1;" />
 
                                                     <div class="row">
-
-                                                        <p class="mb-1">{{ __('Status') }}:
+                                                        <p class="mb-2 fw-semibold" style="color: #000;">{{ __('Status') }}:
                                                             @if ($unit->is_occupied)
-                                                                <span
-                                                                    class=" ms-1 text-danger">{{ __('Occupied') }}</span>
+                                                                <span class="badge bg-dark text-white ms-2 px-2 py-1" style="border-radius: 12px; font-weight: 500;">{{ __('Occupied') }}</span>
                                                             @else
-                                                                <span class="text-success ms-1">{{ __('Vacant') }}</span>
+                                                                <span class="badge border border-dark text-dark ms-2 px-2 py-1" style="background: transparent; border-radius: 12px; font-weight: 500;">{{ __('Vacant') }}</span>
                                                             @endif
                                                         </p>
 
-                                                        <p class="mb-1">{{ __('Bedroom') }} :
-                                                            <span class="text-muted">{{ $unit->bedroom }}</span>
+                                                        <p class="mb-2"><span class="fw-semibold" style="color: #000;">{{ __('Bedroom') }}:</span>
+                                                            <span class="text-muted ms-2">{{ $unit->bedroom }}</span>
                                                         </p>
-                                                        <p class="mb-1">{{ __('Kitchen') }} :
-                                                            <span class="text-muted">{{ $unit->kitchen }}</span>
+                                                        <p class="mb-2"><span class="fw-semibold" style="color: #000;">{{ __('Kitchen') }}:</span>
+                                                            <span class="text-muted ms-2">{{ $unit->kitchen }}</span>
                                                         </p>
-                                                        <p class="mb-1">{{ __('Bath') }} :
-                                                            <span class="text-muted">{{ $unit->baths }}</span>
+                                                        <p class="mb-2"><span class="fw-semibold" style="color: #000;">{{ __('Bath') }}:</span>
+                                                            <span class="text-muted ms-2">{{ $unit->baths }}</span>
                                                         </p>
-                                                        <p class="mb-1">{{ __('Rent Type') }} :
-                                                            <span class="text-muted">{{ $unit->rent_type }}</span>
+                                                        <p class="mb-2"><span class="fw-semibold" style="color: #000;">{{ __('Rent Type') }}:</span>
+                                                            <span class="text-muted ms-2">{{ ucfirst($unit->rent_type) }}</span>
                                                         </p>
-                                                        <p class="mb-1">{{ __('Rent') }} :
-                                                            <span class="text-muted">{{ priceFormat($unit->rent) }}</span>
+                                                        <p class="mb-2"><span class="fw-semibold" style="color: #000;">{{ __('Rent') }}:</span>
+                                                            <span class="text-muted ms-2">{{ priceFormat($unit->rent) }}</span>
                                                         </p>
                                                         @if ($unit->rent_type == 'custom')
                                                             <p class="mb-1">{{ __('Start Date') }} :
@@ -336,10 +447,10 @@
                                                             @foreach ($selectedAmenities as $amenity)
                                                                 <div class="col-md-6 col-xl-4 mb-3">
                                                                     <div
-                                                                        class="position-relative h-100 border p-3 rounded shadow-sm d-flex align-items-start gap-3">
-
-                                                                        <i class="ti ti-circle-check text-success fs-10 position-absolute"
-                                                                            style="top: 10px; right: 10px;"></i>
+                                                                        class="position-relative h-100 border p-3 rounded shadow-sm d-flex align-items-start gap-3"
+                                                                        style="border-color: #e0e0e0 !important; border-radius: 12px !important; transition: all 0.3s ease;">
+                                                                        <i class="material-icons-two-tone position-absolute"
+                                                                            style="top: 10px; right: 10px; color: #000; font-size: 20px;">check_circle</i>
 
                                                                         @if ($amenity->image)
                                                                             <img src="{{ fetch_file('upload/amenity/' . $amenity->image) }}"
@@ -348,9 +459,9 @@
                                                                                 class="rounded shadow-sm mt-1">
                                                                         @endif
                                                                         <div>
-                                                                            <h6 class="mb-1">{{ $amenity->name }}</h6>
-                                                                            <p class="mb-0 text-muted text-sm"
-                                                                                style="font-size: 14px;">
+                                                                            <h6 class="mb-1" style="color: #000; font-weight: 600;">{{ $amenity->name }}</h6>
+                                                                            <p class="mb-0 text-muted"
+                                                                                style="font-size: 0.875rem; color: #666; line-height: 1.5;">
                                                                                 {{ $amenity->description }}
                                                                             </p>
                                                                         </div>
@@ -383,15 +494,15 @@
                                                             @foreach ($selectedAdvantages as $advantage)
                                                                 <div class="col-md-6 col-xl-4 mb-3">
                                                                     <div
-                                                                        class="position-relative h-100 border p-3 rounded shadow-sm d-flex align-items-start gap-3">
-
-                                                                        <i class="ti ti-circle-check text-success fs-10 position-absolute"
-                                                                            style="top: 10px; right: 10px;"></i>
+                                                                        class="position-relative h-100 border p-3 rounded shadow-sm d-flex align-items-start gap-3"
+                                                                        style="border-color: #e0e0e0 !important; border-radius: 12px !important; transition: all 0.3s ease;">
+                                                                        <i class="material-icons-two-tone position-absolute"
+                                                                            style="top: 10px; right: 10px; color: #000; font-size: 20px;">check_circle</i>
 
                                                                         <div>
-                                                                            <h6 class="mb-1">{{ $advantage->name }}</h6>
-                                                                            <p class="mb-0 text-muted text-sm"
-                                                                                style="font-size: 14px;">
+                                                                            <h6 class="mb-1" style="color: #000; font-weight: 600;">{{ $advantage->name }}</h6>
+                                                                            <p class="mb-0 text-muted"
+                                                                                style="font-size: 0.875rem; color: #666; line-height: 1.5;">
                                                                                 {{ $advantage->description }}
                                                                             </p>
                                                                         </div>
@@ -420,12 +531,12 @@
 
 
         @if (!empty($property->propertyImages) && $property->propertyImages->count())
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>{{ __('Property Image') }}</h5>
+            <div class="col-sm-12 mt-4">
+                <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                    <div class="card-header" style="background: transparent; border-bottom: 2px solid #000; padding: 1.5rem;">
+                        <h5 style="color: #000; font-weight: 700; margin: 0;">{{ __('Property Images') }}</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-4">
                         <div class="row">
                             @foreach ($property->propertyImages as $doc)
                                 @php

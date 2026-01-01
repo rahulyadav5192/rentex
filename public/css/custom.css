@@ -260,7 +260,7 @@ div:where(.swal2-icon) {
 
 .pricingpricing .price-card .product-list li.enable::before {
     content: "\ea5e";
-    color: #00c853;
+    color: #000000;
 }
 
 .pricingpricing .price-card .product-list li {
@@ -350,8 +350,8 @@ table.dataTable td.dt-type-date {
 }
 
 .btn-thm2 {
-    background-color: #5BBB7B;
-    border: 2px solid #5BBB7B;
+    background-color: #000000;
+    border: 2px solid #000000;
     color: #ffffff;
     height: 44px;
     display: flex;
@@ -362,8 +362,8 @@ table.dataTable td.dt-type-date {
 }
 
 .btn-thm3 {
-    background-color: #bd510e;
-    border: 2px solid #bd510e;
+    background-color: #000000;
+    border: 2px solid #000000;
     color: #ffffff;
     height: 44px;
     display: flex;
@@ -376,4 +376,349 @@ table.dataTable td.dt-type-date {
 .ban-img {
     width: 700px;
     height: 526px;
+}
+
+/* ============================================
+   Black and White Theme Overrides
+   ============================================ */
+
+/* Root Variables - Set Primary to Black */
+:root {
+    --bs-primary: #000000 !important;
+    --bs-primary-rgb: 0, 0, 0 !important;
+    --bs-secondary: #000000 !important;
+    --bs-secondary-rgb: 0, 0, 0 !important;
+    --pc-sidebar-active-color: #000000 !important;
+    --pc-sidebar-active-color-rgb: 0, 0, 0 !important;
+    --bs-link-color: #000000 !important;
+    --bs-link-hover-color: #000000 !important;
+}
+
+/* All Primary Buttons - Black Background, White Text */
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-info,
+.btn-warning,
+.btn-danger,
+.btn-dark,
+.btn-thm2,
+.btn-thm3 {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active,
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-dark:hover,
+.btn-dark:focus,
+.btn-dark:active,
+.btn-thm2:hover,
+.btn-thm2:focus,
+.btn-thm2:active,
+.btn-thm3:hover,
+.btn-thm3:focus,
+.btn-thm3:active {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Outline Primary Buttons */
+.btn-outline-primary,
+.btn-outline-secondary {
+    color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Background Primary */
+.bg-primary,
+.bg-secondary {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Text Primary */
+.text-primary,
+.text-secondary,
+.link-primary {
+    color: #000000 !important;
+}
+
+.text-primary:hover,
+.text-secondary:hover,
+.link-primary:hover {
+    color: #000000 !important;
+}
+
+/* All Preset Overrides */
+[data-pc-preset] {
+    --bs-primary: #000000 !important;
+    --bs-primary-rgb: 0, 0, 0 !important;
+    --bs-secondary: #000000 !important;
+    --bs-secondary-rgb: 0, 0, 0 !important;
+    --pc-sidebar-active-color: #000000 !important;
+    --pc-sidebar-active-color-rgb: 0, 0, 0 !important;
+}
+
+[data-pc-preset] .btn-primary,
+[data-pc-preset] .btn-secondary {
+    --bs-btn-color: #ffffff !important;
+    --bs-btn-bg: #000000 !important;
+    --bs-btn-border-color: #000000 !important;
+    --bs-btn-hover-color: #ffffff !important;
+    --bs-btn-hover-bg: #000000 !important;
+    --bs-btn-hover-border-color: #000000 !important;
+    --bs-btn-active-color: #ffffff !important;
+    --bs-btn-active-bg: #000000 !important;
+    --bs-btn-active-border-color: #000000 !important;
+}
+
+[data-pc-preset] .btn-outline-primary,
+[data-pc-preset] .btn-outline-secondary {
+    --bs-btn-color: #000000 !important;
+    --bs-btn-border-color: #000000 !important;
+    --bs-btn-hover-color: #ffffff !important;
+    --bs-btn-hover-bg: #000000 !important;
+    --bs-btn-hover-border-color: #000000 !important;
+}
+
+/* Custom Color Override */
+[data-pc-preset=custom] {
+    --bs-primary: #000000 !important;
+    --bs-primary-rgb: 0, 0, 0 !important;
+    --bs-secondary: #000000 !important;
+    --bs-secondary-rgb: 0, 0, 0 !important;
+    --pc-sidebar-active-color: #000000 !important;
+    --pc-sidebar-active-color-rgb: 0, 0, 0 !important;
+}
+
+/* Pricing Cards - Change Green Checkmarks to Black */
+.pricingpricing .price-card .product-list li.enable::before {
+    color: #000000 !important;
+}
+
+/* Active Links and Navigation */
+.pc-sidebar .pc-item.active > .pc-link,
+.pc-sidebar .pc-item:focus > .pc-link,
+.pc-sidebar .pc-item:hover > .pc-link {
+    color: #000000 !important;
+}
+
+.pc-sidebar .pc-item.active > .pc-link .pc-micon i,
+.pc-sidebar .pc-item.active > .pc-link .pc-micon svg,
+.pc-sidebar .pc-item:focus > .pc-link .pc-micon i,
+.pc-sidebar .pc-item:focus > .pc-link .pc-micon svg,
+.pc-sidebar .pc-item:hover > .pc-link .pc-micon i,
+.pc-sidebar .pc-item:hover > .pc-link .pc-micon svg {
+    color: #000000 !important;
+}
+
+.pc-sidebar .pc-submenu .pc-item:hover:before,
+.pc-sidebar .pc-submenu .pc-item.active:before {
+    background: #000000 !important;
+}
+
+/* Alert Primary */
+.alert-primary {
+    --bs-alert-color: #000000 !important;
+    --bs-alert-bg: #f5f5f5 !important;
+    --bs-alert-border-color: #000000 !important;
+}
+
+/* List Group Primary */
+.list-group-item-primary {
+    color: #000000 !important;
+    background-color: #f5f5f5 !important;
+}
+
+/* Progress Bar */
+.progress-bar.bg-primary {
+    background-color: #000000 !important;
+}
+
+/* Badge Primary */
+.badge.bg-primary,
+.badge.bg-secondary {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Nav Pills Active */
+.nav-pills .nav-link.active {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Pagination Active */
+.pagination .page-item.active .page-link {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Accordion Active */
+.accordion-button:not(.collapsed) {
+    color: #000000 !important;
+    background-color: #f5f5f5 !important;
+}
+
+/* Table Row Selected */
+.table-primary {
+    --bs-table-bg: #f5f5f5 !important;
+}
+
+/* Dropdown Active */
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Hamburger Menu Icon - Make it Black */
+.navbar-toggler,
+.navbar-toggler-icon,
+.navbar-toggler:focus,
+.navbar-toggler:hover {
+    color: #000000 !important;
+    border-color: #000000 !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23000000' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+[data-bs-theme=dark] .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23000000' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Header Menu Icons - Remove Green */
+.pc-head-link,
+.pc-head-link i,
+.head-link-primary,
+.head-link-secondary,
+.ti-menu-2,
+.ti-language,
+.ti-settings {
+    color: #000000 !important;
+}
+
+.pc-head-link:hover,
+.pc-head-link:focus,
+.head-link-primary:hover,
+.head-link-primary:focus,
+.head-link-secondary:hover,
+.head-link-secondary:focus {
+    color: #000000 !important;
+    background-color: #f5f5f5 !important;
+}
+
+/* Web Theme Menu Items - Remove Green */
+.menu-btn:hover {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.hiddenbar_navbar_menu .navbar-nav .nav-item .nav-link:hover,
+.hiddenbar_navbar_menu .navbar-nav .nav-item .nav-link:active,
+.hiddenbar_navbar_menu .navbar-nav .nav-item .nav-link:focus {
+    background-color: rgba(0, 0, 0, 0.07) !important;
+    border-left-color: #000000 !important;
+    color: #000000 !important;
+}
+
+.navpill-style1 .nav-link.active,
+.navpill-style1 .nav-link:hover {
+    color: #000000 !important;
+}
+
+/* Replace all green hover colors in web theme */
+.btn-fb:hover,
+.btn-google:hover,
+.btn-apple:hover {
+    border-color: #000000 !important;
+    color: #000000 !important;
+}
+
+/* Web Theme CSS Overrides - Replace Green Colors with Black */
+.header-nav .ace-responsive-menu > li > a:hover,
+.header-nav .ace-responsive-menu > li > a.active,
+.header-nav .ace-responsive-menu > li > a:focus,
+.header-nav .ace-responsive-menu > li > a.custom-active-style {
+    color: #000000 !important;
+}
+
+.header-nav .ace-responsive-menu > li > a:hover::after,
+.header-nav .ace-responsive-menu > li > a.active::after {
+    background-color: #000000 !important;
+}
+
+.btn-thm,
+.btn-thm:hover,
+.btn-thm:focus,
+.btn-thm:active {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+a:hover,
+a:focus {
+    color: #000000 !important;
+}
+
+.text-thm,
+.text-thm2,
+.text-thm3 {
+    color: #000000 !important;
+}
+
+.bg-thm,
+.bg-thm2,
+.bg-thm3 {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.border-thm,
+.border-thm2,
+.border-thm3 {
+    border-color: #000000 !important;
+}
+
+/* Replace all green color instances in web theme */
+[style*="#5BBB7B"],
+[style*="#00c853"] {
+    color: #000000 !important;
+    background-color: #000000 !important;
+    border-color: #000000 !important;
 }

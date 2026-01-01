@@ -49,7 +49,11 @@
                     <tr>
                         <td class="header"
                             style="background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;">
-                            <img src="{{ !empty($admin_logo) ? fetch_file($admin_logo,'upload/logo/') : '#' }}" style="height: 100px;"
+                            @php
+                                $logoUrl = !empty($admin_logo) ? fetch_file($admin_logo,'upload/logo/') : '';
+                                $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                            @endphp
+                            <img src="{{ $logoUrl }}" style="height: 100px;"
                                 alt="">
                         </td>
                     </tr>

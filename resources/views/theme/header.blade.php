@@ -13,12 +13,16 @@
                 <div class="col-auto px-0 px-xl-3">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="logos">
+                            @php
+                                $logoUrl1 = !empty($admin_logo) ? fetch_file($admin_logo, 'upload/logo/') : '';
+                                $logoUrl1 = !empty($logoUrl1) ? $logoUrl1 : asset('logo.png');
+                            @endphp
                             <a class="header-logo logo1 landing-logo" href="#">
-                                <img src="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}" class="img-fluid"
+                                <img src="{{ $logoUrl1 }}" class="img-fluid"
                                     style="width: 240px;" alt="Header Logo">
                             </a>
                             <a class="header-logo logo2 landing-logo" href="#">
-                                <img src="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}" class="img-fluid"
+                                <img src="{{ $logoUrl1 }}" class="img-fluid"
                                     alt="Header Logo">
                             </a>
 

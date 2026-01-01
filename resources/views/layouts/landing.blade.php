@@ -68,7 +68,11 @@
     <nav class="navbar navbar-expand-md navbar-light default">
         <div class="container">
             <a class="navbar-brand landing-logo" href="#">
-                <img src="{{ !empty($settings['landing_logo']) ? fetch_file($settings['landing_logo'],'upload/logo/') : $default_landing_logo }}" alt="logo"
+                @php
+                    $logoUrl = !empty($settings['landing_logo']) ? fetch_file($settings['landing_logo'],'upload/logo/') : '';
+                    $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                @endphp
+                <img src="{{ $logoUrl }}" alt="logo"
                     class="img-fluid " />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -133,7 +137,7 @@
                             @if (!empty($Section_1_content_value['title']))
                                 {{ $Section_1_content_value['title'] }}
                             @else
-                                {{ __('Smart Tenant - Property Management System') }}
+                                {{ __('Rentex') }}
                             @endif
                         </h1>
                         <h4 class="mb-sm-4 text-muted wow fadeInUp" data-wow-delay="0.4s">
@@ -875,7 +879,11 @@
                 <div class="row">
                     <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="landing-logo">
-                            <img src="{{ asset(Storage::url('upload/logo/light_logo.png')) }}" alt="image"
+                            @php
+                                $logoUrl = !empty($settings['light_logo']) ? fetch_file($settings['light_logo'], 'upload/logo/') : '';
+                                $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                            @endphp
+                            <img src="{{ $logoUrl }}" alt="image"
                                 class="img-fluid" />
                         </div>
                         <h4 class="my-3 text-white">

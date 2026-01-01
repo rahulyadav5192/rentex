@@ -106,12 +106,77 @@ $(document).on("click", ".fc-day-grid-event", function (e) {
     });
 });
 
-function toastrs(title, message, status) {
+// Track last notification to prevent duplicates
+var lastNotification = {
+    title: '',
+    message: '',
+    timestamp: 0
+};
 
-    if (status == "success") {
-        notifier.show("Success!", message, "success", successImg, 4000);
+function toastrs(title, message, status) {
+    // Ensure message is a string and not an object
+    if (typeof message !== 'string') {
+        if (message && typeof message === 'object') {
+            // If it's an object, try to extract a meaningful message
+            if (message.message) {
+                message = message.message;
+            } else if (message.msg) {
+                message = message.msg;
+            } else if (Array.isArray(message) && message.length > 0) {
+                message = message[0];
+            } else {
+                message = 'An error occurred';
+            }
+        } else {
+            message = String(message || 'An error occurred');
+        }
+    }
+
+    // Ensure message is not empty
+    if (!message || message.trim() === '') {
+        message = 'An error occurred';
+    }
+
+    // Normalize title
+    var normalizedTitle = (title === "Success" || title === "Success!") ? "Success!" : "Error!";
+    var normalizedMessage = message.trim();
+
+    // Prevent duplicate notifications within 1 second
+    var now = Date.now();
+    if (lastNotification.title === normalizedTitle && 
+        lastNotification.message === normalizedMessage && 
+        (now - lastNotification.timestamp) < 1000) {
+        return; // Skip duplicate notification
+    }
+
+    // Clear existing notifications of the same type before showing new one
+    var existingNotifications = document.querySelectorAll('.notifier');
+    if (existingNotifications.length > 0) {
+        existingNotifications.forEach(function(notif) {
+            // Remove notifications with same title and message
+            var notifTitle = notif.querySelector('.notifier-title');
+            var notifBody = notif.querySelector('.notifier-body');
+            if (notifTitle && notifBody) {
+                if (notifTitle.textContent.trim() === normalizedTitle && 
+                    notifBody.textContent.trim() === normalizedMessage) {
+                    notif.remove();
+                }
+            }
+        });
+    }
+
+    // Update last notification
+    lastNotification = {
+        title: normalizedTitle,
+        message: normalizedMessage,
+        timestamp: now
+    };
+
+    if (status == "success" || status === "Success") {
+        notifier.show("Success!", normalizedMessage, "success", successImg, 4000);
     } else {
-        notifier.show("Success!", message, "success", errorImg, 4000);
+        // Use proper error title and type
+        notifier.show("Error!", normalizedMessage, "error", errorImg, 4000);
     }
 }
 

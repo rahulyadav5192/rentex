@@ -37,8 +37,12 @@
                                     <div class="card-body p-3">
                                         <div class="d-flex align-items-start mb-3">
                                             <div class="flex-grow-1 ms-3 mx-2">
+                                                @php
+                                                    $profileUrl = !empty($tenant->user->profile) ? fetch_file($tenant->user->profile, 'upload/profile/') : '';
+                                                    $profileUrl = !empty($profileUrl) ? $profileUrl : $profile;
+                                                @endphp
                                                 <img class="img-fluid wid-70"
-                                                    src = "{{ !empty($tenant->user->profile) ? fetch_file($tenant->user->profile, 'upload/profile/') : $profile }}"
+                                                    src="{{ $profileUrl }}"
                                                     alt="Image">
                                             </div>
                                             @if (Gate::check('edit tenant') || Gate::check('delete tenant') || Gate::check('show tenant'))

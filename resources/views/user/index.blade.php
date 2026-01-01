@@ -67,7 +67,11 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td class="table-user">
-                                            <img src="{{ !empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : $profile }}"
+                                            @php
+                                                $profileUrl = !empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : '';
+                                                $profileUrl = !empty($profileUrl) ? $profileUrl : $profile;
+                                            @endphp
+                                            <img src="{{ $profileUrl }}"
                                                 alt="" class="mr-2 avatar-sm rounded-circle user-avatar">
                                             <a href="#"
                                                 class="text-body font-weight-semibold">{{ $user->name }}</a>

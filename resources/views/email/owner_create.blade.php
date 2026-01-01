@@ -32,7 +32,11 @@
                     <tr>
                         <td class="header"
                             style="background-color: #345C72; padding: 40px; text-align: center; color: white; font-size: 24px;">
-                            <img src="{{ !empty($data['logo']) ? fetch_file($data['logo'],'upload/logo/') : '#' }}"
+                            @php
+                                $logoUrl = !empty($data['logo']) ? fetch_file($data['logo'],'upload/logo/') : '';
+                                $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                            @endphp
+                            <img src="{{ $logoUrl }}"
                                 style="height: 100px;" alt="">
                         </td>
                     </tr>

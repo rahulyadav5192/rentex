@@ -54,8 +54,12 @@
                                         <div class="card-header">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
+                                                    @php
+                                                        $profileUrl = !empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : '';
+                                                        $profileUrl = !empty($profileUrl) ? $profileUrl : $profile;
+                                                    @endphp
                                                     <img class="img-radius img-fluid wid-40"
-                                                        src="{{ !empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : $profile }}"
+                                                        src="{{ $profileUrl }}"
                                                         alt="User image" />
                                                 </div>
                                                 <div class="flex-grow-1 mx-3">
@@ -173,9 +177,12 @@
                                         <div class="card-header">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
+                                                    @php
+                                                        $profileUrl = !empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : '';
+                                                        $profileUrl = !empty($profileUrl) ? $profileUrl : $profile;
+                                                    @endphp
                                                     <img class="img-radius img-fluid wid-40"
-                                                        {{-- src="{{ !empty($user->profile) ? $profile . '/' . $user->profile : $profile . '/avatar.png' }}" --}}
-                                                        src="{{ !empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : $profile }}"
+                                                        src="{{ $profileUrl }}"
                                                         alt="User image" />
                                                 </div>
                                                 <div class="flex-grow-1 mx-3">

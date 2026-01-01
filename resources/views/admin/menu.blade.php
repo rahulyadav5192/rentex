@@ -17,13 +17,16 @@
     <div class="navbar-wrapper">
         <div class="m-header">
             <a href="#" class="b-brand text-primary">
-                @if ($theme_mode == 'dark')
-                    <img src="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($light_logo) && !empty($light_logo) ? $light_logo : 'logo.png') }}"
-                        alt="" class="logo logo-lg" />
-                @else
-                    <img src="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}"
-                        alt="" class="logo logo-lg" />
-                @endif
+                @php
+                    if ($theme_mode == 'dark') {
+                        $logoUrl = !empty($light_logo) ? fetch_file($light_logo, 'upload/logo/') : '';
+                    } else {
+                        $logoUrl = !empty($admin_logo) ? fetch_file($admin_logo, 'upload/logo/') : '';
+                    }
+                    $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                @endphp
+                <img src="{{ $logoUrl }}"
+                    alt="" class="logo logo-lg" />
             </a>
         </div>
         <div class="navbar-content">

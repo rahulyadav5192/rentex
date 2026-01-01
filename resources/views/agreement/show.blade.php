@@ -37,7 +37,11 @@ $settings = settings();
                             <div class="codex-brand row d-flex align-items-center">
                                 <div class="col-sm-12 col-md-10">
                                     <a class="codexdark-logo" href="Javascript:void(0);">
-                                        <img class="img-fluid" src="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($settings['company_logo']) && !empty($settings['company_logo']) ? $settings['company_logo'] : 'logo.png') }}" alt="invoice-logo">
+                                        @php
+                                            $logoUrl = !empty($settings['company_logo']) ? fetch_file($settings['company_logo'], 'upload/logo/') : '';
+                                            $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                                        @endphp
+                                        <img class="img-fluid" src="{{ $logoUrl }}" alt="invoice-logo">
                                     </a>
                                 </div>
                                 <ul class="col-sm-12 col-md-2" style="list-style: none;">

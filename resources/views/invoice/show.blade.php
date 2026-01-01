@@ -223,7 +223,11 @@
                                 <div class="row align-items-center g-3">
                                     <div class="col-sm-6">
                                         <div class="d-flex align-items-center mb-2 navbar-brand img-fluid invoice-logo">
-                                            <img src="{{ !empty($main_logo) ? fetch_file($main_logo,'upload/logo/') : '#' }}"
+                                            @php
+                                                $logoUrl = !empty($main_logo) ? fetch_file($main_logo,'upload/logo/') : '';
+                                                $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                                            @endphp
+                                            <img src="{{ $logoUrl }}"
                                                 class="img-fluid brand-logo" alt="images" />
                                         </div>
                                         <p class="mb-0">{{ invoicePrefix() . $invoice->invoice_id }}</p>

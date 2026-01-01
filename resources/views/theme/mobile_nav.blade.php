@@ -4,7 +4,11 @@
             <div class="menu_and_widgets">
                 <div class="mobile_menu_bar d-flex justify-content-between align-items-center">
                     <a class="mobile_logo" href="#">
-                        <img src="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}"
+                        @php
+                            $logoUrl = !empty($admin_logo) ? fetch_file($admin_logo, 'upload/logo/') : '';
+                            $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                        @endphp
+                        <img src="{{ $logoUrl }}"
                             alt="" class="img-fluid" style="width: 200px;">
                     </a>
 

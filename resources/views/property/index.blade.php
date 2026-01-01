@@ -3,6 +3,50 @@
     {{ __('Property') }}
 @endsection
 
+@push('head-page')
+    <style>
+        .property-card-modern {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .property-card-modern:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+        }
+        .property-card-modern:hover img {
+            transform: scale(1.05);
+        }
+        .property-card-modern .dropdown-item:hover {
+            background-color: #f5f5f5 !important;
+        }
+        .card-header {
+            background: transparent !important;
+            border-bottom: 2px solid #000 !important;
+            padding: 1.5rem 0 !important;
+        }
+        .card-header h5 {
+            color: #000 !important;
+            font-weight: 700 !important;
+            font-size: 1.5rem !important;
+        }
+        .btn-secondary {
+            background-color: #000 !important;
+            border-color: #000 !important;
+            color: #fff !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1.5rem !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+        }
+        .btn-secondary:hover {
+            background-color: #333 !important;
+            border-color: #333 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        }
+    </style>
+@endpush
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
@@ -109,57 +153,61 @@
                     </div>
                 </div>
 
-                <div class="row mt-3">
+                <div class="row mt-4 g-4">
                     @foreach ($properties as $property)
-                        {{-- @dd($property->thumbnail) --}}
-                        @if (!empty($property->thumbnail) && !empty($property->thumbnail->image))
-                            @php $thumbnail= $property->thumbnail->image; @endphp
-                        @else
-                            @php $thumbnail= 'default.jpg'; @endphp
-                        @endif
+                        @php
+                            $hasThumbnail = !empty($property->thumbnail) && !empty($property->thumbnail->image);
+                            $thumbnail = $hasThumbnail ? $property->thumbnail->image : null;
+                            $thumbnailUrl = $hasThumbnail ? fetch_file($thumbnail, 'upload/property/thumbnail/') : '';
+                        @endphp
                         <div class="col-sm-6 col-md-4 col-xxl-3">
-                            <div class="card product-card">
-                                <div class="card-img-top">
-                                    <img src="{{ fetch_file($thumbnail, 'upload/property/thumbnail/') }}"
-                                        alt="{{ $property->name }}" class="img-prod" />
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <a href="@can('show property') {{ route('property.show', \Crypt::encrypt($property->id)) }}  @endcan"
-                                            class="fw-semibold mb-0 text-truncate">
-                                            <h4>{{ $property->name }}</h4>
-                                        </a>
+                            <div class="card border-0 shadow-sm h-100 property-card-modern" style="transition: all 0.3s ease; border-radius: 12px; overflow: hidden;">
+                                <div class="position-relative" style="height: 220px; overflow: hidden; background: #f8f9fa;">
+                                    @if ($hasThumbnail && !empty($thumbnailUrl))
+                                        <img src="{{ $thumbnailUrl }}"
+                                            alt="{{ $property->name }}" 
+                                            class="w-100 h-100" 
+                                            style="object-fit: cover; transition: transform 0.3s ease;" />
+                                    @else
+                                        <div class="d-flex align-items-center justify-content-center h-100" style="background: #f8f9fa;">
+                                            <i class="material-icons-two-tone" style="font-size: 80px; color: #000; opacity: 0.3;">home</i>
+                                        </div>
+                                    @endif
+                                    <div class="position-absolute top-0 end-0 p-2">
                                         @if (Gate::check('edit property') || Gate::check('delete property') || Gate::check('show property'))
                                             <div class="dropdown">
-                                                <a class="dropdown-toggle text-primary opacity-50 arrow-none" href="#"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="ti ti-dots f-16"></i>
+                                                <a class="dropdown-toggle text-dark opacity-75 arrow-none bg-white rounded-circle d-flex align-items-center justify-content-center" href="#"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                    style="text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 36px; height: 36px; line-height: 1;">
+                                                    <i class="ti ti-dots" style="font-size: 18px; vertical-align: middle;"></i>
                                                 </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
+                                                <div class="dropdown-menu dropdown-menu-end border-0 shadow-lg" style="border-radius: 8px; min-width: 180px;">
                                                     {!! Form::open([
                                                         'method' => 'DELETE',
                                                         'route' => ['property.destroy', $property->id],
                                                         'id' => 'property-' . $property->id,
                                                     ]) !!}
                                                     @can('edit property')
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('property.edit', \Crypt::encrypt($property->id)) }}">
-                                                            <i class="material-icons-two-tone">edit</i>
+                                                        <a class="dropdown-item text-dark d-flex align-items-center py-2" 
+                                                            href="{{ route('property.edit', \Crypt::encrypt($property->id)) }}"
+                                                            style="transition: background 0.2s;">
+                                                            <i class="material-icons-two-tone me-2" style="font-size: 20px;">edit</i>
                                                             {{ __('Edit Property') }}
                                                         </a>
                                                     @endcan
 
                                                     @can('show property')
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('property.show', \Crypt::encrypt($property->id)) }}">
-                                                            <i class="material-icons-two-tone">remove_red_eye</i>
+                                                        <a class="dropdown-item text-dark d-flex align-items-center py-2"
+                                                            href="{{ route('property.show', \Crypt::encrypt($property->id)) }}"
+                                                            style="transition: background 0.2s;">
+                                                            <i class="material-icons-two-tone me-2" style="font-size: 20px;">remove_red_eye</i>
                                                             {{ __('View property') }}
                                                         </a>
                                                     @endcan
                                                     @can('delete property')
-                                                        <a class="dropdown-item confirm_dialog" href="#">
-                                                            <i class="material-icons-two-tone">delete</i>
+                                                        <a class="dropdown-item text-dark d-flex align-items-center py-2 confirm_dialog" href="#"
+                                                            style="transition: background 0.2s;">
+                                                            <i class="material-icons-two-tone me-2" style="font-size: 20px;">delete</i>
                                                             {{ __('Delete Property') }}
                                                         </a>
                                                     @endcan
@@ -168,42 +216,58 @@
                                                 </div>
                                             </div>
                                         @endif
-
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <button type="button" class="btn btn-sm btn-light-info">
-                                                <i class="material-icons-two-tone">ad_units</i>
-                                                {{ $property->totalUnit() }} {{ __('Unit') }}
-                                            </button>
-
-                                            <button type="button" class="btn btn-sm btn-light-success">
-                                                <i class="material-icons-two-tone">ad_units</i>
-                                                {{ $property->vacantUnit() }} {{ __('Vacant') }}
-                                            </button>
-
-                                            <button type="button" class="btn btn-sm btn-light-danger">
-                                                <i class="material-icons-two-tone">ad_units</i>
-                                                {{ $property->occupiedUnit() }} {{ __('Occupied ') }}
-                                            </button>
-                                        </div>
-                                    </div>
-
-
-                                    <p class="prod-content my-2 text-muted">
-                                        {{ Str::limit(strip_tags($property->description), 200, '...') }}
+                                </div>
+                                <div class="card-body p-3">
+                                    <a href="@can('show property') {{ route('property.show', \Crypt::encrypt($property->id)) }}  @endcan"
+                                        class="text-dark text-decoration-none">
+                                        <h5 class="mb-2 fw-bold" style="font-size: 1.1rem; line-height: 1.4; color: #000;">
+                                            {{ $property->name }}
+                                        </h5>
+                                    </a>
+                                    
+                                    <p class="text-muted mb-3" style="font-size: 0.875rem; line-height: 1.5; color: #666; min-height: 60px;">
+                                        {{ Str::limit(strip_tags($property->description), 120, '...') }}
                                     </p>
 
-                                    <div class="d-flex align-items-center justify-content-between mt-3">
+                                    <div class="d-flex flex-wrap gap-2 mb-3">
+                                        <span class="badge border border-dark text-dark px-3 py-1" 
+                                            style="background: transparent; border-radius: 20px; font-weight: 500; font-size: 0.75rem;">
+                                            <i class="material-icons-two-tone me-1" style="font-size: 16px; vertical-align: middle;">apartment</i>
+                                            {{ $property->totalUnit() }} {{ __('Unit') }}
+                                        </span>
 
-                                        <span class="badge bg-light-secondary" data-bs-toggle="tooltip"
-                                            data-bs-original-title="{{ __('Type') }}">{{ \App\Models\Property::$Type[$property->type] }}</span>
+                                        <span class="badge border border-dark text-dark px-3 py-1" 
+                                            style="background: transparent; border-radius: 20px; font-weight: 500; font-size: 0.75rem;">
+                                            <i class="material-icons-two-tone me-1" style="font-size: 16px; vertical-align: middle;">meeting_room</i>
+                                            {{ $property->vacantUnit() }} {{ __('Vacant') }}
+                                        </span>
+
+                                        <span class="badge border border-dark text-dark px-3 py-1" 
+                                            style="background: transparent; border-radius: 20px; font-weight: 500; font-size: 0.75rem;">
+                                            <i class="material-icons-two-tone me-1" style="font-size: 16px; vertical-align: middle;">person</i>
+                                            {{ $property->occupiedUnit() }} {{ __('Occupied') }}
+                                        </span>
+                                    </div>
+
+                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top" style="border-color: #e0e0e0 !important;">
+                                        <span class="badge bg-dark text-white px-3 py-1" 
+                                            style="border-radius: 20px; font-weight: 500; font-size: 0.75rem; display: inline-flex; align-items: center; height: 28px;"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-original-title="{{ __('Type') }}">
+                                            {{ \App\Models\Property::$Type[$property->type] ?? $property->type }}
+                                        </span>
+                                        <a href="@can('show property') {{ route('property.show', \Crypt::encrypt($property->id)) }}  @endcan"
+                                            class="text-dark text-decoration-none d-flex align-items-center"
+                                            style="font-size: 0.875rem; font-weight: 500; height: 28px;">
+                                            <span style="line-height: 1.5;">{{ __('View Details') }}</span>
+                                            <i class="material-icons-two-tone ms-1" style="font-size: 18px; line-height: 1;">arrow_forward</i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-
                 </div>
             </div>
 

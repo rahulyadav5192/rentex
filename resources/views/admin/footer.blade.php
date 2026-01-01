@@ -36,8 +36,14 @@
 <script src="{{ asset('assets/js/plugins/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/js/fonts/custom-font.js') }}"></script>
 <script>
-    var lightLogo = "{{ !empty($lightLogo) ? fetch_file($lightLogo, 'upload/logo/') : '#' }}";
-    var logo = "{ !empty($admin_logo) ? fetch_file($admin_logo,'upload/logo/') : '#' }}";
+    @php
+        $lightLogoUrl = !empty($lightLogo) ? fetch_file($lightLogo, 'upload/logo/') : '';
+        $lightLogoUrl = !empty($lightLogoUrl) ? $lightLogoUrl : asset('logo.png');
+        $adminLogoUrl = !empty($admin_logo) ? fetch_file($admin_logo, 'upload/logo/') : '';
+        $adminLogoUrl = !empty($adminLogoUrl) ? $adminLogoUrl : asset('logo.png');
+    @endphp
+    var lightLogo = "{{ $lightLogoUrl }}";
+    var logo = "{{ $adminLogoUrl }}";
 </script>
 <script src="{{ asset('assets/js/pcoded.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
