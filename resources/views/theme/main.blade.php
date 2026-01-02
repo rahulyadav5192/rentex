@@ -2,18 +2,16 @@
 
 {{-- @dd($settings) --}}
 
-<body class="landing-page"
+<body class="landing-page bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col"
     data-pc-preset="{{ !empty($settings['color_type']) && $settings['color_type'] == 'custom' ? 'custom' : $settings['accent_color'] }}"
     data-pc-sidebar-theme="light" data-pc-sidebar-caption="{{ $settings['sidebar_caption'] }}"
     data-pc-direction="{{ $settings['theme_layout'] }}" data-pc-theme="{{ $settings['theme_mode'] }}">
 
+    <!-- Main Header Nav -->
+    @include('theme.header')
+
     <div class="wrapper ovh">
         <div class="preloader"></div>
-
-
-        <!-- Main Header Nav -->
-        @include('theme.header')
-
 
         <div class="hiddenbar-body-ovelay"></div>
 
@@ -22,7 +20,7 @@
 
 
 
-        <div class="body_content">
+        <div class="body_content" style="margin-top: 110px;">
             @yield('content')
 
             <a class="scrollToHome" href="#"><i class="fas fa-angle-up"></i></a>

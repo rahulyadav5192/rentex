@@ -6,6 +6,7 @@ use App\Models\Advantage;
 use App\Models\Amenity;
 use App\Models\Blog;
 use App\Models\FrontHomePage;
+use App\Models\LeadFormField;
 use App\Models\Notification;
 use App\Models\Property;
 use App\Models\PropertyUnit;
@@ -65,9 +66,91 @@ class FrontendController extends Controller
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
         $loginUser = Auth::user();
-        $frontHomePage = FrontHomePage::where('parent_id', '=', parentId())->get();
+        $parentId = parentId();
+        
+        // Check if Section 9 (Logo & Favicon) exists, if not create it
+        $section9 = FrontHomePage::where('parent_id', $parentId)->where('section', 'Section 9')->first();
+        if (!$section9) {
+            $section9 = new FrontHomePage();
+            $section9->title = 'Logo & Favicon';
+            $section9->section = 'Section 9';
+            $section9->content = '';
+            $section9->content_value = json_encode(['name' => 'Logo & Favicon', 'section_enabled' => 'active', 'logo_path' => '', 'favicon_path' => '']);
+            $section9->enabled = 1;
+            $section9->parent_id = $parentId;
+            $section9->save();
+        }
+        
+        // Check if Section 10 (Lead Settings) exists, if not create it
+        $section10 = FrontHomePage::where('parent_id', $parentId)->where('section', 'Section 10')->first();
+        if (!$section10) {
+            $section10 = new FrontHomePage();
+            $section10->title = 'Lead Settings';
+            $section10->section = 'Section 10';
+            $section10->content = '';
+            $section10->content_value = json_encode(['name' => 'Lead Settings', 'section_enabled' => 'active']);
+            $section10->enabled = 1;
+            $section10->parent_id = $parentId;
+            $section10->save();
+        }
+        
+        // Check if default lead form fields exist, if not create them
+        $defaultFieldsCount = LeadFormField::where('parent_id', $parentId)->where('is_default', true)->count();
+        if ($defaultFieldsCount == 0) {
+            $defaultFields = [
+                [
+                    'field_name' => 'name',
+                    'field_label' => 'Name',
+                    'field_type' => 'input',
+                    'field_options' => null,
+                    'is_required' => true,
+                    'is_default' => true,
+                    'sort_order' => 1,
+                    'parent_id' => $parentId,
+                ],
+                [
+                    'field_name' => 'email',
+                    'field_label' => 'Email',
+                    'field_type' => 'input',
+                    'field_options' => null,
+                    'is_required' => true,
+                    'is_default' => true,
+                    'sort_order' => 2,
+                    'parent_id' => $parentId,
+                ],
+                [
+                    'field_name' => 'phone',
+                    'field_label' => 'Phone',
+                    'field_type' => 'input',
+                    'field_options' => null,
+                    'is_required' => true,
+                    'is_default' => true,
+                    'sort_order' => 3,
+                    'parent_id' => $parentId,
+                ],
+            ];
+            
+            foreach ($defaultFields as $fieldData) {
+                LeadFormField::create($fieldData);
+            }
+        }
+        
+        // Get all sections and order them so Section 9 and 10 appear first
+        $frontHomePage = FrontHomePage::where('parent_id', '=', $parentId)
+            ->orderByRaw("CASE 
+                WHEN section = 'Section 9' THEN 1 
+                WHEN section = 'Section 10' THEN 2 
+                ELSE 3 
+            END")
+            ->orderBy('section', 'asc')
+            ->get();
+            
+        $leadFormFields = LeadFormField::where('parent_id', $parentId)
+            ->orderBy('is_default', 'desc')
+            ->orderBy('sort_order', 'asc')
+            ->get();
 
-        return view('front-home.index', compact('loginUser', 'frontHomePage'));
+        return view('front-home.index', compact('loginUser', 'frontHomePage', 'leadFormFields'));
     }
 
     public function update(Request $request, FrontHomePage $homePage, $id)
@@ -93,12 +176,8 @@ class FrontendController extends Controller
                 $extension = $banner_image1->getClientOriginalExtension();
                 $fileNameToStore = $filename . '_banner_image1_' . date('Ymdhisa') . '.' . $extension;
 
-                $dir = storage_path('upload/fronthomepage/');
-                if (!file_exists($dir)) {
-                    mkdir($dir, 0777, true);
-                }
-
-                $banner_image1->storeAs('upload/fronthomepage/', $fileNameToStore);
+                // Use Storage::disk('public') to save to storage/app/public for web accessibility
+                \Storage::disk('public')->putFileAs('upload/fronthomepage/', $banner_image1, $fileNameToStore);
                 $content_value['banner_image1_path'] = 'upload/fronthomepage/' . $fileNameToStore;
             } else {
                 $content_value['banner_image1_path'] = !empty($old_content_value['banner_image1_path']) ? $old_content_value['banner_image1_path'] : '';
@@ -115,12 +194,8 @@ class FrontendController extends Controller
                     $extension = $box_image_path->getClientOriginalExtension();
                     $fileNameToStore = $filename . '_Section_4_image_' . $is4 . date('Ymdhisa') . '.' . $extension;
 
-                    $dir = storage_path('upload/fronthomepage/');
-                    if (!file_exists($dir)) {
-                        mkdir($dir, 0777, true);
-                    }
-
-                    $box_image_path->storeAs('upload/fronthomepage/', $fileNameToStore);
+                    // Use Storage::disk('public') to save to storage/app/public for web accessibility
+                    \Storage::disk('public')->putFileAs('upload/fronthomepage/', $box_image_path, $fileNameToStore);
                     $content_value['Sec1_box' . $is4 . '_image_path'] = 'upload/fronthomepage/' . $fileNameToStore;
                 } else {
                     $content_value['Sec1_box' . $is4 . '_image_path'] = !empty($old_content_value['Sec1_box' . $is4 . '_image_path']) ? $old_content_value['Sec1_box' . $is4 . '_image_path'] : '';
@@ -161,12 +236,8 @@ class FrontendController extends Controller
                 $extension = $about_image->getClientOriginalExtension();
                 $fileNameToStore = $filename . '_about_image_' . date('Ymdhisa') . '.' . $extension;
 
-                $dir = storage_path('upload/fronthomepage/');
-                if (!file_exists($dir)) {
-                    mkdir($dir, 0777, true);
-                }
-
-                $about_image->storeAs('upload/fronthomepage/', $fileNameToStore);
+                // Use Storage::disk('public') to save to storage/app/public for web accessibility
+                \Storage::disk('public')->putFileAs('upload/fronthomepage/', $about_image, $fileNameToStore);
                 $content_value['about_image_path'] = 'upload/fronthomepage/' . $fileNameToStore;
             } else {
                 $content_value['about_image_path'] = !empty($old_content_value['about_image_path']) ? $old_content_value['about_image_path'] : '';
@@ -183,12 +254,8 @@ class FrontendController extends Controller
                 $extension = $banner_image2->getClientOriginalExtension();
                 $fileNameToStore = $filename . '_banner_image2_' . date('Ymdhisa') . '.' . $extension;
 
-                $dir = storage_path('upload/fronthomepage/');
-                if (!file_exists($dir)) {
-                    mkdir($dir, 0777, true);
-                }
-
-                $banner_image2->storeAs('upload/fronthomepage/', $fileNameToStore);
+                // Use Storage::disk('public') to save to storage/app/public for web accessibility
+                \Storage::disk('public')->putFileAs('upload/fronthomepage/', $banner_image2, $fileNameToStore);
                 $content_value['banner_image2_path'] = 'upload/fronthomepage/' . $fileNameToStore;
             } else {
                 $content_value['banner_image2_path'] = !empty($old_content_value['banner_image2_path']) ? $old_content_value['banner_image2_path'] : '';
@@ -205,12 +272,8 @@ class FrontendController extends Controller
                     $extension = $box_image_path->getClientOriginalExtension();
                     $fileNameToStore = $filename . '_Section_7_image_' . $is7 . date('Ymdhisa') . '.' . $extension;
 
-                    $dir = storage_path('upload/fronthomepage/');
-                    if (!file_exists($dir)) {
-                        mkdir($dir, 0777, true);
-                    }
-
-                    $box_image_path->storeAs('upload/fronthomepage/', $fileNameToStore);
+                    // Use Storage::disk('public') to save to storage/app/public for web accessibility
+                    \Storage::disk('public')->putFileAs('upload/fronthomepage/', $box_image_path, $fileNameToStore);
                     $content_value['Sec7_box' . $is7 . '_image_path'] = 'upload/fronthomepage/' . $fileNameToStore;
                 } else {
                     $content_value['Sec7_box' . $is7 . '_image_path'] = !empty($old_content_value['Sec7_box' . $is7 . '_image_path']) ? $old_content_value['Sec7_box' . $is7 . '_image_path'] : '';
@@ -218,8 +281,38 @@ class FrontendController extends Controller
             }
         }
 
+        /* section 9 - Logo & Favicon */
+        // Check if this is Section 9 by finding the section record
+        $section9Record = FrontHomePage::where('parent_id', parentId())->where('section', 'Section 9')->first();
+        if ($section9Record && $request->tab == 'profile_tab_' . $section9Record->id) {
+            if (!empty($request->content_value['logo'])) {
+                $logo = $request->content_value['logo'];
+                $filenameWithExt = $logo->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $logo->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_logo_' . date('Ymdhisa') . '.' . $extension;
 
-        $homePage->content_value = $content_value;
+                \Storage::disk('public')->putFileAs('upload/logo/', $logo, $fileNameToStore);
+                $content_value['logo_path'] = 'upload/logo/' . $fileNameToStore;
+            } else {
+                $content_value['logo_path'] = !empty($old_content_value['logo_path']) ? $old_content_value['logo_path'] : '';
+            }
+
+            if (!empty($request->content_value['favicon'])) {
+                $favicon = $request->content_value['favicon'];
+                $filenameWithExt = $favicon->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $favicon->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_favicon_' . date('Ymdhisa') . '.' . $extension;
+
+                \Storage::disk('public')->putFileAs('upload/favicon/', $favicon, $fileNameToStore);
+                $content_value['favicon_path'] = 'upload/favicon/' . $fileNameToStore;
+            } else {
+                $content_value['favicon_path'] = !empty($old_content_value['favicon_path']) ? $old_content_value['favicon_path'] : '';
+            }
+        }
+
+        $homePage->content_value = json_encode($content_value);
         $homePage->save();
         return redirect()->back()->with('tab', $request->tab)->with('success', __('Home Page Content Updated Successfully.'));
     }
@@ -274,10 +367,14 @@ class FrontendController extends Controller
             ->get()
             ->groupBy('listing_type');
 
-        $properties = Property::where('parent_id', $user->id)
-            // ->whereIn('listing_type', $listingTypes)
-            ->latest()
-            ->paginate(12);
+        $query = Property::where('parent_id', $user->id);
+
+        // Filter by listing_type if provided
+        if ($request->filled('listing_type') && $request->listing_type !== 'all') {
+            $query->where('listing_type', $request->listing_type);
+        }
+
+        $properties = $query->latest()->paginate(12);
 
         $noPropertiesMessage = $properties->isEmpty()
             ? 'No properties available with the selected filters.'
@@ -304,10 +401,10 @@ class FrontendController extends Controller
 
 
         if ($request->ajax()) {
-            return view('theme.propertybox', compact('properties', 'user', 'noPropertiesMessage', 'settings', 'propertyType', 'countries', 'states', 'cities'))->render();
+            return view('theme.propertybox', compact('properties', 'user', 'noPropertiesMessage', 'settings', 'propertyType', 'countries', 'states', 'cities', 'listingTypes'))->render();
         }
 
-        return view('theme.property', compact('properties', 'settings', 'user', 'propertyType', 'noPropertiesMessage', 'countries', 'states', 'cities'));
+        return view('theme.property', compact('properties', 'settings', 'user', 'propertyType', 'noPropertiesMessage', 'countries', 'states', 'cities', 'listingTypes'));
     }
 
 
@@ -348,19 +445,25 @@ class FrontendController extends Controller
         return view('theme.contact', compact('settings', 'user'));
     }
 
-    public function getStates(Request $request)
+    public function getStates(Request $request, $code)
     {
-        $states = Property::where('country', $request->country)
+        $user = User::where('code', $code)->firstOrFail();
+        $states = Property::where('parent_id', $user->id)
+            ->where('country', $request->country)
             ->distinct()
+            ->orderBy('state')
             ->pluck('state');
 
         return response()->json($states);
     }
 
-    public function getCities(Request $request)
+    public function getCities(Request $request, $code)
     {
-        $cities = Property::where('state', $request->state)
+        $user = User::where('code', $code)->firstOrFail();
+        $cities = Property::where('parent_id', $user->id)
+            ->where('state', $request->state)
             ->distinct()
+            ->orderBy('city')
             ->pluck('city');
 
         return response()->json($cities);
@@ -371,7 +474,18 @@ class FrontendController extends Controller
         $user = User::where('code', $code)->firstOrFail();
         $settings = settingsById($user->id);
 
+        $listingTypes = Property::where('parent_id', $user->id)
+            ->whereIn('listing_type', ['sell', 'rent'])
+            ->select('listing_type')
+            ->distinct()
+            ->pluck('listing_type')
+            ->toArray();
+
         $query = Property::where('parent_id', $user->id);
+
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
 
         if ($request->filled('country')) {
             $query->where('country', $request->country);
@@ -385,22 +499,130 @@ class FrontendController extends Controller
             $query->where('city', $request->city);
         }
 
+        // Filter by listing_type if provided
+        if ($request->filled('listing_type') && $request->listing_type !== 'all') {
+            $query->where('listing_type', $request->listing_type);
+        }
+
         $properties = $query->paginate(12);
 
         $noPropertiesMessage = $properties->isEmpty()
             ? 'No properties available with the selected filters.'
             : '';
 
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->has('ajax')) {
             return view('theme.propertybox', [
                 'properties' => $properties,
                 'settings' => $settings,
                 'user' => $user,
                  'noPropertiesMessage' => $noPropertiesMessage,
-
+                 'listingTypes' => $listingTypes,
             ])->render();
         }
 
         return view('theme.property', compact('user', 'properties', 'settings'));
+    }
+
+    public function storeLeadField(Request $request)
+    {
+        if (!Auth::user()->can('edit front home page')) {
+            return response()->json(['status' => 'error', 'msg' => __('Permission Denied.')], 403);
+        }
+
+        $validator = \Validator::make($request->all(), [
+            'field_label' => 'required|string|max:255',
+            'field_type' => 'required|in:input,doc,checkbox,yes_no,select',
+            'field_options' => 'required_if:field_type,select|array',
+            'is_required' => 'boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'msg' => $validator->messages()->first()], 422);
+        }
+
+        $maxSortOrder = LeadFormField::where('parent_id', parentId())->max('sort_order') ?? 0;
+
+        $field = new LeadFormField();
+        $field->field_name = strtolower(str_replace(' ', '_', $request->field_label));
+        $field->field_label = $request->field_label;
+        $field->field_type = $request->field_type;
+        $field->field_options = $request->field_type == 'select' ? json_encode($request->field_options) : null;
+        $field->is_required = $request->is_required ?? false;
+        $field->is_default = false;
+        $field->sort_order = $maxSortOrder + 1;
+        $field->parent_id = parentId();
+        $field->save();
+
+        return response()->json(['status' => 'success', 'msg' => __('Field created successfully.'), 'field' => $field]);
+    }
+
+    public function updateLeadField(Request $request, $id)
+    {
+        if (!Auth::user()->can('edit front home page')) {
+            return response()->json(['status' => 'error', 'msg' => __('Permission Denied.')], 403);
+        }
+
+        $field = LeadFormField::where('id', $id)->where('parent_id', parentId())->first();
+        if (!$field) {
+            return response()->json(['status' => 'error', 'msg' => __('Field not found.')], 404);
+        }
+
+        if ($field->is_default) {
+            return response()->json(['status' => 'error', 'msg' => __('Default fields cannot be edited.')], 403);
+        }
+
+        $validator = \Validator::make($request->all(), [
+            'field_label' => 'required|string|max:255',
+            'field_type' => 'required|in:input,doc,checkbox,yes_no,select',
+            'field_options' => 'required_if:field_type,select|array',
+            'is_required' => 'boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'msg' => $validator->messages()->first()], 422);
+        }
+
+        $field->field_label = $request->field_label;
+        $field->field_type = $request->field_type;
+        $field->field_options = $request->field_type == 'select' ? json_encode($request->field_options) : null;
+        $field->is_required = $request->is_required ?? false;
+        $field->save();
+
+        return response()->json(['status' => 'success', 'msg' => __('Field updated successfully.'), 'field' => $field]);
+    }
+
+    public function destroyLeadField($id)
+    {
+        if (!Auth::user()->can('edit front home page')) {
+            return response()->json(['status' => 'error', 'msg' => __('Permission Denied.')], 403);
+        }
+
+        $field = LeadFormField::where('id', $id)->where('parent_id', parentId())->first();
+        if (!$field) {
+            return response()->json(['status' => 'error', 'msg' => __('Field not found.')], 404);
+        }
+
+        if ($field->is_default) {
+            return response()->json(['status' => 'error', 'msg' => __('Default fields cannot be deleted.')], 403);
+        }
+
+        $field->delete();
+        return response()->json(['status' => 'success', 'msg' => __('Field deleted successfully.')]);
+    }
+
+    public function reorderLeadFields(Request $request)
+    {
+        if (!Auth::user()->can('edit front home page')) {
+            return response()->json(['status' => 'error', 'msg' => __('Permission Denied.')], 403);
+        }
+
+        $order = $request->input('order', []);
+        foreach ($order as $index => $fieldId) {
+            LeadFormField::where('id', $fieldId)
+                ->where('parent_id', parentId())
+                ->update(['sort_order' => $index + 1]);
+        }
+
+        return response()->json(['status' => 'success', 'msg' => __('Fields reordered successfully.')]);
     }
 }

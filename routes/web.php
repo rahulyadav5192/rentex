@@ -462,8 +462,8 @@ Route::prefix('web/{code}')->group(function () {
 });
 
 
-Route::get('/get-states', [FrontendController::class, 'getStates'])->name('get-states');
-Route::get('/get-cities', [FrontendController::class, 'getCities'])->name('get-cities');
+Route::get('/get-states/{code}', [FrontendController::class, 'getStates'])->name('get-states');
+Route::get('/get-cities/{code}', [FrontendController::class, 'getCities'])->name('get-cities');
 
 
 
@@ -473,6 +473,22 @@ Route::resource('front-home', FrontendController::class)->middleware(
         'auth',
         'XSS',
     ]
+);
+
+//-------------------------------Lead Form Fields-------------------------------------------
+Route::group(
+    [
+        'middleware' => [
+            'auth',
+            'XSS',
+        ],
+    ],
+    function () {
+        Route::post('lead-form-field', [FrontendController::class, 'storeLeadField'])->name('lead-form-field.store');
+        Route::put('lead-form-field/{id}', [FrontendController::class, 'updateLeadField'])->name('lead-form-field.update');
+        Route::delete('lead-form-field/{id}', [FrontendController::class, 'destroyLeadField'])->name('lead-form-field.destroy');
+        Route::post('lead-form-field/reorder', [FrontendController::class, 'reorderLeadFields'])->name('lead-form-field.reorder');
+    }
 );
 
 

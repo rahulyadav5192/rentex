@@ -1,51 +1,30 @@
 @extends('theme.main')
 @section('content')
-    <section class="our-blog pt-0">
-        <div class="container">
-            <div class="row">
-
-            </div>
-        </div>
-    </section>
-
-    @php
-        $Section_0 = App\Models\Additional::where('section', 'Section 0')->first();
-        $Section_0_content_value = !empty($Section_0->content_value)
-            ? json_decode($Section_0->content_value, true)
-            : [];
-    @endphp
-    @if (empty($Section_0_content_value['section_enabled']) || $Section_0_content_value['section_enabled'] == 'active')
-        <section class="breadcumb-section pt-0">
-
-            <div class="cta-service-v6 cta-banner mx-auto maxw1700 pt120 pt60-sm pb120 pb60-sm bdrs16 position-relative d-flex align-items-center"
-                style="background-image: url('{{ asset(Storage::url($Section_0_content_value['banner_image1_path'])) }}'); background-position: bottom;">
-                {{-- <img class="service-v3-vector d-none d-lg-block" src="images/about/about-4.png" alt=""> --}}
-                <div class="container">
-                    <div class="row wow fadeInUp">
-                        <div class="col-xl-7">
-                            <div class="position-relative">
-                                <h2 class="text-dark">{{ $Section_0_content_value['title'] }}</h2>
-                                <p class="text mb30 text-dark">{{ $Section_0_content_value['sub_title'] }}</p>
-
-                            </div>
-                        </div>
-                    </div>
+    <div class="min-h-screen bg-background-light dark:bg-background-dark">
+        <!-- Hero Section -->
+        <section class="relative py-16 md:py-24 lg:py-32 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5"></div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-slate-900 dark:text-white mb-6 leading-tight">
+                        {{ __('Our Blog') }}
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                        {{ __('Stay updated with the latest insights, tips, and news about property management.') }}
+                    </p>
                 </div>
             </div>
         </section>
-    @endif
 
-    <section class="our-blog pt40">
-        <div class="container">
-            <div class=" wow fadeInUp" data-wow-delay="300ms">
-                <div class="col-xl-12">
-                    <div class="row" id="blog-wrapper">
-                        @include('theme.blogbox')
-                    </div>
+        <!-- Blog Posts Section -->
+        <section class="py-12 md:py-16 lg:py-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="blog-wrapper">
+                    @include('theme.blogbox')
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 @endsection
 
 @push('script-page')
@@ -58,7 +37,7 @@
                 url: url,
                 type: 'GET',
                 beforeSend: function() {
-                    $('#blog-wrapper').html('<div class="text-center py-5">Loading...</div>');
+                    $('#blog-wrapper').html('<div class="text-center py-5 text-slate-900 dark:text-slate-100">Loading...</div>');
                 },
                 success: function(data) {
                     $('#blog-wrapper').html(data);

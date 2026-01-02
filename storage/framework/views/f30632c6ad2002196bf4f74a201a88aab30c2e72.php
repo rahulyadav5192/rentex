@@ -129,7 +129,7 @@
 
                                 </a>
                             <?php endif; ?>
-                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create property')): ?>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create property')): ?>
                                 <a class="btn btn-secondary customModal" data-size="lg" href="#"
                                     data-url="<?php echo e(route('unit.create', $property->id)); ?>" data-title="<?php echo e(__('Add Unit')); ?>"
                                     style="border-radius: 8px;"> 
@@ -138,7 +138,7 @@
 
                                 </a>
                             <?php endif; ?>
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -203,10 +203,10 @@
                                                                     style="border-radius: 12px; overflow: hidden;">
                                                                     <div class="carousel-inner">
                                                                         <?php if($property->propertyImages->count() > 0): ?>
-                                                                            <?php $__currentLoopData = $property->propertyImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                                <div
-                                                                                    class="carousel-item <?php echo e($key === 0 ? 'active' : ''); ?>">
-                                                                                    <img src="<?php echo e(fetch_file($image->image, 'upload/property/image/')); ?>"
+                                                                        <?php $__currentLoopData = $property->propertyImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <div
+                                                                                class="carousel-item <?php echo e($key === 0 ? 'active' : ''); ?>">
+                                                                                <img src="<?php echo e(fetch_file($image->image, 'upload/property/image/')); ?>"
                                                                                         class="d-block w-100"
                                                                                         alt="Property image"
                                                                                         style="height: 400px; object-fit: cover;" />
@@ -221,20 +221,20 @@
                                                                         <?php endif; ?>
                                                                     </div>
                                                                     <?php if($property->propertyImages->count() > 1): ?>
-                                                                        <ol
-                                                                            class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0">
-                                                                            <?php $__currentLoopData = $property->propertyImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                                <li data-bs-target="#carouselExampleCaptions"
-                                                                                    data-bs-slide-to="<?php echo e($key); ?>"
+                                                                    <ol
+                                                                        class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0">
+                                                                        <?php $__currentLoopData = $property->propertyImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <li data-bs-target="#carouselExampleCaptions"
+                                                                                data-bs-slide-to="<?php echo e($key); ?>"
                                                                                     class="<?php echo e($key === 0 ? 'active' : ''); ?> w-25 h-auto"
                                                                                     style="border: 2px solid #000;">
-                                                                                    <img src="<?php echo e(fetch_file($image->image, 'upload/property/image/')); ?>"
-                                                                                        class="d-block wid-50 rounded"
+                                                                                <img src="<?php echo e(fetch_file($image->image, 'upload/property/image/')); ?>"
+                                                                                    class="d-block wid-50 rounded"
                                                                                         alt="Property image"
                                                                                         style="object-fit: cover; height: 60px;" />
-                                                                                </li>
-                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                        </ol>
+                                                                            </li>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </ol>
                                                                     <?php endif; ?>
                                                                 </div>
                                                             </div>
@@ -243,12 +243,12 @@
 
                                                             <div class="d-flex align-items-center gap-3 mb-3">
                                                                 <h3 class="mb-0" style="color: #000; font-weight: 700;">
-                                                                    <?php echo e(ucfirst($property->name)); ?>
+                                                                <?php echo e(ucfirst($property->name)); ?>
 
-                                                                </h3>
+                                                            </h3>
                                                                 <span class="badge bg-dark text-white px-3 py-2"
                                                                     style="border-radius: 20px; font-weight: 500;"
-                                                                    data-bs-toggle="tooltip"
+                                                                data-bs-toggle="tooltip"
                                                                     data-bs-original-title="<?php echo e(__('Type')); ?>">
                                                                     <?php echo e(\App\Models\Property::$Type[$property->type]); ?>
 

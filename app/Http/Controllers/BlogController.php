@@ -56,11 +56,8 @@ class BlogController extends Controller
                 $imageFilename = pathinfo($imageFilenameWithExt, PATHINFO_FILENAME);
                 $imageExtension = $request->file('image')->getClientOriginalExtension();
                 $imageFileName = $imageFilename . '_' . time() . '.' . $imageExtension;
-                $dir = storage_path('upload/blog/image');
-                if (!file_exists($dir)) {
-                    mkdir($dir, 0777, true);
-                }
-                $request->file('image')->storeAs('upload/blog/image/', $imageFileName);
+                // Use public disk to ensure files are web-accessible
+                \Storage::disk('public')->putFileAs('upload/blog/image/', $request->file('image'), $imageFileName);
             }
 
             $baseSlug = Str::slug($request->title);
@@ -123,11 +120,8 @@ class BlogController extends Controller
                 $imageFilename = pathinfo($imageFilenameWithExt, PATHINFO_FILENAME);
                 $imageExtension = $request->file('image')->getClientOriginalExtension();
                 $imageFileName = $imageFilename . '_' . time() . '.' . $imageExtension;
-                $dir = storage_path('upload/blog/image');
-                if (!file_exists($dir)) {
-                    mkdir($dir, 0777, true);
-                }
-                $request->file('image')->storeAs('upload/blog/image/', $imageFileName);
+                // Use public disk to ensure files are web-accessible
+                \Storage::disk('public')->putFileAs('upload/blog/image/', $request->file('image'), $imageFileName);
                 $blog->image = $imageFileName;
             }
 
@@ -159,9 +153,16 @@ class BlogController extends Controller
         if (\Auth::user()->can('delete blog')) {
 
             // Delete Image
-            $imagePath = storage_path('upload/blog/image/' . $blog->image);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+            if (!empty($blog->image)) {
+                // Try to delete from public disk first
+                if (\Storage::disk('public')->exists('upload/blog/image/' . $blog->image)) {
+                    \Storage::disk('public')->delete('upload/blog/image/' . $blog->image);
+                }
+                // Also check legacy location
+                $imagePath = storage_path('upload/blog/image/' . $blog->image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
             }
             $blog->delete();
 

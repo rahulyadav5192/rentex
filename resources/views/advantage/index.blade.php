@@ -62,20 +62,20 @@
                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['advantage.destroy', $advantage->id]]) !!}
                                                     @can('edit advantage')
                                                         @if($advantage->parent_id != 0)
-                                                            <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
-                                                                data-bs-toggle="tooltip"
-                                                                data-bs-original-title="{{ __('Edit') }}" href="#"
-                                                                data-url="{{ route('advantage.edit', $advantage->id) }}"
-                                                                data-title="{{ __('Edit Advantage') }}"> <i
-                                                                    data-feather="edit"></i></a>
+                                                        <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-original-title="{{ __('Edit') }}" href="#"
+                                                            data-url="{{ route('advantage.edit', $advantage->id) }}"
+                                                            data-title="{{ __('Edit Advantage') }}"> <i
+                                                                data-feather="edit"></i></a>
                                                         @endif
                                                     @endcan
                                                     @can('delete advantage')
                                                         @if($advantage->parent_id != 0)
-                                                            <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
-                                                                data-bs-toggle="tooltip"
+                                                        <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
+                                                            data-bs-toggle="tooltip"
                                                                 data-bs-original-title="{{ __('Delete') }}" href="#"> <i
-                                                                    data-feather="trash-2"></i></a>
+                                                                data-feather="trash-2"></i></a>
                                                         @endif
                                                     @endcan
                                                     {!! Form::close() !!}

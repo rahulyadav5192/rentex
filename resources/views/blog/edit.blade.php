@@ -8,6 +8,18 @@
         <div class="form-group col-md-6">
             {{ Form::label('image', __('Image'), ['class' => 'form-label']) }}
             {{ Form::file('image', ['class' => 'form-control']) }}
+            @if (!empty($blog->image))
+                @php
+                    $currentImageUrl = fetch_file($blog->image, 'upload/blog/image/');
+                @endphp
+                @if (!empty($currentImageUrl))
+                    <div class="mt-2">
+                        <img src="{{ $currentImageUrl }}" alt="Current Image" 
+                             style="max-width: 200px; max-height: 150px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px;"
+                             onerror="this.style.display='none';">
+                    </div>
+                @endif
+            @endif
         </div>
         <div class="form-group col-md-12">
             {{ Form::label('enabled', __('Enabled Page'), ['class' => 'form-label']) }}

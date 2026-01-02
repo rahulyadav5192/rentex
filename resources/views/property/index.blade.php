@@ -143,13 +143,24 @@
                         <div class="col">
                             <h5>{{ __('Property List') }}</h5>
                         </div>
+                        <div class="col-auto d-flex gap-2 align-items-center">
+                            @php
+                                $frontendUrl = url('web/' . \Auth::user()->code . '/properties');
+                            @endphp
+                            <div class="d-flex align-items-center me-3" style="background: #f5f5f5; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #e0e0e0;">
+                                <span class="text-muted me-2" style="font-size: 0.875rem;">{{ __('Frontend URL:') }}</span>
+                                <span class="text-dark fw-semibold" style="font-size: 0.875rem; font-family: monospace;">{{ $frontendUrl }}</span>
+                            </div>
+                            <a class="btn btn-secondary" href="{{ $frontendUrl }}" target="_blank" style="white-space: nowrap;">
+                                <i class="ti ti-external-link align-text-bottom me-1" style="color: #fff;"></i>
+                                {{ __('View Listings') }}
+                            </a>
                         @can('create property')
-                            <div class="col-auto">
                                 <a class="btn btn-secondary" href="{{ route('property.create') }}" data-size="md"> <i
                                         class="ti ti-circle-plus align-text-bottom "></i>
                                     {{ __('Create Property') }}</a>
+                            @endcan
                             </div>
-                        @endcan
                     </div>
                 </div>
 
@@ -171,7 +182,7 @@
                                     @else
                                         <div class="d-flex align-items-center justify-content-center h-100" style="background: #f8f9fa;">
                                             <i class="material-icons-two-tone" style="font-size: 80px; color: #000; opacity: 0.3;">home</i>
-                                        </div>
+                                </div>
                                     @endif
                                     <div class="position-absolute top-0 end-0 p-2">
                                         @if (Gate::check('edit property') || Gate::check('delete property') || Gate::check('show property'))
@@ -234,13 +245,13 @@
                                         <span class="badge border border-dark text-dark px-3 py-1" 
                                             style="background: transparent; border-radius: 20px; font-weight: 500; font-size: 0.75rem;">
                                             <i class="material-icons-two-tone me-1" style="font-size: 16px; vertical-align: middle;">apartment</i>
-                                            {{ $property->totalUnit() }} {{ __('Unit') }}
+                                                {{ $property->totalUnit() }} {{ __('Unit') }}
                                         </span>
 
                                         <span class="badge border border-dark text-dark px-3 py-1" 
                                             style="background: transparent; border-radius: 20px; font-weight: 500; font-size: 0.75rem;">
                                             <i class="material-icons-two-tone me-1" style="font-size: 16px; vertical-align: middle;">meeting_room</i>
-                                            {{ $property->vacantUnit() }} {{ __('Vacant') }}
+                                                {{ $property->vacantUnit() }} {{ __('Vacant') }}
                                         </span>
 
                                         <span class="badge border border-dark text-dark px-3 py-1" 

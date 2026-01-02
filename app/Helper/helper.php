@@ -1785,6 +1785,18 @@ if (!function_exists('FrontHomePageSection')) {
                 'content' => '',
                 'content_value' => '{"name":"AboutUS - Footer","section_enabled":"active","Sec8_info":"Property management refers to the administration, operation, and oversight of real estate properties on behalf of property owners. It involves various tasks such as marketing rental properties, finding tenants, collecting rent and ensuring legal compliance.","fb_link":"#","twitter_link":"#","insta_link":"#","linkedin_link":"#"}',
             ],
+            [
+                'title' => 'Logo & Favicon',
+                'section' => 'Section 9',
+                'content' => '',
+                'content_value' => '{"name":"Logo & Favicon","section_enabled":"active","logo_path":"","favicon_path":""}',
+            ],
+            [
+                'title' => 'Lead Settings',
+                'section' => 'Section 10',
+                'content' => '',
+                'content_value' => '{"name":"Lead Settings","section_enabled":"active"}',
+            ],
         ];
 
         foreach ($return as $key => $value) {

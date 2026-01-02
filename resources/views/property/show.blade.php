@@ -128,7 +128,7 @@
                                     {{ __('Edit Property') }}
                                 </a>
                             @endcan
-                            @can('create property')
+                        @can('create property')
                                 <a class="btn btn-secondary customModal" data-size="lg" href="#"
                                     data-url="{{ route('unit.create', $property->id) }}" data-title="{{ __('Add Unit') }}"
                                     style="border-radius: 8px;"> 
@@ -136,7 +136,7 @@
                                     {{ __('Add Unit') }}
                                 </a>
                             @endcan
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -197,10 +197,10 @@
                                                                     style="border-radius: 12px; overflow: hidden;">
                                                                     <div class="carousel-inner">
                                                                         @if($property->propertyImages->count() > 0)
-                                                                            @foreach ($property->propertyImages as $key => $image)
-                                                                                <div
-                                                                                    class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                                                                                    <img src="{{ fetch_file($image->image, 'upload/property/image/') }}"
+                                                                        @foreach ($property->propertyImages as $key => $image)
+                                                                            <div
+                                                                                class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                                                                <img src="{{ fetch_file($image->image, 'upload/property/image/') }}"
                                                                                         class="d-block w-100"
                                                                                         alt="Property image"
                                                                                         style="height: 400px; object-fit: cover;" />
@@ -215,20 +215,20 @@
                                                                         @endif
                                                                     </div>
                                                                     @if($property->propertyImages->count() > 1)
-                                                                        <ol
-                                                                            class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0">
-                                                                            @foreach ($property->propertyImages as $key => $image)
-                                                                                <li data-bs-target="#carouselExampleCaptions"
-                                                                                    data-bs-slide-to="{{ $key }}"
+                                                                    <ol
+                                                                        class="carousel-indicators position-relative product-carousel-indicators my-sm-3 mx-0">
+                                                                        @foreach ($property->propertyImages as $key => $image)
+                                                                            <li data-bs-target="#carouselExampleCaptions"
+                                                                                data-bs-slide-to="{{ $key }}"
                                                                                     class="{{ $key === 0 ? 'active' : '' }} w-25 h-auto"
                                                                                     style="border: 2px solid #000;">
-                                                                                    <img src="{{ fetch_file($image->image, 'upload/property/image/') }}"
-                                                                                        class="d-block wid-50 rounded"
+                                                                                <img src="{{ fetch_file($image->image, 'upload/property/image/') }}"
+                                                                                    class="d-block wid-50 rounded"
                                                                                         alt="Property image"
                                                                                         style="object-fit: cover; height: 60px;" />
-                                                                                </li>
-                                                                            @endforeach
-                                                                        </ol>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ol>
                                                                     @endif
                                                                 </div>
                                                             </div>
@@ -237,11 +237,11 @@
 
                                                             <div class="d-flex align-items-center gap-3 mb-3">
                                                                 <h3 class="mb-0" style="color: #000; font-weight: 700;">
-                                                                    {{ ucfirst($property->name) }}
-                                                                </h3>
+                                                                {{ ucfirst($property->name) }}
+                                                            </h3>
                                                                 <span class="badge bg-dark text-white px-3 py-2"
                                                                     style="border-radius: 20px; font-weight: 500;"
-                                                                    data-bs-toggle="tooltip"
+                                                                data-bs-toggle="tooltip"
                                                                     data-bs-original-title="{{ __('Type') }}">
                                                                     {{ \App\Models\Property::$Type[$property->type] }}
                                                                 </span>

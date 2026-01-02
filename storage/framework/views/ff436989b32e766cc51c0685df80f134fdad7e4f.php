@@ -143,13 +143,25 @@
                         <div class="col">
                             <h5><?php echo e(__('Property List')); ?></h5>
                         </div>
+                        <div class="col-auto d-flex gap-2 align-items-center">
+                            <?php
+                                $frontendUrl = url('web/' . \Auth::user()->code . '/properties');
+                            ?>
+                            <div class="d-flex align-items-center me-3" style="background: #f5f5f5; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #e0e0e0;">
+                                <span class="text-muted me-2" style="font-size: 0.875rem;"><?php echo e(__('Frontend URL:')); ?></span>
+                                <span class="text-dark fw-semibold" style="font-size: 0.875rem; font-family: monospace;"><?php echo e($frontendUrl); ?></span>
+                            </div>
+                            <a class="btn btn-secondary" href="<?php echo e($frontendUrl); ?>" target="_blank" style="white-space: nowrap;">
+                                <i class="ti ti-external-link align-text-bottom me-1" style="color: #fff;"></i>
+                                <?php echo e(__('View Listings')); ?>
+
+                            </a>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create property')): ?>
-                            <div class="col-auto">
                                 <a class="btn btn-secondary" href="<?php echo e(route('property.create')); ?>" data-size="md"> <i
                                         class="ti ti-circle-plus align-text-bottom "></i>
                                     <?php echo e(__('Create Property')); ?></a>
+                            <?php endif; ?>
                             </div>
-                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -171,7 +183,7 @@
                                     <?php else: ?>
                                         <div class="d-flex align-items-center justify-content-center h-100" style="background: #f8f9fa;">
                                             <i class="material-icons-two-tone" style="font-size: 80px; color: #000; opacity: 0.3;">home</i>
-                                        </div>
+                                </div>
                                     <?php endif; ?>
                                     <div class="position-absolute top-0 end-0 p-2">
                                         <?php if(Gate::check('edit property') || Gate::check('delete property') || Gate::check('show property')): ?>
@@ -241,14 +253,14 @@
                                         <span class="badge border border-dark text-dark px-3 py-1" 
                                             style="background: transparent; border-radius: 20px; font-weight: 500; font-size: 0.75rem;">
                                             <i class="material-icons-two-tone me-1" style="font-size: 16px; vertical-align: middle;">apartment</i>
-                                            <?php echo e($property->totalUnit()); ?> <?php echo e(__('Unit')); ?>
+                                                <?php echo e($property->totalUnit()); ?> <?php echo e(__('Unit')); ?>
 
                                         </span>
 
                                         <span class="badge border border-dark text-dark px-3 py-1" 
                                             style="background: transparent; border-radius: 20px; font-weight: 500; font-size: 0.75rem;">
                                             <i class="material-icons-two-tone me-1" style="font-size: 16px; vertical-align: middle;">meeting_room</i>
-                                            <?php echo e($property->vacantUnit()); ?> <?php echo e(__('Vacant')); ?>
+                                                <?php echo e($property->vacantUnit()); ?> <?php echo e(__('Vacant')); ?>
 
                                         </span>
 

@@ -722,3 +722,14 @@ a:focus {
     background-color: #000000 !important;
     border-color: #000000 !important;
 }
+
+/* Dark Mode Preloader */
+.dark .preloader {
+    background-color: #0f172a !important;
+    background-image: url("../assets/web/images/preloader.gif") !important;
+}
+
+/* Dark Mode Loading Text */
+.dark .text-center.py-5 {
+    color: #e2e8f0 !important;
+}

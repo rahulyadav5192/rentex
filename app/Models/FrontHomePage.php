@@ -11,6 +11,7 @@ class FrontHomePage extends Model
 
     protected $fillable = [
         'title',
+        'section',
         'content',
         'content_value',
         'enabled',

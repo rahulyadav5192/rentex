@@ -425,7 +425,7 @@
                                 if (errors.hasOwnProperty(field)) {
                                     if (Array.isArray(errors[field])) {
                                         allErrors = allErrors.concat(errors[field]);
-                                    } else {
+                    } else {
                                         allErrors.push(errors[field]);
                                     }
                                 }

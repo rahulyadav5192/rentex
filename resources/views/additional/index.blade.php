@@ -224,14 +224,16 @@
                             </thead>
                             <tbody>
                                 @foreach ($blogs as $blog)
-                                    @if (!empty($blog->image) && !empty($blog->image))
-                                        @php $image= $blog->image; @endphp
-                                    @else
-                                        @php $image= 'default.png'; @endphp
-                                    @endif
                                     <tr>
-                                        <td class="w-20"> <img src="{{ asset(Storage::url('upload/blog/image')) . '/' . $image }}"
-                                                alt="{{ $blog->name }}" style="width:60px; height:60px;" /></td>
+                                        <td class="w-20">
+                                            @php
+                                                $imageUrl = !empty($blog->image) ? fetch_file($blog->image, 'upload/blog/image/') : asset('assets/images/default-image.png');
+                                            @endphp
+                                            <img src="{{ $imageUrl }}"
+                                                alt="{{ $blog->title }}" 
+                                                style="width:60px; height:60px; object-fit: cover;"
+                                                onerror="this.src='{{ asset('assets/images/default-image.png') }}';" />
+                                        </td>
                                         <td> {{ ucfirst($blog->title) }} </td>
                                         <td>{{ \Illuminate\Support\Str::limit(strip_tags($blog->content), 50, '...') }}
                                         </td>

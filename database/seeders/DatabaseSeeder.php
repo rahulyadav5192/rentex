@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(DefaultDataUsersTableSeeder::class);
         $this->call(DefaultSystemConfigSeeder::class);
+        $this->call(DefaultLeadFormFieldsSeeder::class);
     }
 }
