@@ -11,7 +11,11 @@ class AdvantageController extends Controller
     public function index()
     {
         if (\Auth::user()->can('manage advantage')) {
-            $advantages = Advantage::where('parent_id', parentId())->orderBy('id', 'desc')->get();
+            // Include both default (parent_id = 0) and user-specific advantages
+            $advantages = Advantage::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->orderBy('parent_id', 'asc')->orderBy('id', 'desc')->get();
             return view('advantage.index', compact('advantages'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied!'));
@@ -61,6 +65,11 @@ class AdvantageController extends Controller
     public function update(Request $request, Advantage $advantage)
     {
         if (\Auth::user()->can('edit advantage')) {
+            // Prevent editing of default items
+            if ($advantage->parent_id == 0) {
+                return redirect()->back()->with('error', __('Default items cannot be edited.'));
+            }
+
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -88,6 +97,10 @@ class AdvantageController extends Controller
     public function destroy(Advantage $advantage)
     {
         if (\Auth::user()->can('delete advantage')) {
+            // Prevent deletion of default items
+            if ($advantage->parent_id == 0) {
+                return redirect()->back()->with('error', __('Default items cannot be deleted.'));
+            }
 
             if ($advantage) {
                 $advantage->delete();

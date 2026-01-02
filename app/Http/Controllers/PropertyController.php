@@ -35,8 +35,16 @@ class PropertyController extends Controller
             $types = Property::$Type;
             $unitTypes = PropertyUnit::$Types;
             $rentTypes = PropertyUnit::$rentTypes;
-            $amenities = Amenity::where('parent_id', parentId())->orderBy('id', 'desc')->get();
-            $advantages = Advantage::where('parent_id', parentId())->orderBy('id', 'desc')->get();
+            // Include both default (parent_id = 0) and user-specific amenities/advantages
+            $amenities = Amenity::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->orderBy('parent_id', 'asc')->orderBy('id', 'desc')->get();
+            
+            $advantages = Advantage::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->orderBy('parent_id', 'asc')->orderBy('id', 'desc')->get();
 
             return view('property.create', compact('types', 'rentTypes', 'unitTypes', 'amenities', 'advantages'));
         } else {

@@ -1420,7 +1420,17 @@ if (!function_exists('fetch_file')) {
                 // Check if file exists in storage/app/public (preferred location for new uploads)
                 $publicPath = storage_path('app/public/' . $path . $filename);
                 if (file_exists($publicPath)) {
-                    return \Storage::disk('public')->url($path . $filename);
+                    $url = \Storage::disk('public')->url($path . $filename);
+                    // Ensure filename is URL encoded
+                    $urlParts = parse_url($url);
+                    if (isset($urlParts['path'])) {
+                        $pathParts = explode('/', $urlParts['path']);
+                        $lastPart = array_pop($pathParts);
+                        $pathParts[] = rawurlencode($lastPart);
+                        $urlParts['path'] = implode('/', $pathParts);
+                        return $urlParts['scheme'] . '://' . $urlParts['host'] . (isset($urlParts['port']) ? ':' . $urlParts['port'] : '') . $urlParts['path'];
+                    }
+                    return $url;
                 }
                 
                 // Check if file exists in storage/upload (legacy location - where handleFileUpload saves)
@@ -1437,20 +1447,33 @@ if (!function_exists('fetch_file')) {
                     try {
                         $url = \Storage::disk('local')->url('upload/' . $fullUrl);
                         if (!empty($url)) {
+                            // Encode only the filename part in the URL
+                            $urlParts = parse_url($url);
+                            if (isset($urlParts['path'])) {
+                                $pathParts = explode('/', $urlParts['path']);
+                                $lastPart = array_pop($pathParts);
+                                $pathParts[] = rawurlencode($lastPart);
+                                $urlParts['path'] = implode('/', $pathParts);
+                                return $urlParts['scheme'] . '://' . $urlParts['host'] . (isset($urlParts['port']) ? ':' . $urlParts['port'] : '') . $urlParts['path'];
+                            }
                             return $url;
                         }
                     } catch (\Exception $e) {
                         // If that fails, construct URL manually
                     }
                     
-                    // Fallback: construct URL manually
-                    return url('storage/upload/' . $fullUrl);
+                    // Fallback: construct URL manually - encode only the filename
+                    $encodedFilename = rawurlencode($filename);
+                    $encodedPath = $urlPath ? $urlPath . '/' . $encodedFilename : $encodedFilename;
+                    return url('storage/upload/' . $encodedPath);
                 }
                 
                 // Check if file exists in public/upload (direct public access)
                 $publicUploadPath = public_path('upload/' . $path . $filename);
                 if (file_exists($publicUploadPath)) {
-                    return asset('upload/' . $path . $filename);
+                    // Encode only the filename part
+                    $encodedFilename = rawurlencode($filename);
+                    return asset('upload/' . $path . $encodedFilename);
                 }
                 
                 // If file doesn't exist, return empty
@@ -1560,12 +1583,8 @@ if (!function_exists('handleFileUpload')) {
 
             // Upload logic
             if ($disk === 'local') {
-                // For local storage, save to storage/app/public for web accessibility
-                $destination = storage_path('app/public/' . $uploadPath);
-                if (!file_exists($destination)) {
-                    mkdir($destination, 0777, true);
-                }
-                $file->move($destination, $fileName);
+                // For local storage, use Storage facade to save to storage/app/public for web accessibility
+                \Storage::disk('public')->putFileAs($uploadPath, $file, $fileName);
             } else {
                 \Storage::disk($disk)->putFileAs($uploadPath, $file, $fileName);
             }

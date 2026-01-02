@@ -49,12 +49,18 @@
                                 @foreach ($amenities as $amenity)
                                     <tr role="row">
                                         <td class="table-user">
-                                            <img src="{{ fetch_file($amenity->image, 'upload/amenity/') }}"
-                                                alt="" class="mr-2 amenity-img">
-
+                                            @if(!empty($amenity->image))
+                                                <img src="{{ fetch_file($amenity->image, 'upload/amenity/') }}"
+                                                    alt="" class="mr-2 amenity-img">
+                                            @else
+                                                <div class="mr-2 amenity-img" style="width: 40px; height: 40px; background: #f0f0f0; display: inline-block; border-radius: 4px;"></div>
+                                            @endif
                                         </td>
                                         <td>
                                             {{ ucfirst($amenity->name) }}
+                                            @if($amenity->parent_id == 0)
+                                                <span class="badge bg-dark text-white ms-2" style="font-size: 0.7rem;">{{ __('Default') }}</span>
+                                            @endif
                                         </td>
                                         <td>
                                              {{ substr($amenity->description, 0, 200) }}{{ !empty($amenity->description) ? '...' : '' }}
@@ -64,18 +70,22 @@
                                                 <div class="cart-action">
                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['amenity.destroy', $amenity->id]]) !!}
                                                     @can('edit amenity')
-                                                        <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
-                                                            data-bs-toggle="tooltip"
-                                                            data-bs-original-title="{{ __('Edit') }}" href="#"
-                                                            data-url="{{ route('amenity.edit', $amenity->id) }}"
-                                                            data-title="{{ __('Edit Amenity') }}"> <i
-                                                                data-feather="edit"></i></a>
+                                                        @if($amenity->parent_id != 0)
+                                                            <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-original-title="{{ __('Edit') }}" href="#"
+                                                                data-url="{{ route('amenity.edit', $amenity->id) }}"
+                                                                data-title="{{ __('Edit Amenity') }}"> <i
+                                                                    data-feather="edit"></i></a>
+                                                        @endif
                                                     @endcan
                                                     @can('delete amenity')
-                                                        <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
-                                                            data-bs-toggle="tooltip"
-                                                            data-bs-original-title="{{ __('Detete') }}" href="#"> <i
-                                                                data-feather="trash-2"></i></a>
+                                                        @if($amenity->parent_id != 0)
+                                                            <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-original-title="{{ __('Delete') }}" href="#"> <i
+                                                                    data-feather="trash-2"></i></a>
+                                                        @endif
                                                     @endcan
                                                     {!! Form::close() !!}
                                                 </div>

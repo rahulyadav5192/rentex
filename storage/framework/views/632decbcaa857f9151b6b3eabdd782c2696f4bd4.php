@@ -76,8 +76,12 @@
         <div class="auth-wrapper v2">
             <div class="auth-form">
                 <div class="logo">
+                    <?php
+                        $logoUrl = !empty($settings['logo']) ? fetch_file($settings['logo'], 'upload/logo/') : '';
+                        $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                    ?>
                     <a class="navbar-brand landing-logo" href="<?php echo e(route('home')); ?>"><img
-                            src="<?php echo e(!empty($settings['logo']) ? fetch_file($settings['logo'], 'upload/logo/') : asset('logo.png')); ?>"
+                            src="<?php echo e($logoUrl); ?>"
                             alt="image" class="img-fluid brand-logo" /></a>
                 </div>
                 <?php echo $__env->yieldContent('content'); ?>

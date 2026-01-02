@@ -68,7 +68,11 @@
     <nav class="navbar navbar-expand-md navbar-light default">
         <div class="container">
             <a class="navbar-brand landing-logo" href="#">
-                <img src="<?php echo e(!empty($settings['landing_logo']) ? fetch_file($settings['landing_logo'],'upload/logo/') : asset('logo.png')); ?>" alt="logo"
+                <?php
+                    $logoUrl = !empty($settings['landing_logo']) ? fetch_file($settings['landing_logo'],'upload/logo/') : '';
+                    $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                ?>
+                <img src="<?php echo e($logoUrl); ?>" alt="logo"
                     class="img-fluid " />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -936,7 +940,11 @@
                 <div class="row">
                     <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="landing-logo">
-                            <img src="<?php echo e(!empty($settings['light_logo']) ? fetch_file($settings['light_logo'], 'upload/logo/') : asset('logo.png')); ?>" alt="image"
+                            <?php
+                                $logoUrl = !empty($settings['light_logo']) ? fetch_file($settings['light_logo'], 'upload/logo/') : '';
+                                $logoUrl = !empty($logoUrl) ? $logoUrl : asset('logo.png');
+                            ?>
+                            <img src="<?php echo e($logoUrl); ?>" alt="image"
                                 class="img-fluid" />
                         </div>
                         <h4 class="my-3 text-white">

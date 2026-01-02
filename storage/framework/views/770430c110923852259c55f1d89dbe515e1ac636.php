@@ -1,9 +1,9 @@
-@extends('layouts.app')
-@section('page-title')
-    {{ __('Tenant Details') }}
-@endsection
+<?php $__env->startSection('page-title'); ?>
+    <?php echo e(__('Tenant Details')); ?>
 
-@push('head-page')
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startPush('head-page'); ?>
     <style>
         .tenant-detail-modern .card-header {
             background: transparent !important;
@@ -41,22 +41,22 @@
             border-color: #333 !important;
         }
     </style>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@section('breadcrumb')
+<?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item">
-        <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
+        <a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a>
     </li>
-    <li class="breadcrumb-item" aria-current="page"><a href="{{ route('tenant.index') }}"> {{ __('Tenant') }}</a></li>
+    <li class="breadcrumb-item" aria-current="page"><a href="<?php echo e(route('tenant.index')); ?>"> <?php echo e(__('Tenant')); ?></a></li>
     <li class="breadcrumb-item active">
-        <a href="#">{{ __('Details') }}</a>
+        <a href="#"><?php echo e(__('Details')); ?></a>
     </li>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@php
+<?php
     $profile = asset('assets/images/admin/user.png');
-@endphp
-@section('content')
+?>
+<?php $__env->startSection('content'); ?>
     <div class="row tenant-detail-modern">
         <div class="col-sm-12">
             <div class="card border-0">
@@ -67,21 +67,22 @@
                                 <div class="card-header">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-shrink-0">
-                                            @php
+                                            <?php
                                                 $profileUrl = !empty($tenant->user->profile) ? fetch_file($tenant->user->profile, 'upload/profile/') : '';
                                                 $profileUrl = !empty($profileUrl) ? $profileUrl : $profile;
-                                            @endphp
+                                            ?>
                                             <img class="img-radius img-fluid rounded-circle"
-                                                src="{{ $profileUrl }}"
+                                                src="<?php echo e($profileUrl); ?>"
                                                 alt="User image"
                                                 style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #000;"
-                                                onerror="this.src='{{ $profile }}'; this.onerror=null;" />
+                                                onerror="this.src='<?php echo e($profile); ?>'; this.onerror=null;" />
                                         </div>
                                         <div class="flex-grow-1 mx-3">
                                             <h5 class="mb-1" style="color: #000; font-weight: 600;">
-                                                {{ ucfirst(!empty($tenant->user) ? $tenant->user->first_name : '') . ' ' . ucfirst(!empty($tenant->user) ? $tenant->user->last_name : '') }}
+                                                <?php echo e(ucfirst(!empty($tenant->user) ? $tenant->user->first_name : '') . ' ' . ucfirst(!empty($tenant->user) ? $tenant->user->last_name : '')); ?>
+
                                             </h5>
-                                            <h6 class="mb-0 text-dark">{!! $tenant->LeaseLeftDay() !!}</h6>
+                                            <h6 class="mb-0 text-dark"><?php echo $tenant->LeaseLeftDay(); ?></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -93,10 +94,10 @@
                                                     <i class="material-icons-two-tone f-20" style="color: #000;">email</i>
                                                 </div>
                                                 <div class="flex-grow-1 mx-3">
-                                                    <h6 class="m-0 text-muted" style="font-size: 0.875rem;">{{ __('Email') }}</h6>
+                                                    <h6 class="m-0 text-muted" style="font-size: 0.875rem;"><?php echo e(__('Email')); ?></h6>
                                                 </div>
                                                 <div class="flex-shrink-0">
-                                                    <small class="text-dark fw-semibold">{{ !empty($tenant->user) ? $tenant->user->email : '-' }}</small>
+                                                    <small class="text-dark fw-semibold"><?php echo e(!empty($tenant->user) ? $tenant->user->email : '-'); ?></small>
                                                 </div>
                                             </div>
                                         </a>
@@ -106,10 +107,11 @@
                                                     <i class="material-icons-two-tone f-20" style="color: #000;">phonelink_ring</i>
                                                 </div>
                                                 <div class="flex-grow-1 mx-3">
-                                                    <h6 class="m-0 text-muted" style="font-size: 0.875rem;">{{ __('Phone') }}</h6>
+                                                    <h6 class="m-0 text-muted" style="font-size: 0.875rem;"><?php echo e(__('Phone')); ?></h6>
                                                 </div>
                                                 <div class="flex-shrink-0">
-                                                    <small class="text-dark fw-semibold">{{ !empty($tenant->user) ? $tenant->user->phone_number : '-' }}
+                                                    <small class="text-dark fw-semibold"><?php echo e(!empty($tenant->user) ? $tenant->user->phone_number : '-'); ?>
+
                                                     </small>
                                                 </div>
                                             </div>
@@ -124,18 +126,19 @@
                                 <div class="card-header">
                                     <div class="row align-items-center g-2">
                                         <div class="col">
-                                            <h5>{{ __('Additional Information') }}</h5>
+                                            <h5><?php echo e(__('Additional Information')); ?></h5>
                                         </div>
 
-                                        @if (\Auth::user()->type == 'owner' && $tenant->units && $tenant->units->is_occupied == 1)
+                                        <?php if(\Auth::user()->type == 'owner' && $tenant->units && $tenant->units->is_occupied == 1): ?>
                                             <div class="col-auto">
                                                 <a class="btn btn-light-danger customModal" href="#"
-                                                    data-url="{{ route('tenant.exit', $tenant->id) }}"
-                                                    data-title="{{ __('Exit Tenant') }}">
-                                                    {{ __('Exit Tenant') }}
+                                                    data-url="<?php echo e(route('tenant.exit', $tenant->id)); ?>"
+                                                    data-title="<?php echo e(__('Exit Tenant')); ?>">
+                                                    <?php echo e(__('Exit Tenant')); ?>
+
                                                 </a>
                                             </div>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                 </div>
 
@@ -144,56 +147,58 @@
                                         <table class="table table-borderless">
                                             <tbody>
                                                 <tr>
-                                                    <td style="width: 200px;"><b class="text-header">{{ __('Total Family Member') }}</b></td>
+                                                    <td style="width: 200px;"><b class="text-header"><?php echo e(__('Total Family Member')); ?></b></td>
                                                     <td style="width: 20px;">:</td>
-                                                    <td>{{ !empty($tenant->family_member) ? $tenant->family_member : '-' }}
+                                                    <td><?php echo e(!empty($tenant->family_member) ? $tenant->family_member : '-'); ?>
+
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('Country') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('Country')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ !empty($tenant->country) ? $tenant->country : '-' }}</td>
+                                                    <td><?php echo e(!empty($tenant->country) ? $tenant->country : '-'); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('State') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('State')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ !empty($tenant->state) ? $tenant->state : '-' }}</td>
+                                                    <td><?php echo e(!empty($tenant->state) ? $tenant->state : '-'); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('City') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('City')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ !empty($tenant->city) ? $tenant->city : '-' }}</td>
+                                                    <td><?php echo e(!empty($tenant->city) ? $tenant->city : '-'); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('Zip Code') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('Zip Code')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ !empty($tenant->zip_code) ? $tenant->zip_code : '-' }}</td>
+                                                    <td><?php echo e(!empty($tenant->zip_code) ? $tenant->zip_code : '-'); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('Property') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('Property')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ !empty($tenant->properties) ? $tenant->properties->name : '-' }}
+                                                    <td><?php echo e(!empty($tenant->properties) ? $tenant->properties->name : '-'); ?>
+
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('Unit') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('Unit')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ !empty($tenant->units) ? $tenant->units->name : '-' }}</td>
+                                                    <td><?php echo e(!empty($tenant->units) ? $tenant->units->name : '-'); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('Lease Start Date') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('Lease Start Date')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ dateFormat($tenant->lease_start_date) }}</td>
+                                                    <td><?php echo e(dateFormat($tenant->lease_start_date)); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('Lease End Date') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('Lease End Date')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ dateFormat($tenant->lease_end_date) }}</td>
+                                                    <td><?php echo e(dateFormat($tenant->lease_end_date)); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><b class="text-header">{{ __('Address') }}</b></td>
+                                                    <td><b class="text-header"><?php echo e(__('Address')); ?></b></td>
                                                     <td>:</td>
-                                                    <td>{{ !empty($tenant->address) ? $tenant->address : '-' }}</td>
+                                                    <td><?php echo e(!empty($tenant->address) ? $tenant->address : '-'); ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -205,16 +210,16 @@
                 </div>
             </div>
         </div>
-        @if (!empty($tenant->documents) && $tenant->documents->count())
+        <?php if(!empty($tenant->documents) && $tenant->documents->count()): ?>
             <div class="col-sm-12 mt-4">
                 <div class="card border shadow-sm">
                     <div class="card-header">
-                        <h5>{{ __('Tenant Documents') }}</h5>
+                        <h5><?php echo e(__('Tenant Documents')); ?></h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach ($tenant->documents as $doc)
-                                @php
+                            <?php $__currentLoopData = $tenant->documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php
                                     $folder = 'upload/tenant/';
                                     $filename = $doc->document;
                                     $fileUrl = fetch_file($filename, $folder);
@@ -227,56 +232,58 @@
                                         'gif',
                                         'webp',
                                     ]);
-                                @endphp
+                                ?>
 
                                 <div class="col-md-2 col-sm-4 col-6 mb-3">
                                     <div class="card gallery-card shadow-sm border rounded text-center d-flex flex-column justify-content-between" style="border-radius: 8px !important;">
-                                        @if ($isImage)
-                                            <a href="{{ $fileUrl }}" target="_blank">
-                                                <img src="{{ $fileUrl }}" alt="Document"
+                                        <?php if($isImage): ?>
+                                            <a href="<?php echo e($fileUrl); ?>" target="_blank">
+                                                <img src="<?php echo e($fileUrl); ?>" alt="Document"
                                                     class="img-fluid img-card-top rounded-top mt-1"
                                                     style="height: 180px; object-fit: cover; border-radius: 8px 8px 0 0;">
                                             </a>
-                                        @else
-                                            <a href="{{ $fileUrl }}" target="_blank"
+                                        <?php else: ?>
+                                            <a href="<?php echo e($fileUrl); ?>" target="_blank"
                                                 class="d-flex justify-content-center align-items-center bg-light"
                                                 style="height: 180px; border-radius: 8px 8px 0 0;">
                                                 <i class="ti ti-file-text" style="font-size: 48px; color: #000;"></i>
                                             </a>
-                                        @endif
+                                        <?php endif; ?>
                                         <hr class="my-2">
                                         <div class="d-flex justify-content-center gap-2 pb-2">
-                                            <a href="{{ $fileUrl }}" download title="Download"
+                                            <a href="<?php echo e($fileUrl); ?>" download title="Download"
                                                 class="avtar btn-link-success text-dark p-0" style="text-decoration: none;">
                                                 <i class="ti ti-download" style="font-size: 18px;"></i>
                                             </a>
 
-                                            {!! Form::open([
+                                            <?php echo Form::open([
                                                 'method' => 'DELETE',
                                                 'route' => ['tenant.document.delete', $doc->id],
                                                 'id' => 'doc-' . $doc->id,
-                                            ]) !!}
+                                            ]); ?>
+
                                             <a class="avtar btn-link-danger text-dark confirm_dialog p-0 confirm_dialog"
                                                 href="#" style="text-decoration: none;">
                                                 <i class="ti ti-trash" style="font-size: 18px;"></i>
                                             </a>
-                                            {!! Form::close() !!}
+                                            <?php echo Form::close(); ?>
+
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
                 </div>
             </div>
-        @endif
+        <?php endif; ?>
 
         <div class="col-sm-12 mt-4">
             <div class="card table-card border shadow-sm">
                 <div class="card-header">
                     <div class="row align-items-center g-2">
                         <div class="col">
-                            <h5>{{ __('Invoice List') }}</h5>
+                            <h5><?php echo e(__('Invoice List')); ?></h5>
                         </div>
                     </div>
                 </div>
@@ -285,60 +292,66 @@
                         <table class="table table-hover advance-datatable">
                             <thead>
                                 <tr>
-                                    <th style="color: #000; font-weight: 600;">{{ __('Invoice') }}</th>
-                                    <th style="color: #000; font-weight: 600;">{{ __('Property') }}</th>
-                                    <th style="color: #000; font-weight: 600;">{{ __('Unit') }}</th>
-                                    <th style="color: #000; font-weight: 600;">{{ __('Invoice Month') }}</th>
-                                    <th style="color: #000; font-weight: 600;">{{ __('End Date') }}</th>
-                                    <th style="color: #000; font-weight: 600;">{{ __('Amount') }}</th>
-                                    <th style="color: #000; font-weight: 600;">{{ __('Status') }}</th>
-                                    @if (Gate::check('edit invoice') || Gate::check('delete invoice') || Gate::check('show invoice'))
-                                        <th class="text-right" style="color: #000; font-weight: 600;">{{ __('Action') }}</th>
-                                    @endif
+                                    <th style="color: #000; font-weight: 600;"><?php echo e(__('Invoice')); ?></th>
+                                    <th style="color: #000; font-weight: 600;"><?php echo e(__('Property')); ?></th>
+                                    <th style="color: #000; font-weight: 600;"><?php echo e(__('Unit')); ?></th>
+                                    <th style="color: #000; font-weight: 600;"><?php echo e(__('Invoice Month')); ?></th>
+                                    <th style="color: #000; font-weight: 600;"><?php echo e(__('End Date')); ?></th>
+                                    <th style="color: #000; font-weight: 600;"><?php echo e(__('Amount')); ?></th>
+                                    <th style="color: #000; font-weight: 600;"><?php echo e(__('Status')); ?></th>
+                                    <?php if(Gate::check('edit invoice') || Gate::check('delete invoice') || Gate::check('show invoice')): ?>
+                                        <th class="text-right" style="color: #000; font-weight: 600;"><?php echo e(__('Action')); ?></th>
+                                    <?php endif; ?>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($invoices as $invoice)
+                                <?php $__currentLoopData = $invoices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invoice): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td>{{ invoicePrefix() . $invoice->invoice_id }} </td>
-                                        <td>{{ !empty($invoice->properties) ? $invoice->properties->name : '-' }}
+                                        <td><?php echo e(invoicePrefix() . $invoice->invoice_id); ?> </td>
+                                        <td><?php echo e(!empty($invoice->properties) ? $invoice->properties->name : '-'); ?>
+
                                         </td>
-                                        <td>{{ !empty($invoice->units) ? $invoice->units->name : '-' }}
+                                        <td><?php echo e(!empty($invoice->units) ? $invoice->units->name : '-'); ?>
+
                                         </td>
-                                        <td>{{ date('F Y', strtotime($invoice->invoice_month)) }}
+                                        <td><?php echo e(date('F Y', strtotime($invoice->invoice_month))); ?>
+
                                         </td>
-                                        <td>{{ dateFormat($invoice->end_date) }} </td>
-                                        <td>{{ priceFormat($invoice->getInvoiceSubTotalAmount()) }}
+                                        <td><?php echo e(dateFormat($invoice->end_date)); ?> </td>
+                                        <td><?php echo e(priceFormat($invoice->getInvoiceSubTotalAmount())); ?>
+
                                         </td>
                                         <td>
-                                            @if ($invoice->status == 'open')
-                                                <span class="badge border border-dark text-dark">{{ \App\Models\Invoice::$status[$invoice->status] }}</span>
-                                            @elseif($invoice->status == 'paid')
-                                                <span class="badge bg-dark text-white">{{ \App\Models\Invoice::$status[$invoice->status] }}</span>
-                                            @elseif($invoice->status == 'partial_paid')
-                                                <span class="badge border border-dark text-dark">{{ \App\Models\Invoice::$status[$invoice->status] }}</span>
-                                            @endif
+                                            <?php if($invoice->status == 'open'): ?>
+                                                <span class="badge border border-dark text-dark"><?php echo e(\App\Models\Invoice::$status[$invoice->status]); ?></span>
+                                            <?php elseif($invoice->status == 'paid'): ?>
+                                                <span class="badge bg-dark text-white"><?php echo e(\App\Models\Invoice::$status[$invoice->status]); ?></span>
+                                            <?php elseif($invoice->status == 'partial_paid'): ?>
+                                                <span class="badge border border-dark text-dark"><?php echo e(\App\Models\Invoice::$status[$invoice->status]); ?></span>
+                                            <?php endif; ?>
                                         </td>
-                                        @if (Gate::check('edit invoice') || Gate::check('delete invoice') || Gate::check('show invoice'))
+                                        <?php if(Gate::check('edit invoice') || Gate::check('delete invoice') || Gate::check('show invoice')): ?>
                                             <td>
                                                 <div class="cart-action">
-                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['invoice.destroy', $invoice->id]]) !!}
+                                                    <?php echo Form::open(['method' => 'DELETE', 'route' => ['invoice.destroy', $invoice->id]]); ?>
 
-                                                    @can('show invoice')
+
+                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('show invoice')): ?>
                                                         <a class="avtar avtar-xs btn-link-warning text-dark"
-                                                            href="{{ route('invoice.show', \Crypt::encrypt($invoice->id)) }}"
+                                                            href="<?php echo e(route('invoice.show', \Crypt::encrypt($invoice->id))); ?>"
                                                             data-bs-toggle="tooltip"
-                                                            data-bs-original-title="{{ __('View') }}"
+                                                            data-bs-original-title="<?php echo e(__('View')); ?>"
                                                             style="text-decoration: none;">
                                                             <i data-feather="eye"></i></a>
-                                                    @endcan
+                                                    <?php endif; ?>
 
-                                                    {!! Form::close() !!}
+                                                    <?php echo Form::close(); ?>
+
                                                 </div>
                                             </td>
-                                        @endif
+                                        <?php endif; ?>
                                     </tr>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
                     </div>
@@ -354,4 +367,6 @@
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Applications/XAMPP/xamppfiles/htdocs/rentex/resources/views/tenant/show.blade.php ENDPATH**/ ?>

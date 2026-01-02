@@ -11,7 +11,11 @@ class TypeController extends Controller
     public function index()
     {
         if (\Auth::user()->can('manage types')) {
-            $types = Type::where('parent_id',parentId())->orderBy('id', 'desc')->get();
+            // Include both default (parent_id = 0) and user-specific types
+            $types = Type::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->orderBy('parent_id', 'asc')->orderBy('id', 'desc')->get();
             return view('type.index', compact('types'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied!'));
@@ -71,6 +75,11 @@ class TypeController extends Controller
     public function update(Request $request, Type $type)
     {
         if (\Auth::user()->can('edit types')) {
+            // Prevent editing of default items
+            if ($type->parent_id == 0) {
+                return redirect()->back()->with('error', __('Default items cannot be edited.'));
+            }
+
             $validator = \Validator::make(
                 $request->all(), [
                 'title' => 'required',
@@ -86,7 +95,7 @@ class TypeController extends Controller
 
             $type->title = $request->title;
             $type->type = $request->type;
-            $type->parent_id =parentId();
+            $type->parent_id = parentId();
             $type->save();
 
             return redirect()->back()->with('success', __('Type successfully updated.'));
@@ -99,6 +108,10 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
         if (\Auth::user()->can('delete types')) {
+            // Prevent deletion of default items
+            if ($type->parent_id == 0) {
+                return redirect()->back()->with('error', __('Default items cannot be deleted.'));
+            }
             $type->delete();
             return redirect()->back()->with('success', 'Type successfully deleted.');
         } else {

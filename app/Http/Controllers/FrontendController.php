@@ -25,7 +25,11 @@ class FrontendController extends Controller
         $settings = settingsById($user->id);
         $parent_id = $user->id;
 
-        $allAmenities = Amenity::where('parent_id', $user->id)->get();
+        // Include both default (parent_id = 0) and user-specific amenities
+        $allAmenities = Amenity::where(function($query) use ($user) {
+            $query->where('parent_id', $user->id)
+                  ->orWhere('parent_id', 0);
+        })->orderBy('parent_id', 'asc')->orderBy('id', 'desc')->get();
 
         $listingTypes = Property::where('parent_id', $user->id)
             ->whereIn('listing_type', ['sell', 'rent'])

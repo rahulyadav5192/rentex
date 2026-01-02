@@ -45,7 +45,11 @@ class MaintenanceRequestController extends Controller
             $maintainers = User::where('parent_id', parentId())->where('type', 'maintainer')->get()->pluck("name", 'id');
             $maintainers->prepend(__('Select Maintainer'), '');
 
-            $types = Type::where('parent_id', parentId())->where('type', 'issue')->get()->pluck('title', 'id');
+            // Include both default (parent_id = 0) and user-specific issue types
+            $types = Type::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->where('type', 'issue')->orderBy('parent_id', 'asc')->get()->pluck('title', 'id');
             $types->prepend(__('Select Type'), '');
 
             $status = MaintenanceRequest::$status;
@@ -155,7 +159,11 @@ class MaintenanceRequestController extends Controller
             $maintainers = User::where('parent_id', parentId())->where('type', 'maintainer')->get()->pluck("name", 'id');
             $maintainers->prepend(__('Select Maintainer'), 0);
 
-            $types = Type::where('parent_id', parentId())->where('type', 'issue')->get()->pluck('title', 'id');
+            // Include both default (parent_id = 0) and user-specific issue types
+            $types = Type::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->where('type', 'issue')->orderBy('parent_id', 'asc')->get()->pluck('title', 'id');
             $types->prepend(__('Select Type'), '');
 
             $status = MaintenanceRequest::$status;

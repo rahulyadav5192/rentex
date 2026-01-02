@@ -35,9 +35,8 @@
             $('#tenant-submit').attr('disabled', true);
             var fd = new FormData();
             var file = document.getElementById('profile').files[0];
-            if (file == undefined) {
-                fd.append('profile', '');
-            } else {
+            // Only append profile if a file is actually selected
+            if (file != undefined && file != null) {
                 fd.append('profile', file);
             }
             var files = $('#demo-upload').get(0).dropzone.getAcceptedFiles();
@@ -74,13 +73,37 @@
                         $('#tenant-submit').attr('disabled', false);
                     }
                 },
-                error: function(data) {
+                error: function(xhr) {
                     $('#tenant-submit').attr('disabled', false);
-                    if (data.error) {
-                        toastrs('Error', data.error, 'error');
-                    } else {
-                        toastrs('Error', data, 'error');
+                    var errorMsg = 'An error occurred while updating tenant.';
+                    
+                    if (xhr.responseJSON) {
+                        if (xhr.responseJSON.msg) {
+                            errorMsg = xhr.responseJSON.msg;
+                        } else if (xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        } else if (xhr.responseJSON.error) {
+                            errorMsg = xhr.responseJSON.error;
+                        } else if (xhr.responseJSON.errors) {
+                            var errors = xhr.responseJSON.errors;
+                            if (typeof errors === 'object') {
+                                errorMsg = Object.values(errors).flat().join(', ');
+                            }
+                        }
+                    } else if (xhr.responseText) {
+                        try {
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.msg) errorMsg = response.msg;
+                            else if (response.message) errorMsg = response.message;
+                        } catch (e) {
+                            // If not JSON, use response text
+                            if (xhr.responseText.length < 200) {
+                                errorMsg = xhr.responseText;
+                            }
+                        }
                     }
+                    
+                    toastrs('Error', errorMsg, 'error');
                 },
             });
         });
@@ -207,14 +230,44 @@
     </li>
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startPush('head-page'); ?>
+    <style>
+        .tenant-edit-modern .card-header {
+            background: transparent !important;
+            border-bottom: 2px solid #000 !important;
+            padding: 1.5rem 0 !important;
+        }
+        .tenant-edit-modern .card-header h5 {
+            color: #000 !important;
+            font-weight: 700 !important;
+            margin: 0 !important;
+        }
+        .tenant-edit-modern .card {
+            border: 1px solid #e0e0e0 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+        }
+        .btn-secondary {
+            background-color: #000 !important;
+            border-color: #000 !important;
+            color: #fff !important;
+            border-radius: 8px !important;
+        }
+        .btn-secondary:hover {
+            background-color: #333 !important;
+            border-color: #333 !important;
+        }
+    </style>
+<?php $__env->stopPush(); ?>
+
 <?php $__env->startSection('content'); ?>
-    <div class="row">
+    <div class="row tenant-edit-modern">
 
         <?php echo e(Form::model($tenant, ['route' => ['tenant.update', $tenant->id], 'method' => 'PUT', 'enctype' => 'multipart/form-data', 'id' => 'tenant_form'])); ?>
 
         <div class="row">
             <div class="col-lg-6">
-                <div class="card">
+                <div class="card border shadow-sm">
                     <div class="card-header">
                         <h5><?php echo e(__('Personal Details')); ?></h5>
                     </div>
@@ -267,7 +320,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card">
+                <div class="card border shadow-sm">
                     <div class="card-header">
                         <h5><?php echo e(__('Address Details')); ?></h5>
                     </div>
@@ -310,7 +363,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card">
+                <div class="card border shadow-sm">
                     <div class="card-header">
                         <h5><?php echo e(__('Property Details')); ?></h5>
                     </div>
@@ -351,7 +404,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card">
+                <div class="card border shadow-sm">
                     <div class="card-header">
                         <h5><?php echo e(__('Documents')); ?></h5>
                     </div>
@@ -379,15 +432,16 @@
             </div>
 
             <div class="col-lg-12">
-                <div id="unit-detail-section" class="card mt-3 d-none">
+                <div id="unit-detail-section" class="card mt-3 d-none border shadow-sm">
+                    <div class="card-header">
+                        <h5 id="unit_name" style="color: #000; font-weight: 700; margin: 0;"></h5>
+                    </div>
                     <div class="card-body">
-                        <h4 class="card-title" id="unit_name"></h4>
-                        <hr>
                         <div id="unit-fields" class="row"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 mb-2">
+            <div class="col-lg-12 mb-2 mt-4">
                 <div class="group-button text-end">
                     <?php echo e(Form::submit(__('Update'), ['class' => 'btn btn-secondary btn-rounded', 'id' => 'tenant-submit'])); ?>
 

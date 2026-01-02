@@ -257,18 +257,35 @@ class TenantController extends Controller
         ]);
 
         if ($request->hasFile('profile')) {
-            $uploadResult = handleFileUpload($request->file('profile'), 'upload/profile/');
+            try {
+                $uploadResult = handleFileUpload($request->file('profile'), 'upload/profile/');
 
-            if ($uploadResult['flag'] == 0) {
-                return redirect()->back()->with('error', $uploadResult['msg']);
+                if ($uploadResult['flag'] == 0) {
+                    return response()->json([
+                        'status' => 'error',
+                        'msg'    => $uploadResult['msg'],
+                    ]);
+                }
+
+                if (!empty($user->profile)) {
+                    deleteOldFile($user->profile, 'upload/profile/');
+                }
+
+                $user->profile = $uploadResult['filename'];
+                $user->save();
+                
+                \Log::info('Tenant profile updated', [
+                    'tenant_id' => $tenant->id,
+                    'user_id' => $user->id,
+                    'profile_filename' => $uploadResult['filename']
+                ]);
+            } catch (\Exception $e) {
+                \Log::error('Tenant profile upload error: ' . $e->getMessage());
+                return response()->json([
+                    'status' => 'error',
+                    'msg'    => __('Failed to upload profile image: ') . $e->getMessage(),
+                ]);
             }
-
-            if (!empty($user->profile)) {
-                deleteOldFile($user->profile, 'upload/profile/');
-            }
-
-            $user->profile = $uploadResult['filename'];
-            $user->save();
         }
 
         // Store old unit ID before update
@@ -306,20 +323,77 @@ class TenantController extends Controller
 
 
 
-        // Handle tenant images
+        // Handle tenant images/documents
+        // Check for files in different formats: tenant_images[], tenant_images[0], etc.
+        $hasFiles = false;
+        $files = [];
+        
         if ($request->hasFile('tenant_images')) {
-            foreach ($request->file('tenant_images') as $image) {
-                $uploadResult = handleFileUpload($image, 'upload/tenant/');
-
-                if ($uploadResult['flag'] == 0) {
-                    return redirect()->back()->with('error', $uploadResult['msg']);
+            $uploadedFiles = $request->file('tenant_images');
+            if (is_array($uploadedFiles)) {
+                $files = $uploadedFiles;
+                $hasFiles = true;
+            } elseif ($uploadedFiles) {
+                $files = [$uploadedFiles];
+                $hasFiles = true;
+            }
+        }
+        
+        // Also check for files sent as tenant_images[0], tenant_images[1], etc.
+        if (!$hasFiles) {
+            $allFiles = $request->allFiles();
+            foreach ($allFiles as $key => $file) {
+                if (strpos($key, 'tenant_images') === 0) {
+                    if (is_array($file)) {
+                        $files = array_merge($files, $file);
+                    } else {
+                        $files[] = $file;
+                    }
+                    $hasFiles = true;
                 }
+            }
+        }
+        
+        if ($hasFiles && !empty($files)) {
+            try {
+                $uploadedCount = 0;
+                foreach ($files as $image) {
+                    if ($image && $image->isValid()) {
+                        $uploadResult = handleFileUpload($image, 'upload/tenant/');
 
-                TenantDocument::create([
-                    'property_id' => $request->property,
-                    'tenant_id'   => $tenant->id,
-                    'document'    => $uploadResult['filename'],
-                    'parent_id'   => parentId(),
+                        if ($uploadResult['flag'] == 0) {
+                            return response()->json([
+                                'status' => 'error',
+                                'msg'    => $uploadResult['msg'],
+                            ]);
+                        }
+
+                        TenantDocument::create([
+                            'property_id' => $request->property,
+                            'tenant_id'   => $tenant->id,
+                            'document'    => $uploadResult['filename'],
+                            'parent_id'   => parentId(),
+                        ]);
+                        
+                        $uploadedCount++;
+                        \Log::info('Tenant document uploaded', [
+                            'tenant_id' => $tenant->id,
+                            'document_filename' => $uploadResult['filename']
+                        ]);
+                    }
+                }
+                
+                if ($uploadedCount > 0) {
+                    \Log::info("Successfully uploaded {$uploadedCount} document(s) for tenant {$tenant->id}");
+                }
+            } catch (\Exception $e) {
+                \Log::error('Tenant document upload error: ' . $e->getMessage(), [
+                    'tenant_id' => $tenant->id,
+                    'trace' => $e->getTraceAsString()
+                ]);
+                return response()->json([
+                    'status' => 'error',
+                    'msg'    => __('Failed to upload documents: ') . $e->getMessage(),
                 ]);
             }
         }

@@ -47,10 +47,12 @@
                             <tbody>
                                 <?php $__currentLoopData = $advantages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $advantage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr role="row">
-
                                         <td>
                                             <?php echo e(ucfirst($advantage->name)); ?>
 
+                                            <?php if($advantage->parent_id == 0): ?>
+                                                <span class="badge bg-dark text-white ms-2" style="font-size: 0.7rem;"><?php echo e(__('Default')); ?></span>
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                              <?php echo e(substr($advantage->description, 0, 200)); ?><?php echo e(!empty($advantage->description) ? '...' : ''); ?>
@@ -62,18 +64,22 @@
                                                     <?php echo Form::open(['method' => 'DELETE', 'route' => ['advantage.destroy', $advantage->id]]); ?>
 
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit advantage')): ?>
-                                                        <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
-                                                            data-bs-toggle="tooltip"
-                                                            data-bs-original-title="<?php echo e(__('Edit')); ?>" href="#"
-                                                            data-url="<?php echo e(route('advantage.edit', $advantage->id)); ?>"
-                                                            data-title="<?php echo e(__('Edit Advantage')); ?>"> <i
-                                                                data-feather="edit"></i></a>
+                                                        <?php if($advantage->parent_id != 0): ?>
+                                                            <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-original-title="<?php echo e(__('Edit')); ?>" href="#"
+                                                                data-url="<?php echo e(route('advantage.edit', $advantage->id)); ?>"
+                                                                data-title="<?php echo e(__('Edit Advantage')); ?>"> <i
+                                                                    data-feather="edit"></i></a>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete advantage')): ?>
-                                                        <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
-                                                            data-bs-toggle="tooltip"
-                                                            data-bs-original-title="<?php echo e(__('Detete')); ?>" href="#"> <i
-                                                                data-feather="trash-2"></i></a>
+                                                        <?php if($advantage->parent_id != 0): ?>
+                                                            <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-original-title="<?php echo e(__('Delete')); ?>" href="#"> <i
+                                                                    data-feather="trash-2"></i></a>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                     <?php echo Form::close(); ?>
 

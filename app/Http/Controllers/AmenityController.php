@@ -11,7 +11,11 @@ class AmenityController extends Controller
     public function index()
     {
         if (\Auth::user()->can('manage amenity')) {
-            $amenities = Amenity::where('parent_id', parentId())->orderBy('id', 'desc')->get();
+            // Include both default (parent_id = 0) and user-specific amenities
+            $amenities = Amenity::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->orderBy('parent_id', 'asc')->orderBy('id', 'desc')->get();
             return view('amenity.index', compact('amenities'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied!'));
@@ -74,6 +78,11 @@ class AmenityController extends Controller
     public function update(Request $request, Amenity $amenity)
     {
         if (\Auth::user()->can('edit amenity')) {
+            // Prevent editing of default items
+            if ($amenity->parent_id == 0) {
+                return redirect()->back()->with('error', __('Default items cannot be edited.'));
+            }
+
             $validator = \Validator::make(
                 $request->all(),
                 [
@@ -111,6 +120,10 @@ class AmenityController extends Controller
     public function destroy(Amenity $amenity)
     {
         if (\Auth::user()->can('delete amenity')) {
+            // Prevent deletion of default items
+            if ($amenity->parent_id == 0) {
+                return redirect()->back()->with('error', __('Default items cannot be deleted.'));
+            }
 
             if ($amenity) {
                 if (!empty($amenity->image)) {

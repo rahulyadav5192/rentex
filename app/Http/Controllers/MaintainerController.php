@@ -30,7 +30,11 @@ class MaintainerController extends Controller
         if (\Auth::user()->can('create maintainer')) {
             $property = Property::where('parent_id', parentId())->get()->pluck('name', 'id');
 
-            $types = Type::where('parent_id', parentId())->where('type', 'maintainer_type')->get()->pluck('title', 'id');
+            // Include both default (parent_id = 0) and user-specific maintainer types
+            $types = Type::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->where('type', 'maintainer_type')->orderBy('parent_id', 'asc')->get()->pluck('title', 'id');
             $types->prepend(__('Select Type'), '');
 
             return view('maintainer.create', compact('property', 'types'));
@@ -143,7 +147,11 @@ class MaintainerController extends Controller
         if (\Auth::user()->can('edit maintainer')) {
             $property = Property::where('parent_id', parentId())->get()->pluck('name', 'id');
 
-            $types = Type::where('parent_id', parentId())->where('type', 'maintainer_type')->get()->pluck('title', 'id');
+            // Include both default (parent_id = 0) and user-specific maintainer types
+            $types = Type::where(function($query) {
+                $query->where('parent_id', parentId())
+                      ->orWhere('parent_id', 0);
+            })->where('type', 'maintainer_type')->orderBy('parent_id', 'asc')->get()->pluck('title', 'id');
             $types->prepend(__('Select Type'), '');
             $user = User::find($maintainer->user_id);
             return view('maintainer.edit', compact('property', 'maintainer', 'types', 'user'));

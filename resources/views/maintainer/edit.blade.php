@@ -1,5 +1,35 @@
+@push('head-page')
+    <style>
+        .maintainer-edit-modern .modal-body {
+            padding: 1.5rem;
+        }
+        .maintainer-edit-modern .form-label {
+            color: #000 !important;
+            font-weight: 600 !important;
+        }
+        .maintainer-edit-modern .form-control {
+            border-color: #e0e0e0 !important;
+            border-radius: 8px !important;
+        }
+        .maintainer-edit-modern .form-control:focus {
+            border-color: #000 !important;
+            box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1) !important;
+        }
+        .btn-secondary {
+            background-color: #000 !important;
+            border-color: #000 !important;
+            color: #fff !important;
+            border-radius: 8px !important;
+        }
+        .btn-secondary:hover {
+            background-color: #333 !important;
+            border-color: #333 !important;
+        }
+    </style>
+@endpush
+
 {{ Form::model($maintainer, ['route' => ['maintainer.update', $maintainer->id], 'method' => 'PUT', 'enctype' => 'multipart/form-data']) }}
-<div class="modal-body">
+<div class="modal-body maintainer-edit-modern">
     <div class="row">
         <div class="form-group col-md-6 col-lg-6">
             {{ Form::label('first_name', __('First Name'), ['class' => 'form-label']) }}

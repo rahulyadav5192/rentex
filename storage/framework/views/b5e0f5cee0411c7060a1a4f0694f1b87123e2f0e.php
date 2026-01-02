@@ -49,13 +49,19 @@
                                 <?php $__currentLoopData = $amenities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $amenity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr role="row">
                                         <td class="table-user">
-                                            <img src="<?php echo e(fetch_file($amenity->image, 'upload/amenity/')); ?>"
-                                                alt="" class="mr-2 amenity-img">
-
+                                            <?php if(!empty($amenity->image)): ?>
+                                                <img src="<?php echo e(fetch_file($amenity->image, 'upload/amenity/')); ?>"
+                                                    alt="" class="mr-2 amenity-img">
+                                            <?php else: ?>
+                                                <div class="mr-2 amenity-img" style="width: 40px; height: 40px; background: #f0f0f0; display: inline-block; border-radius: 4px;"></div>
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <?php echo e(ucfirst($amenity->name)); ?>
 
+                                            <?php if($amenity->parent_id == 0): ?>
+                                                <span class="badge bg-dark text-white ms-2" style="font-size: 0.7rem;"><?php echo e(__('Default')); ?></span>
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                              <?php echo e(substr($amenity->description, 0, 200)); ?><?php echo e(!empty($amenity->description) ? '...' : ''); ?>
@@ -67,18 +73,22 @@
                                                     <?php echo Form::open(['method' => 'DELETE', 'route' => ['amenity.destroy', $amenity->id]]); ?>
 
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit amenity')): ?>
-                                                        <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
-                                                            data-bs-toggle="tooltip"
-                                                            data-bs-original-title="<?php echo e(__('Edit')); ?>" href="#"
-                                                            data-url="<?php echo e(route('amenity.edit', $amenity->id)); ?>"
-                                                            data-title="<?php echo e(__('Edit Amenity')); ?>"> <i
-                                                                data-feather="edit"></i></a>
+                                                        <?php if($amenity->parent_id != 0): ?>
+                                                            <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-original-title="<?php echo e(__('Edit')); ?>" href="#"
+                                                                data-url="<?php echo e(route('amenity.edit', $amenity->id)); ?>"
+                                                                data-title="<?php echo e(__('Edit Amenity')); ?>"> <i
+                                                                    data-feather="edit"></i></a>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete amenity')): ?>
-                                                        <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
-                                                            data-bs-toggle="tooltip"
-                                                            data-bs-original-title="<?php echo e(__('Detete')); ?>" href="#"> <i
-                                                                data-feather="trash-2"></i></a>
+                                                        <?php if($amenity->parent_id != 0): ?>
+                                                            <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-original-title="<?php echo e(__('Delete')); ?>" href="#"> <i
+                                                                    data-feather="trash-2"></i></a>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                     <?php echo Form::close(); ?>
 

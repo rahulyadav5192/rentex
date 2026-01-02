@@ -120,16 +120,23 @@
                         <div class="col">
                             <h5 style="color: #000; font-weight: 700; margin: 0;">{{ __('Property Details') }}</h5>
                         </div>
-                        @can('create property')
-                            <div class="col-auto">
+                        <div class="col-auto d-flex gap-2">
+                            @can('edit property')
+                                <a class="btn btn-secondary" href="{{ route('property.edit', \Crypt::encrypt($property->id)) }}"
+                                    style="border-radius: 8px;"> 
+                                    <i class="material-icons-two-tone align-text-bottom me-1" style="font-size: 18px; vertical-align: middle; color: #fff;">edit</i>
+                                    {{ __('Edit Property') }}
+                                </a>
+                            @endcan
+                            @can('create property')
                                 <a class="btn btn-secondary customModal" data-size="lg" href="#"
                                     data-url="{{ route('unit.create', $property->id) }}" data-title="{{ __('Add Unit') }}"
                                     style="border-radius: 8px;"> 
-                                    <i class="ti ti-circle-plus align-text-bottom"></i>
+                                    <i class="ti ti-circle-plus align-text-bottom me-1"></i>
                                     {{ __('Add Unit') }}
                                 </a>
-                            </div>
-                        @endcan
+                            @endcan
+                        </div>
                     </div>
                 </div>
             </div>

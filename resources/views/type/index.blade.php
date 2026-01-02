@@ -48,24 +48,31 @@
                                 <tr role="row">
                                     <td>
                                         {{ $type->title }}
+                                        @if($type->parent_id == 0)
+                                            <span class="badge bg-dark text-white ms-2" style="font-size: 0.7rem;">{{ __('Default') }}</span>
+                                        @endif
                                     </td>
                                     <td>
-                                        {{ \App\Models\Type::$types[$type->type] }}
+                                        {{ \App\Models\Type::$types[$type->type] ?? $type->type }}
                                     </td>
                                     @if (Gate::check('edit types') || Gate::check('delete types'))
                                         <td class="text-right">
                                             <div class="cart-action">
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['type.destroy', $type->id]]) !!}
                                                 @can('edit types')
-                                                    <a class="avtar avtar-xs btn-link-secondary text-secondary customModal" data-bs-toggle="tooltip"
-                                                        data-bs-original-title="{{ __('Edit') }}" href="#"
-                                                        data-url="{{ route('type.edit', $type->id) }}"
-                                                        data-title="{{ __('Edit Type') }}"> <i data-feather="edit"></i></a>
+                                                    @if($type->parent_id != 0)
+                                                        <a class="avtar avtar-xs btn-link-secondary text-secondary customModal" data-bs-toggle="tooltip"
+                                                            data-bs-original-title="{{ __('Edit') }}" href="#"
+                                                            data-url="{{ route('type.edit', $type->id) }}"
+                                                            data-title="{{ __('Edit Type') }}"> <i data-feather="edit"></i></a>
+                                                    @endif
                                                 @endcan
                                                 @can('delete types')
-                                                    <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog" data-bs-toggle="tooltip"
-                                                        data-bs-original-title="{{ __('Detete') }}" href="#"> <i
-                                                            data-feather="trash-2"></i></a>
+                                                    @if($type->parent_id != 0)
+                                                        <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog" data-bs-toggle="tooltip"
+                                                            data-bs-original-title="{{ __('Delete') }}" href="#"> <i
+                                                                data-feather="trash-2"></i></a>
+                                                    @endif
                                                 @endcan
                                                 {!! Form::close() !!}
                                             </div>

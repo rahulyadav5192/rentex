@@ -47,9 +47,11 @@
                             <tbody>
                                 @foreach ($advantages as $advantage)
                                     <tr role="row">
-
                                         <td>
                                             {{ ucfirst($advantage->name) }}
+                                            @if($advantage->parent_id == 0)
+                                                <span class="badge bg-dark text-white ms-2" style="font-size: 0.7rem;">{{ __('Default') }}</span>
+                                            @endif
                                         </td>
                                         <td>
                                              {{ substr($advantage->description, 0, 200) }}{{ !empty($advantage->description) ? '...' : '' }}
@@ -59,18 +61,22 @@
                                                 <div class="cart-action">
                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['advantage.destroy', $advantage->id]]) !!}
                                                     @can('edit advantage')
-                                                        <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
-                                                            data-bs-toggle="tooltip"
-                                                            data-bs-original-title="{{ __('Edit') }}" href="#"
-                                                            data-url="{{ route('advantage.edit', $advantage->id) }}"
-                                                            data-title="{{ __('Edit Advantage') }}"> <i
-                                                                data-feather="edit"></i></a>
+                                                        @if($advantage->parent_id != 0)
+                                                            <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-original-title="{{ __('Edit') }}" href="#"
+                                                                data-url="{{ route('advantage.edit', $advantage->id) }}"
+                                                                data-title="{{ __('Edit Advantage') }}"> <i
+                                                                    data-feather="edit"></i></a>
+                                                        @endif
                                                     @endcan
                                                     @can('delete advantage')
-                                                        <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
-                                                            data-bs-toggle="tooltip"
-                                                            data-bs-original-title="{{ __('Detete') }}" href="#"> <i
-                                                                data-feather="trash-2"></i></a>
+                                                        @if($advantage->parent_id != 0)
+                                                            <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-original-title="{{ __('Delete') }}" href="#"> <i
+                                                                    data-feather="trash-2"></i></a>
+                                                        @endif
                                                     @endcan
                                                     {!! Form::close() !!}
                                                 </div>

@@ -71,7 +71,11 @@
                                 <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
                                         <td class="table-user">
-                                            <img src="<?php echo e(!empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : $profile); ?>"
+                                            <?php
+                                                $profileUrl = !empty($user->profile) ? fetch_file($user->profile, 'upload/profile/') : '';
+                                                $profileUrl = !empty($profileUrl) ? $profileUrl : $profile;
+                                            ?>
+                                            <img src="<?php echo e($profileUrl); ?>"
                                                 alt="" class="mr-2 avatar-sm rounded-circle user-avatar">
                                             <a href="#"
                                                 class="text-body font-weight-semibold"><?php echo e($user->name); ?></a>
