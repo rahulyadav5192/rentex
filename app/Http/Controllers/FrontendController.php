@@ -447,26 +447,60 @@ class FrontendController extends Controller
 
     public function getStates(Request $request, $code)
     {
-        $user = User::where('code', $code)->firstOrFail();
-        $states = Property::where('parent_id', $user->id)
-            ->where('country', $request->country)
-            ->distinct()
-            ->orderBy('state')
-            ->pluck('state');
+        try {
+            $user = User::where('code', $code)->firstOrFail();
+            
+            $query = Property::where('parent_id', $user->id);
+            
+            if ($request->filled('country')) {
+                $query->where('country', $request->country);
+            }
+            
+            $states = $query
+                ->whereNotNull('state')
+                ->where('state', '!=', '')
+                ->distinct()
+                ->orderBy('state')
+                ->pluck('state')
+                ->filter(function($value) {
+                    return !empty($value) && trim($value) !== '';
+                })
+                ->values();
 
-        return response()->json($states);
+            return response()->json($states->toArray());
+        } catch (\Exception $e) {
+            \Log::error('Error in getStates: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function getCities(Request $request, $code)
     {
-        $user = User::where('code', $code)->firstOrFail();
-        $cities = Property::where('parent_id', $user->id)
-            ->where('state', $request->state)
-            ->distinct()
-            ->orderBy('city')
-            ->pluck('city');
+        try {
+            $user = User::where('code', $code)->firstOrFail();
+            
+            $query = Property::where('parent_id', $user->id);
+            
+            if ($request->filled('state')) {
+                $query->where('state', $request->state);
+            }
+            
+            $cities = $query
+                ->whereNotNull('city')
+                ->where('city', '!=', '')
+                ->distinct()
+                ->orderBy('city')
+                ->pluck('city')
+                ->filter(function($value) {
+                    return !empty($value) && trim($value) !== '';
+                })
+                ->values();
 
-        return response()->json($cities);
+            return response()->json($cities->toArray());
+        } catch (\Exception $e) {
+            \Log::error('Error in getCities: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function search(Request $request, $code)

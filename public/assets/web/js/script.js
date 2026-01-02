@@ -173,22 +173,25 @@
 
     /* ----- Price Range Slider Desktop Style ----- */
     $(document).on('ready', function () {
-        $(".slider-range").slider({
-            range: true,
-            min: 0,
-            max: 100000,
-            values: [20, 70987],
-            slide: function (event, ui) {
-                $(".amount").val(ui.values[0]);
-                $(".amount2").val(ui.values[1]);
-            }
-        });
-        $(".amount").change(function () {
-            $(".slider-range").slider('values', 0, $(this).val());
-        });
-        $(".amount2").change(function () {
-            $(".slider-range").slider('values', 1, $(this).val());
-        });
+        // Check if jQuery UI slider is available and element exists
+        if (typeof $.fn.slider !== 'undefined' && $(".slider-range").length > 0) {
+            $(".slider-range").slider({
+                range: true,
+                min: 0,
+                max: 100000,
+                values: [20, 70987],
+                slide: function (event, ui) {
+                    $(".amount").val(ui.values[0]);
+                    $(".amount2").val(ui.values[1]);
+                }
+            });
+            $(".amount").change(function () {
+                $(".slider-range").slider('values', 0, $(this).val());
+            });
+            $(".amount2").change(function () {
+                $(".slider-range").slider('values', 1, $(this).val());
+            });
+        }
     });
 
 

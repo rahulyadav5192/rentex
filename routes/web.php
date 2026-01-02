@@ -459,11 +459,10 @@ Route::prefix('web/{code}')->group(function () {
 
     Route::post('contact-us', [ContactController::class, 'frontDetailStore'])->name('contact-us');
 
+    Route::get('/get-states', [FrontendController::class, 'getStates'])->name('get-states');
+    Route::get('/get-cities', [FrontendController::class, 'getCities'])->name('get-cities');
+
 });
-
-
-Route::get('/get-states/{code}', [FrontendController::class, 'getStates'])->name('get-states');
-Route::get('/get-cities/{code}', [FrontendController::class, 'getCities'])->name('get-cities');
 
 
 
