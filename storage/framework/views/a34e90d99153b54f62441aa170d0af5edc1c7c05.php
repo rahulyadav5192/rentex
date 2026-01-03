@@ -83,7 +83,7 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" style="margin-top: 110px;">
         <!-- Breadcrumb -->
-        <div class="flex items-center text-sm text-text-sub-light dark:text-text-sub-dark mb-6 flex-wrap gap-2">
+        <div class="flex items-center text-sm text-text-sub-light dark:text-text-sub-dark mb-3 sm:mb-6 flex-wrap gap-2">
             <a class="hover:text-primary dark:hover:text-emerald-400 transition" href="<?php echo e(route('web.page', $user->code)); ?>"><?php echo e(__('Home')); ?></a>
             <span class="material-icons-outlined text-base">chevron_right</span>
             <a class="hover:text-primary dark:hover:text-emerald-400 transition" href="<?php echo e(route('property.home', $user->code)); ?>"><?php echo e(__('Properties')); ?></a>
@@ -96,14 +96,14 @@
             <div class="lg:col-span-2 space-y-8">
                 <!-- Main Image Gallery -->
                 <div class="relative group">
-                    <div class="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded-xl shadow-lg dark:shadow-slate-900/50">
+                    <div class="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded-xl shadow-lg dark:shadow-slate-900/50 relative">
                         <img id="main-property-image" 
                              alt="<?php echo e(ucfirst($property->name)); ?>" 
-                             class="w-full h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" 
+                             class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" 
                              src="<?php echo e($mainImage); ?>"
                              onerror="this.src='<?php echo e(asset('assets/images/default-image.png')); ?>';">
                         </div>
-                    <div class="absolute top-4 left-4 flex gap-2 flex-wrap">
+                    <div class="absolute top-4 left-4 flex gap-2 flex-wrap z-10">
                         <?php if($property->listing_type): ?>
                             <span class="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg"><?php echo e(__('Featured')); ?></span>
                         <?php endif; ?>
@@ -115,26 +115,187 @@
                         <?php endif; ?>
                     </div>
                     
+                    <!-- Image Navigation Arrows -->
+                    <?php if($allImages->count() > 1): ?>
+                        <button id="prevImageBtn" onclick="navigateImage(-1)" 
+                                class="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all opacity-0 group-hover:opacity-100 md:opacity-100">
+                            <span class="material-icons-outlined text-gray-700 dark:text-gray-200">chevron_left</span>
+                        </button>
+                        <button id="nextImageBtn" onclick="navigateImage(1)" 
+                                class="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all opacity-0 group-hover:opacity-100 md:opacity-100">
+                            <span class="material-icons-outlined text-gray-700 dark:text-gray-200">chevron_right</span>
+                        </button>
+                    <?php endif; ?>
+                    
                     <!-- Thumbnail Gallery -->
                     <?php if($allImages->count() > 1): ?>
-                        <div class="flex gap-4 mt-4 overflow-x-auto pb-2 scrollbar-hide">
-                            <?php $__currentLoopData = $allImages->take(4); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $img): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <button onclick="changeMainImage('<?php echo e($img['image']); ?>', this)" 
-                                        class="thumbnail-btn relative flex-none w-24 h-16 rounded-lg overflow-hidden <?php echo e($index === 0 ? 'ring-2 ring-primary ring-offset-2 dark:ring-offset-gray-900 opacity-100' : 'opacity-70 hover:opacity-100'); ?> hover:ring-2 hover:ring-primary/50 transition-all">
+                        <div id="thumbnailGallery" class="flex gap-2 sm:gap-4 mt-4 overflow-x-auto pb-2 scrollbar-hide">
+                            <?php $__currentLoopData = $allImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $img): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <button onclick="changeMainImage('<?php echo e($img['image']); ?>', this, <?php echo e($index); ?>)" 
+                                        class="thumbnail-btn relative flex-none w-20 h-14 sm:w-24 sm:h-16 rounded-lg overflow-hidden <?php echo e($index === 0 ? 'ring-2 ring-primary ring-offset-2 dark:ring-offset-gray-900 opacity-100' : 'opacity-70 hover:opacity-100'); ?> hover:ring-2 hover:ring-primary/50 transition-all">
                                     <img alt="<?php echo e($img['alt']); ?>" 
                                          class="w-full h-full object-cover" 
                                          src="<?php echo e($img['image']); ?>"
                                          onerror="this.src='<?php echo e(asset('assets/images/default-image.png')); ?>';">
                                 </button>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php if($allImages->count() > 4): ?>
-                                <div class="flex-none w-24 h-16 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-text-muted-light dark:text-text-muted-dark hover:bg-gray-300 dark:hover:bg-gray-600 transition cursor-pointer">
-                                    <span class="text-xs font-semibold">+<?php echo e($allImages->count() - 4); ?> <?php echo e(__('Photos')); ?></span>
-                                </div>
-                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </div>
+
+                <!-- Mobile: Property Info Card & Property Unit (shown only on mobile) -->
+                <div class="lg:hidden space-y-6">
+                    <!-- Property Info Card (Mobile) -->
+                    <div class="bg-card-light dark:bg-card-dark rounded-xl p-5 sm:p-6 shadow-soft-hover dark:shadow-none dark:border dark:border-border-dark">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h1 class="text-xl sm:text-2xl font-display font-bold text-text-main-light dark:text-text-main-dark mb-1"><?php echo e(ucfirst($property->name)); ?></h1>
+                                <div class="flex items-center text-sm text-text-sub-light dark:text-text-sub-dark">
+                                    <span class="material-icons-outlined text-sm mr-1">place</span>
+                                    <span><?php echo e($property->city ?? __('Location not specified')); ?></span>
+                                </div>
+                            </div>
+                            <button class="text-gray-400 hover:text-red-500 transition" aria-label="<?php echo e(__('Add to favorites')); ?>">
+                                <span class="material-icons-outlined">favorite_border</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="my-4 sm:my-6 pt-4 sm:pt-6 border-t border-gray-100 dark:border-gray-700">
+                            <p class="text-xs sm:text-sm font-medium text-text-sub-light dark:text-text-sub-dark uppercase tracking-wide"><?php echo e($priceLabel); ?></p>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-2xl sm:text-3xl font-bold text-primary"><?php echo e($priceDisplay); ?></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Property Details -->
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6 text-xs sm:text-sm">
+                            <div class="flex items-center gap-2 text-text-sub-light dark:text-text-sub-dark">
+                                <span class="material-icons-outlined text-base sm:text-lg">home</span>
+                                <span><?php echo e($propertyTypeText); ?></span>
+                            </div>
+                            <?php if($property->created_at): ?>
+                                <div class="flex items-center gap-2 text-text-sub-light dark:text-text-sub-dark">
+                                    <span class="material-icons-outlined text-base sm:text-lg">calendar_today</span>
+                                    <span><?php echo e(__('Built')); ?> <?php echo e($property->created_at->format('Y')); ?></span>
+            </div>
+    <?php endif; ?>
+                            <div class="flex items-center gap-2 text-secondary">
+                                <span class="material-icons-outlined text-base sm:text-lg">verified</span>
+                                <span><?php echo e(__('Verified')); ?></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="space-y-3 mt-4 sm:mt-0">
+                            <a href="<?php echo e(route('contact.home', ['code' => $user->code, 'property_id' => \Crypt::encrypt($property->id)])); ?>" 
+                               class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm sm:text-base">
+                                <span class="material-icons-outlined">mail_outline</span>
+                                <?php echo e(__('Contact Owner')); ?>
+
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Property Unit Specification (Mobile) -->
+                    <?php if($units->count() > 0): ?>
+                        <div class="bg-card-light dark:bg-card-dark rounded-xl p-4 sm:p-6 shadow-soft dark:shadow-none dark:border dark:border-border-dark">
+                            <h2 class="text-lg sm:text-xl font-display font-bold mb-3 sm:mb-6 text-text-main-light dark:text-text-main-dark"><?php echo e(__('Property Unit Specification')); ?></h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
+                                <div class="group bg-gray-50 dark:bg-gray-800 p-3 sm:p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs sm:text-sm text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Bedrooms')); ?></span>
+                                        <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-1.5 sm:p-2 rounded-full">
+                                            <span class="material-icons-outlined text-lg sm:text-xl">bed</span>
+                                        </span>
+                                    </div>
+                                    <p class="text-2xl sm:text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalBedrooms); ?></p>
+                                    <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Total Rooms')); ?></p>
+                                </div>
+                                <div class="group bg-gray-50 dark:bg-gray-800 p-3 sm:p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs sm:text-sm text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Kitchens')); ?></span>
+                                        <span class="bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-1.5 sm:p-2 rounded-full">
+                                            <span class="material-icons-outlined text-lg sm:text-xl">kitchen</span>
+                                        </span>
+                                    </div>
+                                    <p class="text-2xl sm:text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalKitchens); ?></p>
+                                    <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Fully Equipped')); ?></p>
+                                </div>
+                                <div class="group bg-gray-50 dark:bg-gray-800 p-3 sm:p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs sm:text-sm text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Bathrooms')); ?></span>
+                                        <span class="bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 p-1.5 sm:p-2 rounded-full">
+                                            <span class="material-icons-outlined text-lg sm:text-xl">bathtub</span>
+                                        </span>
+                                    </div>
+                                    <p class="text-2xl sm:text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalBathrooms); ?></p>
+                                    <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Luxury Fittings')); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Owner/Manager Card (Mobile) -->
+                    <div class="bg-card-light dark:bg-card-dark rounded-xl p-5 shadow-soft dark:shadow-none dark:border dark:border-border-dark flex items-center gap-4">
+                        <div class="relative">
+                            <?php
+                                $ownerAvatar = !empty($user->avatar) ? fetch_file($user->avatar, 'upload/avatar/') : asset('assets/images/admin/user.png');
+                                                        ?>
+                            <img alt="<?php echo e(__('Owner Avatar')); ?>" 
+                                 class="w-12 h-12 rounded-full object-cover" 
+                                 src="<?php echo e($ownerAvatar); ?>"
+                                 onerror="this.src='<?php echo e(asset('assets/images/admin/user.png')); ?>';">
+                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-secondary border-2 border-white dark:border-gray-800 rounded-full"></span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-text-main-light dark:text-text-main-dark"><?php echo e(__('Managed by')); ?></p>
+                            <p class="text-xs text-text-sub-light dark:text-text-sub-dark"><?php echo e($appName); ?></p>
+                        </div>
+                        <button class="ml-auto text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-full transition" aria-label="<?php echo e(__('Chat')); ?>">
+                            <span class="material-icons-outlined">chat</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Property Unit Specification (Desktop) -->
+                <?php if($units->count() > 0): ?>
+                    <div class="hidden lg:block bg-card-light dark:bg-card-dark rounded-xl p-6 shadow-soft dark:shadow-none dark:border dark:border-border-dark">
+                        <h2 class="text-xl font-display font-bold mb-6 text-text-main-light dark:text-text-main-dark"><?php echo e(__('Property Unit Specification')); ?></h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="group bg-gray-50 dark:bg-gray-800 p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Bedrooms')); ?></span>
+                                    <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-2 rounded-full">
+                                        <span class="material-icons-outlined text-xl">bed</span>
+                                    </span>
+                                </div>
+                                <p class="text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalBedrooms); ?></p>
+                                <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Total Rooms')); ?></p>
+                            </div>
+                            <div class="group bg-gray-50 dark:bg-gray-800 p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Kitchens')); ?></span>
+                                    <span class="bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-2 rounded-full">
+                                        <span class="material-icons-outlined text-xl">kitchen</span>
+                                    </span>
+                                </div>
+                                <p class="text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalKitchens); ?></p>
+                                <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Fully Equipped')); ?></p>
+                                                                    </div>
+                            <div class="group bg-gray-50 dark:bg-gray-800 p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Bathrooms')); ?></span>
+                                    <span class="bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 p-2 rounded-full">
+                                        <span class="material-icons-outlined text-xl">bathtub</span>
+                                    </span>
+                                                                </div>
+                                <p class="text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalBathrooms); ?></p>
+                                <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Luxury Fittings')); ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                <?php endif; ?>
 
                 <!-- Property Overview -->
                 <div class="bg-card-light dark:bg-card-dark rounded-xl p-6 shadow-soft dark:shadow-none dark:border dark:border-border-dark">
@@ -213,60 +374,21 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                <!-- Property Unit Specification -->
-                <?php if($units->count() > 0): ?>
-                    <div class="bg-card-light dark:bg-card-dark rounded-xl p-6 shadow-soft dark:shadow-none dark:border dark:border-border-dark">
-                        <h2 class="text-xl font-display font-bold mb-6 text-text-main-light dark:text-text-main-dark"><?php echo e(__('Property Unit Specification')); ?></h2>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div class="group bg-gray-50 dark:bg-gray-800 p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Bedrooms')); ?></span>
-                                    <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-2 rounded-full">
-                                        <span class="material-icons-outlined text-xl">bed</span>
-                                    </span>
-                                </div>
-                                <p class="text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalBedrooms); ?></p>
-                                <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Total Rooms')); ?></p>
-                            </div>
-                            <div class="group bg-gray-50 dark:bg-gray-800 p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Kitchens')); ?></span>
-                                    <span class="bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-2 rounded-full">
-                                        <span class="material-icons-outlined text-xl">kitchen</span>
-                                    </span>
-                                </div>
-                                <p class="text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalKitchens); ?></p>
-                                <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Fully Equipped')); ?></p>
                                                                     </div>
-                            <div class="group bg-gray-50 dark:bg-gray-800 p-5 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition duration-300">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-text-sub-light dark:text-text-sub-dark font-medium"><?php echo e(__('Bathrooms')); ?></span>
-                                    <span class="bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 p-2 rounded-full">
-                                        <span class="material-icons-outlined text-xl">bathtub</span>
-                                    </span>
-                                                                </div>
-                                <p class="text-3xl font-display font-bold text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors"><?php echo e($totalBathrooms); ?></p>
-                                <p class="text-xs text-text-sub-light dark:text-text-sub-dark mt-1"><?php echo e(__('Luxury Fittings')); ?></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                <?php endif; ?>
-            </div>
 
             <!-- Right Column - Sidebar -->
             <div class="lg:col-span-1">
                 <div class="sticky top-24 space-y-6">
-                    <!-- Property Info Card -->
-                    <div class="bg-card-light dark:bg-card-dark rounded-xl p-6 shadow-soft-hover dark:shadow-none dark:border dark:border-border-dark">
+                    <!-- Property Info Card (Desktop Only) -->
+                    <div class="hidden lg:block bg-card-light dark:bg-card-dark rounded-xl p-6 shadow-soft-hover dark:shadow-none dark:border dark:border-border-dark">
                         <div class="flex justify-between items-start mb-4">
                             <div>
                                 <h1 class="text-2xl font-display font-bold text-text-main-light dark:text-text-main-dark mb-1"><?php echo e(ucfirst($property->name)); ?></h1>
                                 <div class="flex items-center text-sm text-text-sub-light dark:text-text-sub-dark">
                                     <span class="material-icons-outlined text-sm mr-1">place</span>
                                     <span><?php echo e($property->city ?? __('Location not specified')); ?></span>
-                                </div>
-                            </div>
+                                                            </div>
+                                                        </div>
                             <button class="text-gray-400 hover:text-red-500 transition" aria-label="<?php echo e(__('Add to favorites')); ?>">
                                 <span class="material-icons-outlined">favorite_border</span>
                             </button>
@@ -299,7 +421,7 @@
                         </div>
                         
                         <!-- Action Buttons -->
-                        <div class="space-y-3">
+                        <div class="space-y-3 mt-4 sm:mt-0">
                             <a href="<?php echo e(route('contact.home', ['code' => $user->code, 'property_id' => \Crypt::encrypt($property->id)])); ?>" 
                                class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                                 <span class="material-icons-outlined">mail_outline</span>
@@ -309,8 +431,8 @@
                         </div>
                     </div>
                     
-                    <!-- Owner/Manager Card -->
-                    <div class="bg-card-light dark:bg-card-dark rounded-xl p-5 shadow-soft dark:shadow-none dark:border dark:border-border-dark flex items-center gap-4">
+                    <!-- Owner/Manager Card (Desktop Only) -->
+                    <div class="hidden lg:flex bg-card-light dark:bg-card-dark rounded-xl p-5 shadow-soft dark:shadow-none dark:border dark:border-border-dark items-center gap-4">
                         <div class="relative">
                             <?php
                                 $ownerAvatar = !empty($user->avatar) ? fetch_file($user->avatar, 'upload/avatar/') : asset('assets/images/admin/user.png');
@@ -358,17 +480,74 @@
     </style>
 
     <script>
-        function changeMainImage(imageUrl, buttonElement) {
+        let currentImageIndex = 0;
+        const allImages = [
+            <?php $__currentLoopData = $allImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $img): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                '<?php echo e($img['image']); ?>',
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        ];
+        
+        function changeMainImage(imageUrl, buttonElement, index = null) {
             document.getElementById('main-property-image').src = imageUrl;
+            
+            // Update current index if provided
+            if (index !== null) {
+                currentImageIndex = index;
+            } else {
+                // Find index from imageUrl
+                currentImageIndex = allImages.findIndex(img => img === imageUrl);
+                if (currentImageIndex === -1) currentImageIndex = 0;
+            }
+            
             // Update active state on thumbnails
-            document.querySelectorAll('.thumbnail-btn').forEach(btn => {
+            document.querySelectorAll('.thumbnail-btn').forEach((btn, idx) => {
                 btn.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'dark:ring-offset-gray-900');
                 btn.classList.add('opacity-70');
+                if (idx === currentImageIndex) {
+                    btn.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'dark:ring-offset-gray-900');
+                    btn.classList.remove('opacity-70');
+                }
             });
+            
             if (buttonElement) {
                 buttonElement.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'dark:ring-offset-gray-900');
                 buttonElement.classList.remove('opacity-70');
             }
+        }
+        
+        function navigateImage(direction) {
+            if (allImages.length === 0) return;
+            
+            currentImageIndex += direction;
+            
+            // Loop around
+            if (currentImageIndex < 0) {
+                currentImageIndex = allImages.length - 1;
+            } else if (currentImageIndex >= allImages.length) {
+                currentImageIndex = 0;
+            }
+            
+            // Change main image
+            const newImageUrl = allImages[currentImageIndex];
+            document.getElementById('main-property-image').src = newImageUrl;
+            
+            // Update thumbnail active state
+            document.querySelectorAll('.thumbnail-btn').forEach((btn, idx) => {
+                btn.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'dark:ring-offset-gray-900');
+                btn.classList.add('opacity-70');
+                if (idx === currentImageIndex) {
+                    btn.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'dark:ring-offset-gray-900');
+                    btn.classList.remove('opacity-70');
+                    
+                    // Scroll thumbnail into view
+                    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            });
+        }
+        
+        // Initialize first image
+        if (allImages.length > 0) {
+            currentImageIndex = 0;
         }
     </script>
 <?php $__env->stopSection(); ?>

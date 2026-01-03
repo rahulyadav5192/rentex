@@ -34,30 +34,103 @@
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
-                        <div class="mb20">
-                            <div class="form-group  col-md-12">
-                                <?php echo e(Form::label('name', __('Name'), ['class' => 'form-label'])); ?>
+                        
+                        <?php
+                            // Get default fields (name, email, phone) and custom fields
+                            $defaultFields = $leadFormFields->where('is_default', true)->sortBy('sort_order');
+                            $customFields = $leadFormFields->where('is_default', false)->sortBy('sort_order');
+                        ?>
+                        
+                        <?php $__currentLoopData = $defaultFields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $field): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="mb20">
+                                <div class="form-group col-md-12">
+                                    <?php echo e(Form::label($field->field_name, $field->field_label, ['class' => 'form-label'])); ?>
 
-                                <?php echo e(Form::text('name', null, ['class' => 'form-control', 'placeholder' => __('Enter contact name'), 'required' => 'required'])); ?>
+                                    <?php if($field->field_type == 'input'): ?>
+                                        <?php if($field->field_name == 'email'): ?>
+                                            <?php echo e(Form::email($field->field_name, null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : ''])); ?>
 
+                                        <?php elseif($field->field_name == 'phone'): ?>
+                                            <?php echo e(Form::tel($field->field_name, null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : ''])); ?>
+
+                                        <?php else: ?>
+                                            <?php echo e(Form::text($field->field_name, null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : ''])); ?>
+
+                                        <?php endif; ?>
+                                    <?php elseif($field->field_type == 'select'): ?>
+                                        <?php echo e(Form::select($field->field_name, ['' => __('Select') . ' ' . $field->field_label] + ($field->field_options ?? []), null, ['class' => 'form-control', $field->is_required ? 'required' : ''])); ?>
+
+                                    <?php elseif($field->field_type == 'checkbox'): ?>
+                                        <div class="form-check">
+                                            <?php echo e(Form::checkbox($field->field_name, 1, false, ['class' => 'form-check-input', 'id' => $field->field_name, $field->is_required ? 'required' : ''])); ?>
+
+                                            <?php echo e(Form::label($field->field_name, $field->field_label, ['class' => 'form-check-label'])); ?>
+
+                                        </div>
+                                    <?php elseif($field->field_type == 'yes_no'): ?>
+                                        <div class="form-check form-check-inline">
+                                            <?php echo e(Form::radio($field->field_name, 'yes', false, ['class' => 'form-check-input', 'id' => $field->field_name . '_yes', $field->is_required ? 'required' : ''])); ?>
+
+                                            <?php echo e(Form::label($field->field_name . '_yes', __('Yes'), ['class' => 'form-check-label'])); ?>
+
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <?php echo e(Form::radio($field->field_name, 'no', false, ['class' => 'form-check-input', 'id' => $field->field_name . '_no'])); ?>
+
+                                            <?php echo e(Form::label($field->field_name . '_no', __('No'), ['class' => 'form-check-label'])); ?>
+
+                                        </div>
+                                    <?php elseif($field->field_type == 'doc'): ?>
+                                        <?php echo e(Form::file($field->field_name, ['class' => 'form-control', $field->is_required ? 'required' : ''])); ?>
+
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb20">
-                            <div class="form-group  col-md-12">
-                                <?php echo e(Form::label('email', __('Email'), ['class' => 'form-label'])); ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        
+                        <?php $__currentLoopData = $customFields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $field): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php
+                                // Get original type from field_options
+                                $originalType = 'text';
+                                if (!empty($field->field_options)) {
+                                    $options = is_array($field->field_options) ? $field->field_options : json_decode($field->field_options, true);
+                                    if (isset($options['original_type'])) {
+                                        $originalType = $options['original_type'];
+                                    } else {
+                                        // Fallback: map database types
+                                        if ($field->field_type == 'doc') {
+                                            $originalType = 'docs';
+                                        } elseif ($field->field_type == 'input') {
+                                            $originalType = 'text';
+                                        }
+                                    }
+                                } else {
+                                    // Fallback: map database types
+                                    if ($field->field_type == 'doc') {
+                                        $originalType = 'docs';
+                                    } elseif ($field->field_type == 'input') {
+                                        $originalType = 'text';
+                                    }
+                                }
+                            ?>
+                            <div class="mb20">
+                                <div class="form-group col-md-12">
+                                    <?php echo e(Form::label('custom_fields[' . $field->field_name . ']', $field->field_label, ['class' => 'form-label'])); ?>
 
-                                <?php echo e(Form::text('email', null, ['class' => 'form-control', 'placeholder' => __('Enter contact email'), 'required' => 'required'])); ?>
+                                    <?php if($originalType == 'text'): ?>
+                                        <?php echo e(Form::text('custom_fields[' . $field->field_name . ']', null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : ''])); ?>
 
+                                    <?php elseif($originalType == 'number'): ?>
+                                        <?php echo e(Form::number('custom_fields[' . $field->field_name . ']', null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : ''])); ?>
+
+                                    <?php elseif($originalType == 'docs'): ?>
+                                        <?php echo e(Form::file('custom_fields[' . $field->field_name . ']', ['class' => 'form-control', $field->is_required ? 'required' : ''])); ?>
+
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb20">
-                            <div class="form-group  col-md-12">
-                                <?php echo e(Form::label('contact_number', __('Contact Number'), ['class' => 'form-label'])); ?>
-
-                                <?php echo e(Form::number('contact_number', null, ['class' => 'form-control', 'placeholder' => __('Enter contact number')])); ?>
-
-                            </div>
-                        </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        
                         <div class="mb20">
                             <div class="form-group  col-md-12">
                                 <?php echo e(Form::label('subject', __('Subject'), ['class' => 'form-label'])); ?>

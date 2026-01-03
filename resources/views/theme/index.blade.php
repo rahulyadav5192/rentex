@@ -217,7 +217,7 @@
         ];
     @endphp
     @if (empty($Section_2_content_value['section_enabled']) || $Section_2_content_value['section_enabled'] == 'active')
-        <section id="stats-counter-section" class="mt-12 w-full">
+        <section id="stats-counter-section" class=" w-full">
             <div class="relative w-full overflow-hidden rounded-t-4xl px-4 sm:px-6 lg:px-8 py-24" style="background: linear-gradient(135deg, #1d6061 0%, #154c4d 100%);">
                 <div class="absolute top-0 right-0 w-full h-full circle-pattern opacity-30 pointer-events-none"></div>
                 <div class="max-w-7xl mx-auto relative z-10">

@@ -482,12 +482,11 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th width="5%">{{ __('Order') }}</th>
-                                                                        <th width="20%">{{ __('Label') }}</th>
+                                                                        <th width="25%">{{ __('Label') }}</th>
                                                                         <th width="15%">{{ __('Type') }}</th>
                                                                         <th width="10%">{{ __('Required') }}</th>
                                                                         <th width="10%">{{ __('Default') }}</th>
-                                                                        <th width="15%">{{ __('Options') }}</th>
-                                                                        <th width="25%">{{ __('Actions') }}</th>
+                                                                        <th width="35%">{{ __('Actions') }}</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody id="leadFieldsTableBody">
@@ -501,7 +500,31 @@
                                                                             </td>
                                                                             <td>{{ $field->field_label }}</td>
                                                                             <td>
-                                                                                <span class="badge bg-dark">{{ ucfirst($field->field_type) }}</span>
+                                                                                @php
+                                                                                    // Get original type from field_options or map from field_type
+                                                                                    $displayType = 'text';
+                                                                                    if (!empty($field->field_options)) {
+                                                                                        $options = is_array($field->field_options) ? $field->field_options : json_decode($field->field_options, true);
+                                                                                        if (isset($options['original_type'])) {
+                                                                                            $displayType = $options['original_type'];
+                                                                                        } else {
+                                                                                            // Map old types
+                                                                                            if ($field->field_type == 'doc') {
+                                                                                                $displayType = 'docs';
+                                                                                            } elseif ($field->field_type == 'input') {
+                                                                                                $displayType = 'text';
+                                                                                            }
+                                                                                        }
+                                                                                    } else {
+                                                                                        // Map database types to display types
+                                                                                        if ($field->field_type == 'doc') {
+                                                                                            $displayType = 'docs';
+                                                                                        } elseif ($field->field_type == 'input') {
+                                                                                            $displayType = 'text';
+                                                                                        }
+                                                                                    }
+                                                                                @endphp
+                                                                                <span class="badge bg-dark">{{ ucfirst($displayType) }}</span>
                                                                             </td>
                                                                             <td>
                                                                                 @if ($field->is_required)
@@ -518,20 +541,32 @@
                                                                                 @endif
                                                                             </td>
                                                                             <td>
-                                                                                @if ($field->field_type == 'select' && !empty($field->field_options))
-                                                                                    @php
-                                                                                        $options = is_array($field->field_options) ? $field->field_options : json_decode($field->field_options, true);
-                                                                                    @endphp
-                                                                                    @if (is_array($options))
-                                                                                        {{ implode(', ', $options) }}
-                                                                                    @endif
-                                                                                @else
-                                                                                    <span class="text-muted">-</span>
-                                                                                @endif
-                                                                            </td>
-                                                                            <td>
                                                                                 @if (!$field->is_default)
-                                                                                    <button type="button" class="btn btn-sm btn-secondary edit-field-btn" data-field-id="{{ $field->id }}" data-field-label="{{ $field->field_label }}" data-field-type="{{ $field->field_type }}" data-field-required="{{ $field->is_required ? 1 : 0 }}" data-field-options="{{ $field->field_type == 'select' ? (is_array($field->field_options) ? json_encode($field->field_options) : $field->field_options) : '' }}">
+                                                                                    @php
+                                                                                        // Get original type for edit
+                                                                                        $editType = 'text';
+                                                                                        if (!empty($field->field_options)) {
+                                                                                            $options = is_array($field->field_options) ? $field->field_options : json_decode($field->field_options, true);
+                                                                                            if (isset($options['original_type'])) {
+                                                                                                $editType = $options['original_type'];
+                                                                                            } else {
+                                                                                                // Map old types
+                                                                                                if ($field->field_type == 'doc') {
+                                                                                                    $editType = 'docs';
+                                                                                                } elseif ($field->field_type == 'input') {
+                                                                                                    $editType = 'text';
+                                                                                                }
+                                                                                            }
+                                                                                        } else {
+                                                                                            // Map database types to display types
+                                                                                            if ($field->field_type == 'doc') {
+                                                                                                $editType = 'docs';
+                                                                                            } elseif ($field->field_type == 'input') {
+                                                                                                $editType = 'text';
+                                                                                            }
+                                                                                        }
+                                                                                    @endphp
+                                                                                    <button type="button" class="btn btn-sm btn-secondary edit-field-btn" data-field-id="{{ $field->id }}" data-field-label="{{ $field->field_label }}" data-field-type="{{ $editType }}" data-field-required="{{ $field->is_required ? 1 : 0 }}">
                                                                                         <i class="ti ti-edit"></i>
                                                                                     </button>
                                                                                     <button type="button" class="btn btn-sm btn-danger delete-field-btn" data-field-id="{{ $field->id }}">
@@ -590,17 +625,10 @@
                         <div class="form-group mb-3">
                             <label for="fieldType" class="form-label">{{ __('Field Type') }} <span class="text-danger">*</span></label>
                             <select class="form-control" id="fieldType" name="field_type" required>
-                                <option value="input">{{ __('Input') }}</option>
-                                <option value="doc">{{ __('Document Upload') }}</option>
-                                <option value="checkbox">{{ __('Checkbox') }}</option>
-                                <option value="yes_no">{{ __('Yes/No') }}</option>
-                                <option value="select">{{ __('Select Dropdown') }}</option>
+                                <option value="text">{{ __('Text') }}</option>
+                                <option value="number">{{ __('Number') }}</option>
+                                <option value="docs">{{ __('Document Upload') }}</option>
                             </select>
-                        </div>
-                        <div class="form-group mb-3" id="fieldOptionsGroup" style="display: none;">
-                            <label for="fieldOptions" class="form-label">{{ __('Options') }} <span class="text-danger">*</span></label>
-                            <small class="form-text text-muted d-block mb-2">{{ __('Enter one option per line') }}</small>
-                            <textarea class="form-control" id="fieldOptions" name="field_options" rows="4" placeholder="Option 1&#10;Option 2&#10;Option 3"></textarea>
                         </div>
                         <div class="form-group mb-3">
                             <div class="form-check">
@@ -622,38 +650,36 @@
 
     <script>
         $(document).ready(function() {
-            // Show/hide options field based on field type
-            $('#fieldType').on('change', function() {
-                if ($(this).val() === 'select') {
-                    $('#fieldOptionsGroup').show();
-                    $('#fieldOptions').prop('required', true);
-                } else {
-                    $('#fieldOptionsGroup').hide();
-                    $('#fieldOptions').prop('required', false);
-                }
-            });
+            // Field type change handler (no options needed for text, number, docs)
 
             // Add Field
-            $('#saveFieldBtn').on('click', function() {
+            $('#saveFieldBtn').on('click', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!$('#fieldLabel').val() || !$('#fieldLabel').val().trim()) {
+                    toastrs('Error!', '{{ __('Field Label is required') }}', 'error');
+                    return;
+                }
+                
+                if (!$('#fieldType').val()) {
+                    toastrs('Error!', '{{ __('Field Type is required') }}', 'error');
+                    return;
+                }
+                
                 let formData = {
-                    field_label: $('#fieldLabel').val(),
+                    field_label: $('#fieldLabel').val().trim(),
                     field_type: $('#fieldType').val(),
                     is_required: $('#isRequired').is(':checked') ? 1 : 0,
                     _token: '{{ csrf_token() }}'
                 };
 
-                if ($('#fieldType').val() === 'select') {
-                    let options = $('#fieldOptions').val().split('\n').filter(opt => opt.trim() !== '');
-                    if (options.length === 0) {
-                        toastrs('Error!', '{{ __('Please enter at least one option') }}', 'error');
-                        return;
-                    }
-                    formData.field_options = options;
-                }
-
                 let fieldId = $('#fieldId').val();
                 let url = fieldId ? '{{ route("lead-form-field.update", ":id") }}'.replace(':id', fieldId) : '{{ route("lead-form-field.store") }}';
                 let method = fieldId ? 'PUT' : 'POST';
+
+                // Disable button to prevent double submission
+                $('#saveFieldBtn').prop('disabled', true).text('{{ __('Saving...') }}');
 
                 $.ajax({
                     url: url,
@@ -663,14 +689,30 @@
                         if (response.status === 'success') {
                             toastrs('Success!', response.msg, 'success');
                             $('#addFieldModal').modal('hide');
-                            location.reload();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         } else {
                             toastrs('Error!', response.msg, 'error');
+                            $('#saveFieldBtn').prop('disabled', false).text('{{ __('Save') }}');
                         }
                     },
                     error: function(xhr) {
-                        let errorMsg = xhr.responseJSON?.msg || '{{ __('An error occurred') }}';
+                        let errorMsg = '{{ __('An error occurred') }}';
+                        if (xhr.responseJSON && xhr.responseJSON.msg) {
+                            errorMsg = xhr.responseJSON.msg;
+                        } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        } else if (xhr.responseText) {
+                            try {
+                                let errorData = JSON.parse(xhr.responseText);
+                                errorMsg = errorData.msg || errorData.message || errorMsg;
+                            } catch(e) {
+                                // Keep default error message
+                            }
+                        }
                         toastrs('Error!', errorMsg, 'error');
+                        $('#saveFieldBtn').prop('disabled', false).text('{{ __('Save') }}');
                     }
                 });
             });
@@ -681,23 +723,14 @@
                 let fieldLabel = $(this).data('field-label');
                 let fieldType = $(this).data('field-type');
                 let fieldRequired = $(this).data('field-required');
-                let fieldOptions = $(this).data('field-options');
 
                 $('#fieldId').val(fieldId);
                 $('#fieldLabel').val(fieldLabel);
                 $('#fieldType').val(fieldType);
                 $('#isRequired').prop('checked', fieldRequired == 1);
 
-                if (fieldType === 'select' && fieldOptions) {
-                    let options = typeof fieldOptions === 'string' ? JSON.parse(fieldOptions) : fieldOptions;
-                    $('#fieldOptions').val(Array.isArray(options) ? options.join('\n') : '');
-                    $('#fieldOptionsGroup').show();
-                } else {
-                    $('#fieldOptions').val('');
-                    $('#fieldOptionsGroup').hide();
-                }
-
                 $('#addFieldModalLabel').text('{{ __('Edit Field') }}');
+                $('#saveFieldBtn').prop('disabled', false).text('{{ __('Save') }}');
                 $('#addFieldModal').modal('show');
             });
 

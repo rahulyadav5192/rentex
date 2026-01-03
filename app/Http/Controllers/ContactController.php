@@ -118,24 +118,41 @@ class ContactController extends Controller
     public function frontDetailStore(Request $request, $code)
     {
         $user = User::where('code', $code)->first();
-        $validator = \Validator::make(
-            $request->all(),
-            [
-                'name' => 'required',
-                'subject' => 'required',
-                'message' => 'required',
-            ]
-        );
+        
+        // Get Lead Form Fields for validation
+        $leadFormFields = \App\Models\LeadFormField::where('parent_id', $user->id)
+            ->orderBy('is_default', 'desc')
+            ->orderBy('sort_order', 'asc')
+            ->get();
+        
+        // Build validation rules
+        $rules = [
+            'subject' => 'required',
+            'message' => 'required',
+        ];
+        
+        foreach ($leadFormFields as $field) {
+            if ($field->is_required) {
+                if ($field->is_default) {
+                    $rules[$field->field_name] = 'required';
+                } else {
+                    $rules['custom_fields.' . $field->field_name] = 'required';
+                }
+            }
+        }
+        
+        $validator = \Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             $messages = $validator->getMessageBag();
-
-            return redirect()->back()->with('error', $messages->first());
+            return redirect()->back()->with('error', $messages->first())->withInput();
         }
 
         $contact = new Contact();
-        $contact->name = $request->name;
-        $contact->email = $request->email;
-        $contact->contact_number = $request->contact_number;
+        
+        // Set default fields
+        $contact->name = $request->name ?? null;
+        $contact->email = $request->email ?? null;
+        $contact->contact_number = $request->phone ?? $request->contact_number ?? null;
         $contact->subject = $request->subject;
         $contact->message = $request->message;
         $contact->parent_id = $user->id;
@@ -153,6 +170,23 @@ class ContactController extends Controller
                 // Invalid property ID, ignore it
             }
         }
+        
+        // Store custom fields
+        $customFieldsData = [];
+        if ($request->has('custom_fields') && is_array($request->custom_fields)) {
+            foreach ($request->custom_fields as $fieldName => $fieldValue) {
+                // Handle file uploads
+                if ($request->hasFile('custom_fields.' . $fieldName)) {
+                    $file = $request->file('custom_fields.' . $fieldName);
+                    $fileName = time() . '_' . $fieldName . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('upload/contact/documents/', $fileName, 'public');
+                    $customFieldsData[$fieldName] = 'upload/contact/documents/' . $fileName;
+                } else {
+                    $customFieldsData[$fieldName] = $fieldValue;
+                }
+            }
+        }
+        $contact->custom_fields = !empty($customFieldsData) ? json_encode($customFieldsData) : null;
         
         $contact->save();
 

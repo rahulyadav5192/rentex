@@ -602,12 +602,11 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th width="5%"><?php echo e(__('Order')); ?></th>
-                                                                        <th width="20%"><?php echo e(__('Label')); ?></th>
+                                                                        <th width="25%"><?php echo e(__('Label')); ?></th>
                                                                         <th width="15%"><?php echo e(__('Type')); ?></th>
                                                                         <th width="10%"><?php echo e(__('Required')); ?></th>
                                                                         <th width="10%"><?php echo e(__('Default')); ?></th>
-                                                                        <th width="15%"><?php echo e(__('Options')); ?></th>
-                                                                        <th width="25%"><?php echo e(__('Actions')); ?></th>
+                                                                        <th width="35%"><?php echo e(__('Actions')); ?></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody id="leadFieldsTableBody">
@@ -621,7 +620,31 @@
                                                                             </td>
                                                                             <td><?php echo e($field->field_label); ?></td>
                                                                             <td>
-                                                                                <span class="badge bg-dark"><?php echo e(ucfirst($field->field_type)); ?></span>
+                                                                                <?php
+                                                                                    // Get original type from field_options or map from field_type
+                                                                                    $displayType = 'text';
+                                                                                    if (!empty($field->field_options)) {
+                                                                                        $options = is_array($field->field_options) ? $field->field_options : json_decode($field->field_options, true);
+                                                                                        if (isset($options['original_type'])) {
+                                                                                            $displayType = $options['original_type'];
+                                                                                        } else {
+                                                                                            // Map old types
+                                                                                            if ($field->field_type == 'doc') {
+                                                                                                $displayType = 'docs';
+                                                                                            } elseif ($field->field_type == 'input') {
+                                                                                                $displayType = 'text';
+                                                                                            }
+                                                                                        }
+                                                                                    } else {
+                                                                                        // Map database types to display types
+                                                                                        if ($field->field_type == 'doc') {
+                                                                                            $displayType = 'docs';
+                                                                                        } elseif ($field->field_type == 'input') {
+                                                                                            $displayType = 'text';
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                                <span class="badge bg-dark"><?php echo e(ucfirst($displayType)); ?></span>
                                                                             </td>
                                                                             <td>
                                                                                 <?php if($field->is_required): ?>
@@ -638,21 +661,32 @@
                                                                                 <?php endif; ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?php if($field->field_type == 'select' && !empty($field->field_options)): ?>
-                                                                                    <?php
-                                                                                        $options = is_array($field->field_options) ? $field->field_options : json_decode($field->field_options, true);
-                                                                                    ?>
-                                                                                    <?php if(is_array($options)): ?>
-                                                                                        <?php echo e(implode(', ', $options)); ?>
-
-                                                                                    <?php endif; ?>
-                                                                                <?php else: ?>
-                                                                                    <span class="text-muted">-</span>
-                                                                                <?php endif; ?>
-                                                                            </td>
-                                                                            <td>
                                                                                 <?php if(!$field->is_default): ?>
-                                                                                    <button type="button" class="btn btn-sm btn-secondary edit-field-btn" data-field-id="<?php echo e($field->id); ?>" data-field-label="<?php echo e($field->field_label); ?>" data-field-type="<?php echo e($field->field_type); ?>" data-field-required="<?php echo e($field->is_required ? 1 : 0); ?>" data-field-options="<?php echo e($field->field_type == 'select' ? (is_array($field->field_options) ? json_encode($field->field_options) : $field->field_options) : ''); ?>">
+                                                                                    <?php
+                                                                                        // Get original type for edit
+                                                                                        $editType = 'text';
+                                                                                        if (!empty($field->field_options)) {
+                                                                                            $options = is_array($field->field_options) ? $field->field_options : json_decode($field->field_options, true);
+                                                                                            if (isset($options['original_type'])) {
+                                                                                                $editType = $options['original_type'];
+                                                                                            } else {
+                                                                                                // Map old types
+                                                                                                if ($field->field_type == 'doc') {
+                                                                                                    $editType = 'docs';
+                                                                                                } elseif ($field->field_type == 'input') {
+                                                                                                    $editType = 'text';
+                                                                                                }
+                                                                                            }
+                                                                                        } else {
+                                                                                            // Map database types to display types
+                                                                                            if ($field->field_type == 'doc') {
+                                                                                                $editType = 'docs';
+                                                                                            } elseif ($field->field_type == 'input') {
+                                                                                                $editType = 'text';
+                                                                                            }
+                                                                                        }
+                                                                                    ?>
+                                                                                    <button type="button" class="btn btn-sm btn-secondary edit-field-btn" data-field-id="<?php echo e($field->id); ?>" data-field-label="<?php echo e($field->field_label); ?>" data-field-type="<?php echo e($editType); ?>" data-field-required="<?php echo e($field->is_required ? 1 : 0); ?>">
                                                                                         <i class="ti ti-edit"></i>
                                                                                     </button>
                                                                                     <button type="button" class="btn btn-sm btn-danger delete-field-btn" data-field-id="<?php echo e($field->id); ?>">
@@ -713,17 +747,10 @@
                         <div class="form-group mb-3">
                             <label for="fieldType" class="form-label"><?php echo e(__('Field Type')); ?> <span class="text-danger">*</span></label>
                             <select class="form-control" id="fieldType" name="field_type" required>
-                                <option value="input"><?php echo e(__('Input')); ?></option>
-                                <option value="doc"><?php echo e(__('Document Upload')); ?></option>
-                                <option value="checkbox"><?php echo e(__('Checkbox')); ?></option>
-                                <option value="yes_no"><?php echo e(__('Yes/No')); ?></option>
-                                <option value="select"><?php echo e(__('Select Dropdown')); ?></option>
+                                <option value="text"><?php echo e(__('Text')); ?></option>
+                                <option value="number"><?php echo e(__('Number')); ?></option>
+                                <option value="docs"><?php echo e(__('Document Upload')); ?></option>
                             </select>
-                        </div>
-                        <div class="form-group mb-3" id="fieldOptionsGroup" style="display: none;">
-                            <label for="fieldOptions" class="form-label"><?php echo e(__('Options')); ?> <span class="text-danger">*</span></label>
-                            <small class="form-text text-muted d-block mb-2"><?php echo e(__('Enter one option per line')); ?></small>
-                            <textarea class="form-control" id="fieldOptions" name="field_options" rows="4" placeholder="Option 1&#10;Option 2&#10;Option 3"></textarea>
                         </div>
                         <div class="form-group mb-3">
                             <div class="form-check">
@@ -746,16 +773,7 @@
 
     <script>
         $(document).ready(function() {
-            // Show/hide options field based on field type
-            $('#fieldType').on('change', function() {
-                if ($(this).val() === 'select') {
-                    $('#fieldOptionsGroup').show();
-                    $('#fieldOptions').prop('required', true);
-                } else {
-                    $('#fieldOptionsGroup').hide();
-                    $('#fieldOptions').prop('required', false);
-                }
-            });
+            // Field type change handler (no options needed for text, number, docs)
 
             // Add Field
             $('#saveFieldBtn').on('click', function() {
@@ -766,14 +784,7 @@
                     _token: '<?php echo e(csrf_token()); ?>'
                 };
 
-                if ($('#fieldType').val() === 'select') {
-                    let options = $('#fieldOptions').val().split('\n').filter(opt => opt.trim() !== '');
-                    if (options.length === 0) {
-                        toastrs('Error!', '<?php echo e(__('Please enter at least one option')); ?>', 'error');
-                        return;
-                    }
-                    formData.field_options = options;
-                }
+                // No options needed for text, number, or docs
 
                 let fieldId = $('#fieldId').val();
                 let url = fieldId ? '<?php echo e(route("lead-form-field.update", ":id")); ?>'.replace(':id', fieldId) : '<?php echo e(route("lead-form-field.store")); ?>';
@@ -805,7 +816,6 @@
                 let fieldLabel = $(this).data('field-label');
                 let fieldType = $(this).data('field-type');
                 let fieldRequired = $(this).data('field-required');
-                let fieldOptions = $(this).data('field-options');
 
                 $('#fieldId').val(fieldId);
                 $('#fieldLabel').val(fieldLabel);

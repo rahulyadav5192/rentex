@@ -1894,6 +1894,12 @@ if (!function_exists('NewPermission')) {
             ['name' => 'edit additional', 'guard_name' => 'web', 'roles' => ['owner']],
 
             ['name' => 'manage twilio settings', 'guard_name' => 'web', 'roles' => ['owner']],
+            
+            ['name' => 'manage enquiry', 'guard_name' => 'web', 'roles' => ['owner']],
+            ['name' => 'create enquiry', 'guard_name' => 'web', 'roles' => ['owner']],
+            ['name' => 'edit enquiry', 'guard_name' => 'web', 'roles' => ['owner']],
+            ['name' => 'delete enquiry', 'guard_name' => 'web', 'roles' => ['owner']],
+            ['name' => 'show enquiry', 'guard_name' => 'web', 'roles' => ['owner']],
         ];
 
         if (!empty($permissions)) {

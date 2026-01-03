@@ -195,6 +195,14 @@ Route::resource('contact', ContactController::class)->middleware(
     ]
 );
 
+//-------------------------------Enquiry-------------------------------------------
+Route::resource('enquiry', \App\Http\Controllers\EnquiryController::class)->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+
 //-------------------------------logged History-------------------------------------------
 
 Route::group(

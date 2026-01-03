@@ -33,24 +33,87 @@
                                 </div>
                             @endif
                         @endif
-                        <div class="mb20">
-                            <div class="form-group  col-md-12">
-                                {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
-                                {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => __('Enter contact name'), 'required' => 'required']) }}
+                        
+                        @php
+                            // Get default fields (name, email, phone) and custom fields
+                            $defaultFields = $leadFormFields->where('is_default', true)->sortBy('sort_order');
+                            $customFields = $leadFormFields->where('is_default', false)->sortBy('sort_order');
+                        @endphp
+                        
+                        @foreach ($defaultFields as $field)
+                            <div class="mb20">
+                                <div class="form-group col-md-12">
+                                    {{ Form::label($field->field_name, $field->field_label, ['class' => 'form-label']) }}
+                                    @if ($field->field_type == 'input')
+                                        @if ($field->field_name == 'email')
+                                            {{ Form::email($field->field_name, null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : '']) }}
+                                        @elseif ($field->field_name == 'phone')
+                                            {{ Form::tel($field->field_name, null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : '']) }}
+                                        @else
+                                            {{ Form::text($field->field_name, null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : '']) }}
+                                        @endif
+                                    @elseif ($field->field_type == 'select')
+                                        {{ Form::select($field->field_name, ['' => __('Select') . ' ' . $field->field_label] + ($field->field_options ?? []), null, ['class' => 'form-control', $field->is_required ? 'required' : '']) }}
+                                    @elseif ($field->field_type == 'checkbox')
+                                        <div class="form-check">
+                                            {{ Form::checkbox($field->field_name, 1, false, ['class' => 'form-check-input', 'id' => $field->field_name, $field->is_required ? 'required' : '']) }}
+                                            {{ Form::label($field->field_name, $field->field_label, ['class' => 'form-check-label']) }}
+                                        </div>
+                                    @elseif ($field->field_type == 'yes_no')
+                                        <div class="form-check form-check-inline">
+                                            {{ Form::radio($field->field_name, 'yes', false, ['class' => 'form-check-input', 'id' => $field->field_name . '_yes', $field->is_required ? 'required' : '']) }}
+                                            {{ Form::label($field->field_name . '_yes', __('Yes'), ['class' => 'form-check-label']) }}
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            {{ Form::radio($field->field_name, 'no', false, ['class' => 'form-check-input', 'id' => $field->field_name . '_no']) }}
+                                            {{ Form::label($field->field_name . '_no', __('No'), ['class' => 'form-check-label']) }}
+                                        </div>
+                                    @elseif ($field->field_type == 'doc')
+                                        {{ Form::file($field->field_name, ['class' => 'form-control', $field->is_required ? 'required' : '']) }}
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb20">
-                            <div class="form-group  col-md-12">
-                                {{ Form::label('email', __('Email'), ['class' => 'form-label']) }}
-                                {{ Form::text('email', null, ['class' => 'form-control', 'placeholder' => __('Enter contact email'), 'required' => 'required']) }}
+                        @endforeach
+                        
+                        @foreach ($customFields as $field)
+                            @php
+                                // Get original type from field_options
+                                $originalType = 'text';
+                                if (!empty($field->field_options)) {
+                                    $options = is_array($field->field_options) ? $field->field_options : json_decode($field->field_options, true);
+                                    if (isset($options['original_type'])) {
+                                        $originalType = $options['original_type'];
+                                    } else {
+                                        // Fallback: map database types
+                                        if ($field->field_type == 'doc') {
+                                            $originalType = 'docs';
+                                        } elseif ($field->field_type == 'input') {
+                                            $originalType = 'text';
+                                        }
+                                    }
+                                } else {
+                                    // Fallback: map database types
+                                    if ($field->field_type == 'doc') {
+                                        $originalType = 'docs';
+                                    } elseif ($field->field_type == 'input') {
+                                        $originalType = 'text';
+                                    }
+                                }
+                            @endphp
+                            <div class="mb20">
+                                <div class="form-group col-md-12">
+                                    {{ Form::label('custom_fields[' . $field->field_name . ']', $field->field_label, ['class' => 'form-label']) }}
+                                    @if ($originalType == 'text')
+                                        {{ Form::text('custom_fields[' . $field->field_name . ']', null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : '']) }}
+                                    @elseif ($originalType == 'number')
+                                        {{ Form::number('custom_fields[' . $field->field_name . ']', null, ['class' => 'form-control', 'placeholder' => __('Enter') . ' ' . strtolower($field->field_label), $field->is_required ? 'required' : '']) }}
+                                    @elseif ($originalType == 'docs')
+                                        {{ Form::file('custom_fields[' . $field->field_name . ']', ['class' => 'form-control', $field->is_required ? 'required' : '']) }}
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb20">
-                            <div class="form-group  col-md-12">
-                                {{ Form::label('contact_number', __('Contact Number'), ['class' => 'form-label']) }}
-                                {{ Form::number('contact_number', null, ['class' => 'form-control', 'placeholder' => __('Enter contact number')]) }}
-                            </div>
-                        </div>
+                        @endforeach
+                        
                         <div class="mb20">
                             <div class="form-group  col-md-12">
                                 {{ Form::label('subject', __('Subject'), ['class' => 'form-label']) }}

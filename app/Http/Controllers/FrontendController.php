@@ -533,7 +533,13 @@ class FrontendController extends Controller
             }
         }
         
-        return view('theme.contact', compact('settings', 'user', 'property', 'propertyId'));
+        // Get Lead Form Fields for this owner
+        $leadFormFields = \App\Models\LeadFormField::where('parent_id', $user->id)
+            ->orderBy('is_default', 'desc')
+            ->orderBy('sort_order', 'asc')
+            ->get();
+        
+        return view('theme.contact', compact('settings', 'user', 'property', 'propertyId', 'leadFormFields'));
     }
 
     public function getStates(Request $request, $code)
@@ -725,8 +731,15 @@ class FrontendController extends Controller
         $field = new LeadFormField();
         $field->field_name = strtolower(str_replace(' ', '_', $request->field_label));
         $field->field_label = $request->field_label;
-        $field->field_type = $request->field_type;
-        $field->field_options = $request->field_type == 'select' ? json_encode($request->field_options) : null;
+        // Map frontend types to database types
+        $fieldTypeMap = [
+            'text' => 'input',
+            'number' => 'input',
+            'docs' => 'doc'
+        ];
+        $field->field_type = $fieldTypeMap[$request->field_type] ?? 'input';
+        // Store the original type for display purposes
+        $field->field_options = json_encode(['original_type' => $request->field_type]);
         $field->is_required = $request->is_required ?? false;
         $field->is_default = false;
         $field->sort_order = $maxSortOrder + 1;
@@ -753,8 +766,7 @@ class FrontendController extends Controller
 
         $validator = \Validator::make($request->all(), [
             'field_label' => 'required|string|max:255',
-            'field_type' => 'required|in:input,doc,checkbox,yes_no,select',
-            'field_options' => 'required_if:field_type,select|array',
+            'field_type' => 'required|in:text,number,docs',
             'is_required' => 'boolean',
         ]);
 
@@ -762,9 +774,17 @@ class FrontendController extends Controller
             return response()->json(['status' => 'error', 'msg' => $validator->messages()->first()], 422);
         }
 
+        // Map frontend types to database types
+        $fieldTypeMap = [
+            'text' => 'input',
+            'number' => 'input',
+            'docs' => 'doc'
+        ];
+        
         $field->field_label = $request->field_label;
-        $field->field_type = $request->field_type;
-        $field->field_options = $request->field_type == 'select' ? json_encode($request->field_options) : null;
+        $field->field_type = $fieldTypeMap[$request->field_type] ?? 'input';
+        // Store the original type for display purposes
+        $field->field_options = json_encode(['original_type' => $request->field_type]);
         $field->is_required = $request->is_required ?? false;
         $field->save();
 

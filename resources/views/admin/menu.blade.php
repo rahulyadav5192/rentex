@@ -123,7 +123,7 @@
                     @endif
                     @if (Gate::check('manage tenant') || Gate::check('manage property') || Gate::check('manage unit'))
                         <li
-                            class="pc-item pc-hasmenu  {{ in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show', 'unit.index', 'unit.show']) ? 'pc-trigger active' : '' }}">
+                            class="pc-item pc-hasmenu  {{ in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show', 'unit.index', 'unit.show', 'enquiry.index', 'enquiry.show', 'enquiry.edit']) ? 'pc-trigger active' : '' }}">
                             <a href="#!" class="pc-link">
                                 <span class="pc-micon">
                                     <i class="ti ti-home"></i>
@@ -132,7 +132,7 @@
                                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="pc-submenu"
-                                style="display: {{ in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show', 'unit.index', 'unit.show']) ? 'block' : 'none' }}">
+                                style="display: {{ in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show', 'unit.index', 'unit.show', 'enquiry.index', 'enquiry.show', 'enquiry.edit']) ? 'block' : 'none' }}">
                                 @if (Gate::check('manage property'))
                                     <li
                                         class="pc-item {{ in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show']) ? 'active' : '' }}">
@@ -144,6 +144,12 @@
                                     <li
                                         class="pc-item {{ in_array($routeName, ['unit.index', 'unit.show']) ? 'active' : '' }}">
                                         <a class="pc-link" href="{{ route('unit.index') }}">{{ __('Units') }}</a>
+                                    </li>
+                                @endif
+                                @if (Gate::check('manage enquiry'))
+                                    <li
+                                        class="pc-item {{ in_array($routeName, ['enquiry.index', 'enquiry.show', 'enquiry.edit']) ? 'active' : '' }}">
+                                        <a class="pc-link" href="{{ route('enquiry.index') }}">{{ __('Enquiry') }}</a>
                                     </li>
                                 @endif
                             </ul>
