@@ -39,7 +39,7 @@
     $Section_0_content_value = !empty($Section_0->content_value) ? json_decode($Section_0->content_value, true) : [];
 @endphp
 
-<nav class="fixed top-0 left-0 right-0 z-50 w-full py-2 sm:py-4 px-3 sm:px-4 lg:px-8" style="position: fixed !important;">
+<nav class="fixed top-0 left-0 right-0 z-50 w-full pt-4 pb-2 sm:pt-6 sm:pb-4 px-3 sm:px-4 lg:px-8" style="position: fixed !important;">
     <div class="max-w-7xl mx-auto bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/40 dark:border-slate-700/50 rounded-full shadow-lg dark:shadow-slate-950/50 flex justify-between items-center px-4 sm:px-6 py-2 sm:py-3 transition-all duration-300">
         <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.location.href='{{ route('web.page', $user->code) }}'">
             @if (!empty($logoUrl1) && $logoUrl1 != asset('logo.png'))

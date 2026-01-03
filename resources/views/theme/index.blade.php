@@ -18,13 +18,13 @@
         <section class="flex-grow flex items-center py-6 sm:py-8 lg:py-20 relative hero-section-mobile" style="overflow: visible;">
             <style>
                 .hero-section-mobile {
-                    padding-top: 100px !important;
-                    min-height: calc(100vh - 100px) !important;
+                    padding-top: 120px !important;
+                    min-height: calc(100vh - 120px) !important;
                 }
                 @media (min-width: 640px) {
                     .hero-section-mobile {
-                        padding-top: 140px !important;
-                        min-height: calc(100vh - 140px) !important;
+                        padding-top: 160px !important;
+                        min-height: calc(100vh - 160px) !important;
                     }
                 }
             </style>
@@ -36,17 +36,17 @@
                 <div class="absolute w-full bg-slate-900/75 dark:bg-slate-900/80 z-0 hero-bg-overlay" style="left: 0; right: 0; height: 100vh; min-height: 100vh;"></div>
                 <style>
                     .hero-bg-image {
-                        top: -80px;
+                        top: -100px;
                     }
                     .hero-bg-overlay {
-                        top: -80px;
+                        top: -100px;
                     }
                     @media (min-width: 640px) {
                         .hero-bg-image {
-                            top: -110px;
+                            top: -130px;
                         }
                         .hero-bg-overlay {
-                            top: -110px;
+                            top: -130px;
                         }
                     }
                 </style>
@@ -150,7 +150,7 @@
                     {{ $Section_1_content_value['Sec1_info'] ?? __('Top reasons this property is a smart investment, curated for long-term growth and comfort.') }}
                 </p>
                         </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" style="    margin-top: 43px;">
                     @for ($is4 = 1; $is4 <= 4; $is4++)
                         @if (
                             !empty($Section_1_content_value['Sec1_box' . $is4 . '_enabled']) &&
@@ -853,8 +853,8 @@
                     </p>
                 </div>
                 @if (!empty($testimonials))
-                    <div class="max-w-4xl mx-auto relative z-10">
-                        <div id="testimonial-carousel" class="glass-card bg-white/70 dark:bg-card-dark/80 shadow-2xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 pb-12 sm:pb-16 md:pb-20 border border-white/20 dark:border-gray-700/50 text-center relative transition-transform duration-500 hover:scale-[1.01]">
+                    <div class="max-w-4xl mx-auto relative z-10" style="margin-top: 43px;">
+                        <div id="testimonial-carousel" class="glass-card bg-white/70 dark:bg-card-dark/80 shadow-2xl rounded-2xl sm:rounded-3xl pt-12 sm:pt-14 md:pt-16 px-6 sm:px-8 md:px-12 pb-12 sm:pb-16 md:pb-20 border border-white/20 dark:border-gray-700/50 text-center relative transition-transform duration-500 hover:scale-[1.01]">
                                 @foreach ($testimonials as $index => $num)
                                 @php
                                     $imagePath = $Section_7_content_value["Sec7_box{$num}_image_path"] ?? '';
@@ -864,12 +864,12 @@
                                     $review = $Section_7_content_value["Sec7_box{$num}_review"] ?? '';
                                 @endphp
                                 <div class="testimonial-item {{ $index === 0 ? '' : 'hidden' }}" data-index="{{ $index }}">
-                                    <div class="absolute top-4 sm:top-6 left-1/2 transform -translate-x-1/2 -mt-8 sm:-mt-10 md:-mt-12 bg-primary text-white w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-background-light dark:border-background-dark">
-                                        <svg class="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primary text-white w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-background-light dark:border-background-dark z-10">
+                                        <svg class="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 lg:h-10 lg:w-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z"></path>
                                         </svg>
                                     </div>
-                                    <div class="mt-6 sm:mt-8 md:mt-10 px-2 sm:px-0">
+                                    <div class="mt-4 sm:mt-6 md:mt-8 px-2 sm:px-0">
                                         <h3 class="text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-800 dark:text-gray-100 leading-relaxed italic">
                                             "{{ $review }}"
                                         </h3>
@@ -888,7 +888,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                        <div class="flex justify-center items-center flex-wrap gap-3 sm:gap-4 mt-6 sm:mt-8">
+                        <div class="flex justify-center items-center flex-wrap gap-2 sm:gap-3 md:gap-4 mt-6 sm:mt-8">
                                     @foreach ($testimonials as $index => $num)
                                         @php
                                             $imagePath = $Section_7_content_value["Sec7_box{$num}_image_path"] ?? '';
@@ -902,7 +902,7 @@
                                         <div class="absolute -inset-1 bg-gradient-to-r from-primary to-green-400 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-200"></div>
                                     @endif
                                     <img alt="{{ $Section_7_content_value["Sec7_box{$num}_name"] ?? 'User ' . ($index + 1) }}" 
-                                         class="relative h-12 w-12 sm:h-14 sm:w-14 rounded-full border-2 border-white dark:border-gray-800 object-cover {{ $index === 0 ? 'ring-2 ring-primary ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark' : 'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300' }}" 
+                                         class="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full border-2 border-white dark:border-gray-800 object-cover {{ $index === 0 ? 'ring-2 ring-primary ring-offset-1 sm:ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark' : 'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300' }}" 
                                          src="{{ $imageUrl }}"
                                          onerror="this.src='{{ asset('assets/images/admin/user.png') }}';">
                                             </button>

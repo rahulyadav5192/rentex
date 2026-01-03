@@ -20,11 +20,11 @@
 
 
 
-        <div class="body_content" style="margin-top: 80px;">
+        <div class="body_content" style="margin-top: 100px;">
             <style>
                 @media (min-width: 640px) {
                     .body_content {
-                        margin-top: 110px !important;
+                        margin-top: 130px !important;
                     }
                 }
             </style>
