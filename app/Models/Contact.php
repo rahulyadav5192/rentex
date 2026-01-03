@@ -13,5 +13,6 @@ class Contact extends Model
         'subject',
         'message',
         'parent_id',
+        'property_id',
     ];
 }

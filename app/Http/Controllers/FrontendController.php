@@ -70,15 +70,44 @@ class FrontendController extends Controller
         
         // Check if Section 9 (Logo & Favicon) exists, if not create it
         $section9 = FrontHomePage::where('parent_id', $parentId)->where('section', 'Section 9')->first();
+        $settings = settings();
+        $appName = !empty($settings['app_name']) ? $settings['app_name'] : env('APP_NAME', 'Rentex');
+        
         if (!$section9) {
             $section9 = new FrontHomePage();
             $section9->title = 'Logo & Favicon';
             $section9->section = 'Section 9';
             $section9->content = '';
-            $section9->content_value = json_encode(['name' => 'Logo & Favicon', 'section_enabled' => 'active', 'logo_path' => '', 'favicon_path' => '']);
+            $section9->content_value = json_encode([
+                'name' => 'Logo & Favicon', 
+                'section_enabled' => 'active', 
+                'application_name' => $appName,
+                'logo_path' => '', 
+                'light_logo_path' => '',
+                'favicon_path' => ''
+            ]);
             $section9->enabled = 1;
             $section9->parent_id = $parentId;
             $section9->save();
+        } else {
+            // Update existing Section 9 to include application_name and light_logo_path if missing
+            $section9_content = !empty($section9->content_value) ? json_decode($section9->content_value, true) : [];
+            $needsUpdate = false;
+            
+            if (empty($section9_content['application_name'])) {
+                $section9_content['application_name'] = $appName;
+                $needsUpdate = true;
+            }
+            
+            if (!isset($section9_content['light_logo_path'])) {
+                $section9_content['light_logo_path'] = '';
+                $needsUpdate = true;
+            }
+            
+            if ($needsUpdate) {
+                $section9->content_value = json_encode($section9_content);
+                $section9->save();
+            }
         }
         
         // Check if Section 10 (Lead Settings) exists, if not create it
@@ -181,6 +210,21 @@ class FrontendController extends Controller
                 $content_value['banner_image1_path'] = 'upload/fronthomepage/' . $fileNameToStore;
             } else {
                 $content_value['banner_image1_path'] = !empty($old_content_value['banner_image1_path']) ? $old_content_value['banner_image1_path'] : '';
+            }
+
+            // Handle background image upload
+            if (!empty($request->content_value['bg_image'])) {
+                $bg_image = $request->content_value['bg_image'];
+                $filenameWithExt = $bg_image->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $bg_image->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_bg_image_' . date('Ymdhisa') . '.' . $extension;
+
+                // Use Storage::disk('public') to save to storage/app/public for web accessibility
+                \Storage::disk('public')->putFileAs('upload/fronthomepage/', $bg_image, $fileNameToStore);
+                $content_value['bg_image_path'] = 'upload/fronthomepage/' . $fileNameToStore;
+            } else {
+                $content_value['bg_image_path'] = !empty($old_content_value['bg_image_path']) ? $old_content_value['bg_image_path'] : '';
             }
         }
 
@@ -285,6 +329,21 @@ class FrontendController extends Controller
         // Check if this is Section 9 by finding the section record
         $section9Record = FrontHomePage::where('parent_id', parentId())->where('section', 'Section 9')->first();
         if ($section9Record && $request->tab == 'profile_tab_' . $section9Record->id) {
+            // Save Application Name
+            if (!empty($request->content_value['application_name'])) {
+                $appName = $request->content_value['application_name'];
+                $content_value['application_name'] = $appName;
+                
+                // Also save to settings table
+                \DB::insert(
+                    'INSERT INTO settings (`value`, `name`, `parent_id`) VALUES (?, ?, ?)
+                 ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [$appName, 'app_name', parentId()]
+                );
+            } else {
+                $content_value['application_name'] = !empty($old_content_value['application_name']) ? $old_content_value['application_name'] : '';
+            }
+            
             if (!empty($request->content_value['logo'])) {
                 $logo = $request->content_value['logo'];
                 $filenameWithExt = $logo->getClientOriginalName();
@@ -296,6 +355,19 @@ class FrontendController extends Controller
                 $content_value['logo_path'] = 'upload/logo/' . $fileNameToStore;
             } else {
                 $content_value['logo_path'] = !empty($old_content_value['logo_path']) ? $old_content_value['logo_path'] : '';
+            }
+
+            if (!empty($request->content_value['light_logo'])) {
+                $lightLogo = $request->content_value['light_logo'];
+                $filenameWithExt = $lightLogo->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $lightLogo->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_light_logo_' . date('Ymdhisa') . '.' . $extension;
+
+                \Storage::disk('public')->putFileAs('upload/logo/', $lightLogo, $fileNameToStore);
+                $content_value['light_logo_path'] = 'upload/logo/' . $fileNameToStore;
+            } else {
+                $content_value['light_logo_path'] = !empty($old_content_value['light_logo_path']) ? $old_content_value['light_logo_path'] : '';
             }
 
             if (!empty($request->content_value['favicon'])) {
@@ -382,18 +454,24 @@ class FrontendController extends Controller
 
 
         $countries = Property::where('parent_id', $user->id)
+            ->whereNotNull('country')
+            ->where('country', '!=', '')
             ->select('country')
             ->distinct()
             ->orderBy('country')
             ->pluck('country');
 
         $states = Property::where('parent_id', $user->id)
+            ->whereNotNull('state')
+            ->where('state', '!=', '')
             ->select('state')
             ->distinct()
             ->orderBy('state')
             ->pluck('state');
 
         $cities = Property::where('parent_id', $user->id)
+            ->whereNotNull('city')
+            ->where('city', '!=', '')
             ->select('city')
             ->distinct()
             ->orderBy('city')
@@ -442,24 +520,44 @@ class FrontendController extends Controller
     {
         $user = User::where('code', $code)->first();
         $settings = settingsById($user->id);
-        return view('theme.contact', compact('settings', 'user'));
+        
+        // Get property_id from query parameter if exists
+        $propertyId = null;
+        $property = null;
+        if ($request->has('property_id')) {
+            try {
+                $propertyId = Crypt::decrypt($request->property_id);
+                $property = Property::where('id', $propertyId)->where('parent_id', $user->id)->first();
+            } catch (\Exception $e) {
+                // Invalid property ID, ignore it
+            }
+        }
+        
+        return view('theme.contact', compact('settings', 'user', 'property', 'propertyId'));
     }
 
     public function getStates(Request $request, $code)
     {
         try {
+            \Log::info('getStates called', [
+                'code' => $code,
+                'country' => $request->input('country'),
+                'all_params' => $request->all()
+            ]);
+            
             $user = User::where('code', $code)->firstOrFail();
             
             $query = Property::where('parent_id', $user->id);
             
             if ($request->filled('country')) {
                 $query->where('country', $request->country);
+                \Log::info('Filtering by country: ' . $request->country);
             }
             
             $states = $query
                 ->whereNotNull('state')
                 ->where('state', '!=', '')
-                ->distinct()
+            ->distinct()
                 ->orderBy('state')
                 ->pluck('state')
                 ->filter(function($value) {
@@ -467,9 +565,17 @@ class FrontendController extends Controller
                 })
                 ->values();
 
-            return response()->json($states->toArray());
+            $statesArray = $states->toArray();
+            \Log::info('States found', [
+                'count' => count($statesArray),
+                'states' => $statesArray
+            ]);
+
+            return response()->json($statesArray);
         } catch (\Exception $e) {
-            \Log::error('Error in getStates: ' . $e->getMessage());
+            \Log::error('Error in getStates: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -477,18 +583,25 @@ class FrontendController extends Controller
     public function getCities(Request $request, $code)
     {
         try {
+            \Log::info('getCities called', [
+                'code' => $code,
+                'state' => $request->input('state'),
+                'all_params' => $request->all()
+            ]);
+            
             $user = User::where('code', $code)->firstOrFail();
             
             $query = Property::where('parent_id', $user->id);
             
             if ($request->filled('state')) {
                 $query->where('state', $request->state);
+                \Log::info('Filtering by state: ' . $request->state);
             }
             
             $cities = $query
                 ->whereNotNull('city')
                 ->where('city', '!=', '')
-                ->distinct()
+            ->distinct()
                 ->orderBy('city')
                 ->pluck('city')
                 ->filter(function($value) {
@@ -496,9 +609,17 @@ class FrontendController extends Controller
                 })
                 ->values();
 
-            return response()->json($cities->toArray());
+            $citiesArray = $cities->toArray();
+            \Log::info('Cities found', [
+                'count' => count($citiesArray),
+                'cities' => $citiesArray
+            ]);
+
+            return response()->json($citiesArray);
         } catch (\Exception $e) {
-            \Log::error('Error in getCities: ' . $e->getMessage());
+            \Log::error('Error in getCities: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -544,6 +665,31 @@ class FrontendController extends Controller
             ? 'No properties available with the selected filters.'
             : '';
 
+        // Load countries, states, and cities for the filter dropdowns
+        $countries = Property::where('parent_id', $user->id)
+            ->whereNotNull('country')
+            ->where('country', '!=', '')
+            ->select('country')
+            ->distinct()
+            ->orderBy('country')
+            ->pluck('country');
+
+        $states = Property::where('parent_id', $user->id)
+            ->whereNotNull('state')
+            ->where('state', '!=', '')
+            ->select('state')
+            ->distinct()
+            ->orderBy('state')
+            ->pluck('state');
+
+        $cities = Property::where('parent_id', $user->id)
+            ->whereNotNull('city')
+            ->where('city', '!=', '')
+            ->select('city')
+            ->distinct()
+            ->orderBy('city')
+            ->pluck('city');
+
         if ($request->ajax() || $request->has('ajax')) {
             return view('theme.propertybox', [
                 'properties' => $properties,
@@ -554,7 +700,7 @@ class FrontendController extends Controller
             ])->render();
         }
 
-        return view('theme.property', compact('user', 'properties', 'settings'));
+        return view('theme.property', compact('user', 'properties', 'settings', 'countries', 'states', 'cities', 'listingTypes', 'noPropertiesMessage'));
     }
 
     public function storeLeadField(Request $request)

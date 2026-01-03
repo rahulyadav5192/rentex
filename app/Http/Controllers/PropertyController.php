@@ -69,7 +69,7 @@ class PropertyController extends Controller
                     'city' => 'required',
                     'zip_code' => 'required',
                     'address' => 'required',
-                    'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
                     'advantages' => 'nullable|array',
                     'advantages.*' => 'exists:advantages,id',
                 ]

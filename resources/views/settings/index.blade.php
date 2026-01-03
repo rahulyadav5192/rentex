@@ -349,44 +349,18 @@
                                         id="general_settings" role="tabpanel" aria-labelledby="general_settings">
                                         {{ Form::model($settings, ['route' => ['setting.general'], 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ Form::label('application_name', __('Application Name'), ['class' => 'form-label']) }}
-                                                    {{ Form::text('application_name', !empty($settings['app_name']) ? $settings['app_name'] : env('APP_NAME'), ['class' => 'form-control', 'placeholder' => __('Enter your application name'), 'required' => 'required']) }}
+                                            <div class="col-md-12">
+                                                <div class="alert alert-info" role="alert">
+                                                    <i class="ti ti-info-circle me-2"></i>
+                                                    {{ __('Application Name, Logo, Favicon, and Light Logo have been moved to') }} 
+                                                    <a href="{{ route('front-home.index') }}" class="alert-link">{{ __('Frontend Settings') }}</a> 
+                                                    {{ __('→ Logo & Favicon section.') }}
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     {{ Form::label('copyright', __('Copyright'), ['class' => 'form-label']) }}
                                                     {{ Form::text('copyright', $settings['copyright'], ['class' => 'form-control', 'placeholder' => __('Enter copyright ')]) }}
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    {{ Form::label('logo', __('Logo'), ['class' => 'form-label']) }}
-                                                    <a href="{{ !empty($main_logo) ? fetch_file($main_logo, 'upload/logo/') : $default_logo }}"
-                                                        target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
-                                                    {{ Form::file('logo', ['class' => 'form-control', 'accept' => 'image/png']) }}
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    {{ Form::label('favicon', __('Favicon'), ['class' => 'form-label']) }}
-                                                    <a href="{{ !empty($main_favicon) ? fetch_file($main_favicon, 'upload/logo/') : $default_favicon }}"
-                                                        target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
-                                                    {{ Form::file('favicon', ['class' => 'form-control', 'accept' => 'image/png']) }}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    {{ Form::label('light_logo', __('Light Logo'), ['class' => 'form-label']) }}
-                                                    <a href="{{ !empty($main_light_logo) ? fetch_file($main_light_logo, 'upload/logo/') : $default_light_logo }}"
-                                                        target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
-                                                    {{ Form::file('light_logo', ['class' => 'form-control', 'accept' => 'image/png']) }}
                                                 </div>
                                             </div>
                                             @if (\Auth::user()->type == 'super admin')

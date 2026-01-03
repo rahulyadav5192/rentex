@@ -8,58 +8,85 @@
             : [];
     ?>
     <?php if(empty($Section_0_content_value['section_enabled']) || $Section_0_content_value['section_enabled'] == 'active'): ?>
-        <section class="flex-grow flex items-center py-8 lg:py-20" style="padding-top: 140px !important; min-height: calc(100vh - 140px);">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                    <div class="flex flex-col space-y-8 max-w-2xl">
-                        <h1 class="text-5xl lg:text-6xl xl:text-7xl font-display font-extrabold text-slate-900 dark:text-white leading-[1.1] tracking-tight">
-                            <?php
-                                $title = $Section_0_content_value['title'] ?? 'Owner Rentex';
-                                $titleParts = explode(' ', $title);
-                                $firstPart = $titleParts[0] ?? 'Owner';
-                                $restParts = implode(' ', array_slice($titleParts, 1));
-                            ?>
-                            <?php echo e($firstPart); ?> <br/>
-                            
+        <?php
+            $bgImageUrl = null;
+            if (!empty($Section_0_content_value['bg_image_path'])) {
+                $bgImageUrl = fetch_file(basename($Section_0_content_value['bg_image_path']), 'upload/fronthomepage/');
+            }
+        ?>
+        <section class="flex-grow flex items-center py-6 sm:py-8 lg:py-20 relative hero-section-mobile" style="overflow: visible;">
+            <style>
+                .hero-section-mobile {
+                    padding-top: 100px !important;
+                    min-height: calc(100vh - 100px) !important;
+                }
+                @media (min-width: 640px) {
+                    .hero-section-mobile {
+                        padding-top: 140px !important;
+                        min-height: calc(100vh - 140px) !important;
+                    }
+                }
+            </style>
+            <?php if($bgImageUrl): ?>
+                <!-- Full screen background image - extends behind header to full viewport -->
+                <!-- Account for body_content margin-top (80px mobile, 110px desktop) to reach viewport top, and extend to full height -->
+                <div class="absolute w-full z-0 hero-bg-image" style="background-image: url('<?php echo e($bgImageUrl); ?>'); background-size: cover; background-position: center; background-repeat: no-repeat; left: 0; right: 0; height: 100vh; min-height: 100vh;"></div>
+                <!-- Dark overlay with increased opacity (75% light, 80% dark) -->
+                <div class="absolute w-full bg-slate-900/75 dark:bg-slate-900/80 z-0 hero-bg-overlay" style="left: 0; right: 0; height: 100vh; min-height: 100vh;"></div>
+                <style>
+                    .hero-bg-image {
+                        top: -80px;
+                    }
+                    .hero-bg-overlay {
+                        top: -80px;
+                    }
+                    @media (min-width: 640px) {
+                        .hero-bg-image {
+                            top: -110px;
+                        }
+                        .hero-bg-overlay {
+                            top: -110px;
+                        }
+                    }
+                </style>
+            <?php endif; ?>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+                    <div class="flex flex-col space-y-6 md:space-y-8 max-w-2xl order-1">
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-extrabold <?php echo e($bgImageUrl ? 'text-white' : 'text-slate-900 dark:text-white'); ?> leading-[1.1] tracking-tight">
+                            <?php echo e($Section_0_content_value['title'] ?? 'Owner Rentex'); ?>
+
                         </h1>
-                        <p class="text-lg lg:text-xl text-slate-500 dark:text-slate-400 leading-relaxed font-light">
+                        <p class="text-base sm:text-lg lg:text-xl <?php echo e($bgImageUrl ? 'text-slate-200' : 'text-slate-500 dark:text-slate-400'); ?> leading-relaxed font-light">
                             <?php echo e($Section_0_content_value['sub_title'] ?? 'Experience the most extensive and thorough real-estate management platform. Streamline your property workflow, from tenant screening to maintenance requests. Boost your portfolio\'s performance with our comprehensive suite of tools designed for modern owners.'); ?>
 
                         </p>
-                        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <div class="flex flex-row gap-2 sm:gap-3 md:gap-4 pt-2 sm:pt-4">
                             <?php if(!empty($Section_0_content_value['btn_name'])): ?>
-                                <a class="inline-flex justify-center items-center px-8 py-4 bg-primary text-white text-base font-semibold rounded-full shadow-glow hover:bg-orange-600 transition-all duration-300 transform hover:-translate-y-1" 
+                                <a class="inline-flex justify-center items-center flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-primary text-white text-xs sm:text-sm md:text-base font-semibold rounded-full shadow-glow hover:bg-orange-600 transition-all duration-300 transform hover:-translate-y-1 whitespace-nowrap" 
                                    href="<?php echo e($Section_0_content_value['btn_link'] ?? route('property.home', ['code' => $user->code])); ?>">
-                                    <?php echo e($Section_0_content_value['btn_name']); ?>
-
-                                    <span class="material-icons-round ml-2 text-lg">arrow_forward</span>
+                                    <span class="hidden sm:inline"><?php echo e($Section_0_content_value['btn_name']); ?></span>
+                                    <span class="sm:hidden"><?php echo e(__('Explore')); ?></span>
+                                    <span class="material-icons-round ml-1 sm:ml-2 text-sm sm:text-base md:text-lg">arrow_forward</span>
                                 </a>
                             <?php else: ?>
-                                <a class="inline-flex justify-center items-center px-8 py-4 bg-primary text-white text-base font-semibold rounded-full shadow-glow hover:bg-orange-600 transition-all duration-300 transform hover:-translate-y-1" 
+                                <a class="inline-flex justify-center items-center flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-primary text-white text-xs sm:text-sm md:text-base font-semibold rounded-full shadow-glow hover:bg-orange-600 transition-all duration-300 transform hover:-translate-y-1 whitespace-nowrap" 
                                    href="<?php echo e(route('property.home', ['code' => $user->code])); ?>">
-                                    <?php echo e(__('Explore Properties')); ?>
-
-                                    <span class="material-icons-round ml-2 text-lg">arrow_forward</span>
+                                    <span class="hidden sm:inline"><?php echo e(__('Explore Properties')); ?></span>
+                                    <span class="sm:hidden"><?php echo e(__('Explore')); ?></span>
+                                    <span class="material-icons-round ml-1 sm:ml-2 text-sm sm:text-base md:text-lg">arrow_forward</span>
                                 </a>
                             <?php endif; ?>
-                            <a class="inline-flex justify-center items-center px-8 py-4 border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-base font-semibold rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300" 
+                            <a class="inline-flex justify-center items-center flex-1 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 border-2 <?php echo e($bgImageUrl ? 'border-white/30 text-white hover:bg-white/10' : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'); ?> text-xs sm:text-sm md:text-base font-semibold rounded-full transition-all duration-300 whitespace-nowrap" 
                                href="<?php echo e(route('contact.home', ['code' => $user->code])); ?>">
                                 <?php echo e(__('Contact Us')); ?>
 
                             </a>
                         </div>
-                        <div class="pt-8 flex items-center gap-6 text-slate-400 dark:text-slate-500 text-sm font-medium">
-                            <span><?php echo e(__('Trusted by 2,000+ Owners')); ?></span>
-                            <div class="h-1 w-1 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
-                            <div class="flex -space-x-2">
-                                <div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 border-2 border-white dark:border-background-dark"></div>
-                                <div class="h-8 w-8 rounded-full bg-slate-300 dark:bg-slate-600 border-2 border-white dark:border-background-dark"></div>
-                                <div class="h-8 w-8 rounded-full bg-slate-400 dark:bg-slate-500 border-2 border-white dark:border-background-dark flex items-center justify-center text-[10px] text-white font-bold bg-gradient-to-br from-slate-400 to-slate-500">+2k</div>
-                            </div>
-                        </div>
+                        
                     </div>
-                    <div class="relative group">
-                        <div class="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2.5rem] blur-2xl opacity-50 dark:opacity-30 group-hover:opacity-75 transition duration-500"></div>
+                    <div class="relative group order-2 mb-6 lg:mb-0">
+                        <div class="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2.5rem] blur-2xl opacity-50 dark:opacity-30 group-hover:opacity-75 transition duration-500"></div>
                         <div class="relative overflow-hidden rounded-[2rem] shadow-2xl dark:shadow-black/50 aspect-[4/3] lg:aspect-square xl:aspect-[4/3]">
                             <?php if(!empty($Section_0_content_value['banner_image1_path'])): ?>
                                 <?php
@@ -78,13 +105,7 @@
                                     </div>
                                 <?php endif; ?>
                             </div>
-                            <div class="absolute bottom-6 left-6 right-6 bg-white/10 dark:bg-slate-900/40 backdrop-blur-md border border-white/20 p-4 rounded-xl flex items-center justify-between">
-                                <div>
-                                    <p class="text-white text-sm font-semibold"><?php echo e(__('Modern Property Series')); ?></p>
-                                    <p class="text-white/80 text-xs"><?php echo e($user->city ?? __('Premium Location')); ?></p>
-                                </div>
-                                <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-orange-500/20"><?php echo e(__('New')); ?></span>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -108,18 +129,18 @@
         ];
     ?>
     <?php if(empty($Section_1_content_value['section_enabled']) || $Section_1_content_value['section_enabled'] == 'active'): ?>
-        <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-text-main-light dark:text-text-main-dark mb-4 tracking-tight">
+        <section class="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="text-center mb-10 sm:mb-12 lg:mb-16">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-text-main-light dark:text-text-main-dark mb-3 sm:mb-4 tracking-tight">
                     <?php echo e($Section_1_content_value['Sec1_title'] ?? __('Property Highlights')); ?>
 
                 </h2>
-                <p class="text-lg text-text-muted-light dark:text-text-muted-dark max-w-2xl mx-auto">
+                <p class="text-base sm:text-lg text-text-muted-light dark:text-text-muted-dark max-w-2xl mx-auto px-2 sm:px-0">
                     <?php echo e($Section_1_content_value['Sec1_info'] ?? __('Top reasons this property is a smart investment, curated for long-term growth and comfort.')); ?>
 
                 </p>
                         </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                     <?php for($is4 = 1; $is4 <= 4; $is4++): ?>
                         <?php if(
                             !empty($Section_1_content_value['Sec1_box' . $is4 . '_enabled']) &&
@@ -145,23 +166,23 @@
                             $bgClass = $bgColorClasses[$iconColor] ?? $bgColorClasses['gray'];
                             $iconClass = $iconColorClasses[$iconColor] ?? $iconColorClasses['gray'];
                         ?>
-                        <div class="group bg-surface-light dark:bg-surface-dark rounded-2xl p-8 shadow-soft hover:shadow-soft-hover transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 dark:border-gray-700">
-                            <div class="w-16 h-16 rounded-full <?php echo e($bgClass); ?> flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <div class="group bg-surface-light dark:bg-surface-dark rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-soft-hover transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 dark:border-gray-700">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full <?php echo e($bgClass); ?> flex items-center justify-center mb-4 sm:mb-6 mx-auto sm:mx-0 group-hover:scale-110 transition-transform duration-300">
                                 <?php if(!empty($Section_1_content_value['Sec1_box' . $is4 . '_image_path'])): ?>
                                     <img src="<?php echo e(fetch_file(basename($Section_1_content_value['Sec1_box' . $is4 . '_image_path']), 'upload/fronthomepage/')); ?>"
                                          alt="<?php echo e($Section_1_content_value['Sec1_box' . $is4 . '_title'] ?? ''); ?>"
-                                         class="w-12 h-12 object-contain"
+                                         class="w-10 h-10 sm:w-12 sm:h-12 object-contain"
                                          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                    <span class="material-icons-outlined text-3xl <?php echo e($iconClass); ?>" style="display: none;"><?php echo e($iconData['icon']); ?></span>
+                                    <span class="material-icons-outlined text-2xl sm:text-3xl <?php echo e($iconClass); ?>" style="display: none;"><?php echo e($iconData['icon']); ?></span>
                                 <?php else: ?>
-                                    <span class="material-icons-outlined text-3xl <?php echo e($iconClass); ?>"><?php echo e($iconData['icon']); ?></span>
+                                    <span class="material-icons-outlined text-2xl sm:text-3xl <?php echo e($iconClass); ?>"><?php echo e($iconData['icon']); ?></span>
                                 <?php endif; ?>
                                     </div>
-                            <h3 class="text-xl font-bold mb-3 text-text-main-light dark:text-text-main-dark">
+                            <h3 class="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-text-main-light dark:text-text-main-dark text-center sm:text-left">
                                 <?php echo e($Section_1_content_value['Sec1_box' . $is4 . '_title'] ?? ''); ?>
 
                             </h3>
-                            <p class="text-text-muted-light dark:text-text-muted-dark leading-relaxed text-sm">
+                            <p class="text-text-muted-light dark:text-text-muted-dark leading-relaxed text-sm text-center sm:text-left">
                                 <?php echo e($Section_1_content_value['Sec1_box' . $is4 . '_info'] ?? ''); ?>
 
                             </p>
@@ -688,11 +709,7 @@
     ?>
     <?php if(empty($Section_6_content_value['section_enabled']) || $Section_6_content_value['section_enabled'] == 'active'): ?>
         <div class="relative w-full overflow-hidden mt-12">
-            <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-10 rotate-180">
-                <svg class="relative block w-[calc(100%+1.3px)] h-[60px] fill-background-light dark:fill-background-dark" data-name="Layer 1" preserveAspectRatio="none" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
-                </svg>
-            </div>
+            
             <section class="gradient-bg relative pt-24 pb-24 px-6 md:px-12 lg:px-20">
                 <div class="absolute top-1/4 right-0 w-96 h-96 bg-blue-300/30 dark:bg-blue-600/20 rounded-full blur-3xl -mr-20 pointer-events-none"></div>
                 <div class="absolute bottom-0 left-10 w-72 h-72 bg-emerald-300/30 dark:bg-emerald-600/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -829,29 +846,29 @@
             }
         ?>
     <?php if(empty($Section_7_content_value['section_enabled']) || $Section_7_content_value['section_enabled'] == 'active'): ?>
-        <section class="relative py-20 lg:py-32 overflow-hidden">
+        <section class="relative py-12 sm:py-16 lg:py-20 xl:py-32 overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
                 <div class="absolute top-10 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl mix-blend-multiply dark:mix-blend-lighten animate-blob"></div>
                 <div class="absolute bottom-10 right-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl mix-blend-multiply dark:mix-blend-lighten animate-blob animation-delay-2000"></div>
                         </div>
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <span class="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-semibold text-xs tracking-wider uppercase mb-4">
+                <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12 lg:mb-16">
+                    <span class="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-semibold text-xs tracking-wider uppercase mb-3 sm:mb-4">
                         <?php echo e(__('Testimonials')); ?>
 
                     </span>
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
                         <?php echo e($Section_7_content_value['Sec7_title'] ?? __('Trusted by Property Owners & Managers')); ?>
 
                     </h2>
-                    <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed px-2 sm:px-0">
                         <?php echo e($Section_7_content_value['Sec7_info'] ?? __('Interdum et malesuada fames ac ante ipsum. Join thousands of landlords simplifying their workflow today.')); ?>
 
                     </p>
                 </div>
                 <?php if(!empty($testimonials)): ?>
                     <div class="max-w-4xl mx-auto relative z-10">
-                        <div id="testimonial-carousel" class="glass-card bg-white/70 dark:bg-card-dark/80 shadow-2xl rounded-3xl p-8 md:p-12 pb-16 md:pb-20 border border-white/20 dark:border-gray-700/50 text-center relative transition-transform duration-500 hover:scale-[1.01]">
+                        <div id="testimonial-carousel" class="glass-card bg-white/70 dark:bg-card-dark/80 shadow-2xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 pb-12 sm:pb-16 md:pb-20 border border-white/20 dark:border-gray-700/50 text-center relative transition-transform duration-500 hover:scale-[1.01]">
                                 <?php $__currentLoopData = $testimonials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $num): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php
                                     $imagePath = $Section_7_content_value["Sec7_box{$num}_image_path"] ?? '';
@@ -861,22 +878,22 @@
                                     $review = $Section_7_content_value["Sec7_box{$num}_review"] ?? '';
                                 ?>
                                 <div class="testimonial-item <?php echo e($index === 0 ? '' : 'hidden'); ?>" data-index="<?php echo e($index); ?>">
-                                    <div class="absolute top-6 left-1/2 transform -translate-x-1/2 -mt-10 md:-mt-12 bg-primary text-white w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-background-light dark:border-background-dark">
-                                        <svg class="h-8 w-8 md:h-10 md:w-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <div class="absolute top-4 sm:top-6 left-1/2 transform -translate-x-1/2 -mt-8 sm:-mt-10 md:-mt-12 bg-primary text-white w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-background-light dark:border-background-dark">
+                                        <svg class="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z"></path>
                                         </svg>
                                     </div>
-                                    <div class="mt-8 md:mt-10">
-                                        <h3 class="text-xl md:text-2xl font-medium text-gray-800 dark:text-gray-100 leading-relaxed italic">
+                                    <div class="mt-6 sm:mt-8 md:mt-10 px-2 sm:px-0">
+                                        <h3 class="text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-800 dark:text-gray-100 leading-relaxed italic">
                                             "<?php echo e($review); ?>"
                                         </h3>
                                     </div>
-                                    <div class="mt-8 flex flex-col items-center">
-                                        <div class="text-lg font-bold text-gray-900 dark:text-white font-display"><?php echo e($name); ?></div>
-                                        <div class="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide"><?php echo e($tag); ?></div>
+                                    <div class="mt-6 sm:mt-8 flex flex-col items-center">
+                                        <div class="text-base sm:text-lg font-bold text-gray-900 dark:text-white font-display"><?php echo e($name); ?></div>
+                                        <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide mt-1"><?php echo e($tag); ?></div>
                                         <div class="flex gap-1 text-yellow-400 mt-2">
                                             <?php for($i = 0; $i < 5; $i++): ?>
-                                                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                                                <svg class="w-4 h-4 sm:w-5 sm:h-5 fill-current" viewBox="0 0 20 20">
                                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                                                 </svg>
                                             <?php endfor; ?>
@@ -885,7 +902,7 @@
                                     </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
-                        <div class="flex justify-center items-center space-x-4 mt-8">
+                        <div class="flex justify-center items-center flex-wrap gap-3 sm:gap-4 mt-6 sm:mt-8">
                                     <?php $__currentLoopData = $testimonials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $num): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php
                                             $imagePath = $Section_7_content_value["Sec7_box{$num}_image_path"] ?? '';
@@ -899,7 +916,7 @@
                                         <div class="absolute -inset-1 bg-gradient-to-r from-primary to-green-400 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-200"></div>
                                     <?php endif; ?>
                                     <img alt="<?php echo e($Section_7_content_value["Sec7_box{$num}_name"] ?? 'User ' . ($index + 1)); ?>" 
-                                         class="relative h-14 w-14 rounded-full border-2 border-white dark:border-gray-800 object-cover <?php echo e($index === 0 ? 'ring-2 ring-primary ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark' : 'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300'); ?>" 
+                                         class="relative h-12 w-12 sm:h-14 sm:w-14 rounded-full border-2 border-white dark:border-gray-800 object-cover <?php echo e($index === 0 ? 'ring-2 ring-primary ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark' : 'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300'); ?>" 
                                          src="<?php echo e($imageUrl); ?>"
                                          onerror="this.src='<?php echo e(asset('assets/images/admin/user.png')); ?>';">
                                             </button>

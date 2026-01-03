@@ -20,7 +20,14 @@
 
 
 
-        <div class="body_content" style="margin-top: 110px;">
+        <div class="body_content" style="margin-top: 80px;">
+            <style>
+                @media (min-width: 640px) {
+                    .body_content {
+                        margin-top: 110px !important;
+                    }
+                }
+            </style>
             @yield('content')
 
             <a class="scrollToHome" href="#"><i class="fas fa-angle-up"></i></a>

@@ -122,11 +122,10 @@ class SettingController extends Controller
         $parentId = parentId(); // Assume 1 for super admin
 
         $validator = \Validator::make($request->all(), [
-            'application_name' => 'required',
+            // Removed application_name validation as it's moved to front-home
         ]);
 
-        $fileFields = ['logo', 'favicon', 'light_logo', 'landing_logo'];
-
+        $fileFields = ['landing_logo']; // Removed logo, favicon, light_logo as they're moved to front-home
 
         // Add file validation for each file field
         foreach ($fileFields as $field) {
@@ -139,17 +138,6 @@ class SettingController extends Controller
             return redirect()->back()->with('error', $validator->getMessageBag()->first());
         }
 
-        // Save App Name
-        if (!empty($request->application_name)) {
-            Custom::setCommon(['APP_NAME' => $request->application_name]);
-
-            \DB::insert(
-                'INSERT INTO settings (`value`, `name`, `parent_id`) VALUES (?, ?, ?)
-             ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
-                [$request->application_name, 'app_name', $parentId]
-            );
-        }
-
         // Save Copyright
         if (!empty($request->copyright)) {
             \DB::insert(
@@ -159,7 +147,7 @@ class SettingController extends Controller
             );
         }
 
-        // Upload and store logo file names in DB
+        // Upload and store logo file names in DB (only landing_logo now)
         foreach ($fileFields as $key => $field) {
             if ($request->hasFile($field)) {
 

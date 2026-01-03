@@ -2,7 +2,22 @@
     $DefaultCustomPage = DefaultCustomPage();
     $admin_logo = getSettingsValByName('company_logo');
     $settings = settings();
-    $lightLogo = getSettingsValByName('light_logo');
+    
+    // Get light logo from Section 9 (Logo & Favicon) first, then fall back to settings
+    $lightLogo = null;
+    $section9 = \App\Models\FrontHomePage::where('parent_id', parentId())->where('section', 'Section 9')->first();
+    if ($section9 && !empty($section9->content_value)) {
+        $section9_content = json_decode($section9->content_value, true);
+        $lightLogoPath = !empty($section9_content['light_logo_path']) ? $section9_content['light_logo_path'] : '';
+        if (!empty($lightLogoPath)) {
+            $lightLogo = basename($lightLogoPath);
+        }
+    }
+    
+    // Fall back to settings if not found in Section 9
+    if (empty($lightLogo)) {
+        $lightLogo = getSettingsValByName('light_logo');
+    }
 @endphp
 <footer class="pc-footer">
     <div class="footer-wrapper container-fluid">

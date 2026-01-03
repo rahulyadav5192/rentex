@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class ContactController extends Controller
 {
@@ -116,8 +117,6 @@ class ContactController extends Controller
     }
     public function frontDetailStore(Request $request, $code)
     {
-
-
         $user = User::where('code', $code)->first();
         $validator = \Validator::make(
             $request->all(),
@@ -140,6 +139,21 @@ class ContactController extends Controller
         $contact->subject = $request->subject;
         $contact->message = $request->message;
         $contact->parent_id = $user->id;
+        
+        // Store property_id if provided
+        if ($request->filled('property_id')) {
+            try {
+                $propertyId = Crypt::decrypt($request->property_id);
+                // Verify property belongs to this user
+                $property = \App\Models\Property::where('id', $propertyId)->where('parent_id', $user->id)->first();
+                if ($property) {
+                    $contact->property_id = $propertyId;
+                }
+            } catch (\Exception $e) {
+                // Invalid property ID, ignore it
+            }
+        }
+        
         $contact->save();
 
         return redirect()->back()->with('success', __('Contact successfully created.'));

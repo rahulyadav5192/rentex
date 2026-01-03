@@ -116,9 +116,20 @@
 
                                                     <div class="col-md-4 form-group">
                                                         {{ Form::label('banner_image1', __('Main Image'), ['class' => 'form-label']) }}
-                                                        <a href="{{ asset(Storage::url($section->content_value['banner_image1_path'])) }}"
-                                                            target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                        @if (!empty($section->content_value['banner_image1_path']))
+                                                            <a href="{{ fetch_file(basename($section->content_value['banner_image1_path']), 'upload/fronthomepage/') }}"
+                                                                target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                        @endif
                                                         {{ Form::file('content_value[banner_image1]', ['class' => 'form-control']) }}
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        {{ Form::label('bg_image', __('Background Image'), ['class' => 'form-label']) }}
+                                                        @if (!empty($section->content_value['bg_image_path']))
+                                                            <a href="{{ fetch_file(basename($section->content_value['bg_image_path']), 'upload/fronthomepage/') }}"
+                                                                target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                        @endif
+                                                        {{ Form::file('content_value[bg_image]', ['class' => 'form-control']) }}
+                                                        <small class="form-text text-muted">{{ __('Background image for hero section with dark overlay') }}</small>
                                                     </div>
                                                 @endif
 
@@ -406,12 +417,20 @@
                                                 @endif
 
                                                 @if ($section->section == 'Section 9')
+                                                    @php
+                                                        $settings = settings();
+                                                    @endphp
                                                     <div class="col-md-6 form-group">
                                                         {{ Form::label('enabled_email', __('Section Enabled'), ['class' => 'form-label']) }}
                                                         <div class="form-check form-switch">
                                                             {{ Form::hidden('content_value[section_enabled]', 'deactive') }}
                                                             {{ Form::checkbox('content_value[section_enabled]', 'active', !empty($section->content_value['section_enabled']) && $section->content_value['section_enabled'] == 'active' ? true : false, ['class' => 'form-check-input', 'role' => 'switch', 'id' => 'section_enabled']) }}
                                                         </div>
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        {{ Form::label('application_name', __('Application Name'), ['class' => 'form-label']) }}
+                                                        {{ Form::text('content_value[application_name]', !empty($settings['app_name']) ? $settings['app_name'] : env('APP_NAME'), ['class' => 'form-control', 'placeholder' => __('Enter your application name'), 'required' => 'required']) }}
+                                                        <small class="form-text text-muted">{{ __('This name will appear in the footer and other places') }}</small>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         {{ Form::label('logo', __('Logo'), ['class' => 'form-label']) }}
@@ -422,6 +441,16 @@
                                                         @endif
                                                         {{ Form::file('content_value[logo]', ['class' => 'form-control', 'accept' => 'image/*']) }}
                                                         <small class="form-text text-muted">{{ __('Recommended size: 200x50px or similar aspect ratio') }}</small>
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        {{ Form::label('light_logo', __('Light Logo'), ['class' => 'form-label']) }}
+                                                        @if (!empty($section->content_value['light_logo_path']))
+                                                            <a href="{{ fetch_file(basename($section->content_value['light_logo_path']), 'upload/logo/') }}" target="_blank">
+                                                                <i class="ti ti-eye ms-2 f-15"></i>
+                                                            </a>
+                                                        @endif
+                                                        {{ Form::file('content_value[light_logo]', ['class' => 'form-control', 'accept' => 'image/*']) }}
+                                                        <small class="form-text text-muted">{{ __('Light logo for admin footer (Recommended size: 200x50px)') }}</small>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         {{ Form::label('favicon', __('Favicon'), ['class' => 'form-label']) }}

@@ -113,10 +113,10 @@
                         <select class="custom-select w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-text-main-light dark:text-text-main-dark rounded-lg py-3.5 pl-4 pr-10 focus:ring-2 focus:ring-accent focus:border-accent dark:focus:border-accent transition-all duration-200 outline-none cursor-pointer hover:border-gray-400 dark:hover:border-gray-500" 
                                 id="state" 
                                 name="state">
-                            <option disabled selected value=""><?php echo e(__('Select State')); ?></option>
-                            <?php if(request('state')): ?>
-                                <option value="<?php echo e(request('state')); ?>" selected><?php echo e(request('state')); ?></option>
-                            <?php endif; ?>
+                                    <option value=""><?php echo e(__('Select State')); ?></option>
+                            <?php $__currentLoopData = $states; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $state): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($state); ?>" <?php echo e(request('state') == $state ? 'selected' : ''); ?>><?php echo e($state); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                         </div>
@@ -131,10 +131,10 @@
                         <select class="custom-select w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark text-text-main-light dark:text-text-main-dark rounded-lg py-3.5 pl-4 pr-10 focus:ring-2 focus:ring-accent focus:border-accent dark:focus:border-accent transition-all duration-200 outline-none cursor-pointer hover:border-gray-400 dark:hover:border-gray-500" 
                                 id="city" 
                                 name="city">
-                            <option disabled selected value=""><?php echo e(__('Select City')); ?></option>
-                            <?php if(request('city')): ?>
-                                <option value="<?php echo e(request('city')); ?>" selected><?php echo e(request('city')); ?></option>
-                            <?php endif; ?>
+                                    <option value=""><?php echo e(__('Select City')); ?></option>
+                            <?php $__currentLoopData = $cities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $city): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($city); ?>" <?php echo e(request('city') == $city ? 'selected' : ''); ?>><?php echo e($city); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                         </div>
@@ -205,109 +205,6 @@
 
     <script>
         $(document).ready(function () {
-            // Function to load states
-            function loadStates(country, selectedState) {
-                if (!country || country === '' || country === null) {
-                    $('#state').html('<option value="">Select State</option>');
-                    $('#city').html('<option value="">Select City</option>');
-                    return;
-                }
-                
-                $('#state').html('<option>Loading...</option>');
-                $('#city').html('<option value="">Select City</option>');
-
-                var url = "<?php echo e(route('get-states', ['code' => $user->code])); ?>";
-                console.log('Loading states for country:', country, 'URL:', url, 'Full URL with params:', url + '?country=' + encodeURIComponent(country));
-
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    data: { country: country },
-                    dataType: 'json',
-                    cache: false,
-                    success: function (res) {
-                        console.log('States response received:', res, 'Type:', typeof res, 'Is Array:', Array.isArray(res));
-                        $('#state').empty().append('<option value="">Select State</option>');
-                        if (res && Array.isArray(res) && res.length > 0) {
-                            $.each(res, function (index, value) {
-                                if (value && value.trim() !== '') { // Only add non-null, non-empty values
-                                    var selected = (selectedState && value == selectedState) ? 'selected' : '';
-                                    $('#state').append('<option value="' + value + '" ' + selected + '>' + value + '</option>');
-                                }
-                            });
-                            console.log('States populated successfully. Count:', res.length);
-                            
-                            // If state was selected, load cities
-                            if (selectedState && selectedState !== '') {
-                                loadCities(selectedState, '<?php echo e(request("city")); ?>');
-                            }
-                        } else {
-                            console.warn('No states found for country:', country, 'Response:', res);
-                            $('#state').html('<option value="">No states found</option>');
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('AJAX Error loading states:', {
-                            status: status,
-                            error: error,
-                            responseText: xhr.responseText,
-                            statusCode: xhr.status,
-                            readyState: xhr.readyState
-                        });
-                        $('#state').html('<option value="">Error loading states</option>');
-                        // Don't show alert, just log to console
-                    }
-                });
-            }
-
-            // Function to load cities
-            function loadCities(state, selectedCity) {
-                if (!state || state === '' || state === null) {
-                    $('#city').html('<option value="">Select City</option>');
-                    return;
-                }
-                
-                $('#city').html('<option>Loading...</option>');
-
-                var url = "<?php echo e(route('get-cities', ['code' => $user->code])); ?>";
-                console.log('Loading cities for state:', state, 'URL:', url, 'Full URL with params:', url + '?state=' + encodeURIComponent(state));
-
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    data: { state: state },
-                    dataType: 'json',
-                    cache: false,
-                    success: function (res) {
-                        console.log('Cities response received:', res, 'Type:', typeof res, 'Is Array:', Array.isArray(res));
-                        $('#city').empty().append('<option value="">Select City</option>');
-                        if (res && Array.isArray(res) && res.length > 0) {
-                            $.each(res, function (index, value) {
-                                if (value && value.trim() !== '') { // Only add non-null, non-empty values
-                                    var selected = (selectedCity && value == selectedCity) ? 'selected' : '';
-                                    $('#city').append('<option value="' + value + '" ' + selected + '>' + value + '</option>');
-                                }
-                            });
-                            console.log('Cities populated successfully. Count:', res.length);
-                        } else {
-                            console.warn('No cities found for state:', state, 'Response:', res);
-                            $('#city').html('<option value="">No cities found</option>');
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('AJAX Error loading cities:', {
-                            status: status,
-                            error: error,
-                            responseText: xhr.responseText,
-                            statusCode: xhr.status,
-                            readyState: xhr.readyState
-                        });
-                        $('#city').html('<option value="">Error loading cities</option>');
-                        // Don't show alert, just log to console
-                    }
-                });
-            }
-
             // Form submission with AJAX
             $('#package_filter').on('submit', function(e) {
                 e.preventDefault();
@@ -331,39 +228,6 @@
                         alert('Something went wrong.');
                     }
                 });
-            });
-
-            // Country -> State
-            $(document).on('change', '#country', function () {
-                var country = $(this).val();
-                console.log('Country changed to:', country, 'Type:', typeof country);
-                if (country && country !== '') {
-                    loadStates(country, null);
-                } else {
-                    $('#state').html('<option value="">Select State</option>');
-                    $('#city').html('<option value="">Select City</option>');
-                }
-            });
-            
-            // Also trigger on page load if country is already selected
-            $(document).ready(function() {
-                var initialCountry = $('#country').val();
-                if (initialCountry && initialCountry !== '') {
-                    console.log('Initial country found:', initialCountry);
-                    var initialState = '<?php echo e(request("state")); ?>';
-                    loadStates(initialCountry, initialState);
-                }
-            });
-
-            // State -> City
-            $(document).on('change', '#state', function () {
-                var state = $(this).val();
-                console.log('State changed to:', state);
-                if (state) {
-                    loadCities(state, null);
-                } else {
-                    $('#city').html('<option value="">Select City</option>');
-                }
             });
 
             $('#reset_button').on('click', function(e) {

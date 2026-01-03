@@ -25,6 +25,14 @@
                     @endif
 
                     <div class="log-reg-form search-modal form-style1 bgc-white p50 p30-sm default-box-shadow1 bdrs12">
+                        @if (!empty($propertyId))
+                            {{ Form::hidden('property_id', \Crypt::encrypt($propertyId)) }}
+                            @if (!empty($property))
+                                <div class="alert alert-info mb-3" role="alert">
+                                    <strong>{{ __('Inquiry about:') }}</strong> {{ ucfirst($property->name) }}
+                                </div>
+                            @endif
+                        @endif
                         <div class="mb20">
                             <div class="form-group  col-md-12">
                                 {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}

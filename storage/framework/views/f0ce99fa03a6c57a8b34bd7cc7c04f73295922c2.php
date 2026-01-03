@@ -24,6 +24,16 @@
                     <?php endif; ?>
 
                     <div class="log-reg-form search-modal form-style1 bgc-white p50 p30-sm default-box-shadow1 bdrs12">
+                        <?php if(!empty($propertyId)): ?>
+                            <?php echo e(Form::hidden('property_id', \Crypt::encrypt($propertyId))); ?>
+
+                            <?php if(!empty($property)): ?>
+                                <div class="alert alert-info mb-3" role="alert">
+                                    <strong><?php echo e(__('Inquiry about:')); ?></strong> <?php echo e(ucfirst($property->name)); ?>
+
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
                         <div class="mb20">
                             <div class="form-group  col-md-12">
                                 <?php echo e(Form::label('name', __('Name'), ['class' => 'form-label'])); ?>
