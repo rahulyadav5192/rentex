@@ -1,3 +1,31 @@
-/vendor/srmklive
+/vendor
 /.idea
 /.vscode
+
+# Environment files
+.env
+.env.backup
+.env.production
+.env.*.local
+
+# Storage framework cache and views
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+!/storage/framework/cache/data
+!/storage/framework/cache/data/.gitignore
+
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+
+# Logs
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# Compiled assets
+/public/hot
+/public/storage
+/storage/*.key
+
+# Bootstrap cache
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
