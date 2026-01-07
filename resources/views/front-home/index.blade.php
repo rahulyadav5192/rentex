@@ -13,15 +13,17 @@
 @endphp
 @push('script-page')
     <script>
-        $('.location').on('click', '.location_list_remove', function() {
-            if ($('.location_list').length > 1) {
-                $(this).closest('.location_remove').remove();
-            }
-        });
-        $('.location').on('click', '.location_clone', function() {
-            var clonedlocation = $(this).closest('.location').find('.location_list').first().clone();
-            clonedlocation.find('input[type="text"]').val('');
-            $(this).closest('.location').find('.location_list_results').append(clonedlocation);
+        $(document).ready(function() {
+            $('.location').on('click', '.location_list_remove', function() {
+                if ($('.location_list').length > 1) {
+                    $(this).closest('.location_remove').remove();
+                }
+            });
+            $('.location').on('click', '.location_clone', function() {
+                var clonedlocation = $(this).closest('.location').find('.location_list').first().clone();
+                clonedlocation.find('input[type="text"]').val('');
+                $(this).closest('.location').find('.location_list_results').append(clonedlocation);
+            });
         });
     </script>
 @endpush
@@ -157,8 +159,10 @@
                                                         </div>
                                                         <div class="col-md-5 form-group">
                                                             {{ Form::label('sec1_image', __('Image'), ['class' => 'form-label']) }}
-                                                            <a href="{{ asset(Storage::url($section->content_value['Sec1_box' . $is4 . '_image_path'])) }}"
-                                                            target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                            @if (!empty($section->content_value['Sec1_box' . $is4 . '_image_path']))
+                                                                <a href="{{ asset(Storage::url($section->content_value['Sec1_box' . $is4 . '_image_path'])) }}"
+                                                                target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                            @endif
                                                             {{ Form::file('content_value[Sec1_box' . $is4 . '_image]', ['class' => 'form-control']) }}
                                                         </div>
                                                         <div class="col-md-2 form-group">
@@ -233,8 +237,10 @@
                                                     </div>
                                                     <div class="col-md-4 form-group">
                                                         {{ Form::label('about_image', __('Main Image'), ['class' => 'form-label']) }}
-                                                        <a href="{{ asset(Storage::url($section->content_value['about_image_path'])) }}"
+                                                        @if (!empty($section->content_value['about_image_path']))
+                                                            <a href="{{ asset(Storage::url($section->content_value['about_image_path'])) }}"
                                                             target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                        @endif
                                                         {{ Form::file('content_value[about_image]', ['class' => 'form-control']) }}
                                                     </div>
 
@@ -366,8 +372,10 @@
                                                         </div>
                                                         <div class="col-md-3 form-group">
                                                             {{ Form::label('Sec7_box' . $is7 . '_info', __('Image'), ['class' => 'form-label']) }}
-                                                            <a href="{{ asset(Storage::url($section->content_value['Sec7_box'.$is7.'_image_path'])) }}"
-                                                            target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                            @if (!empty($section->content_value['Sec7_box' . $is7 . '_image_path']))
+                                                                <a href="{{ asset(Storage::url($section->content_value['Sec7_box' . $is7 . '_image_path'])) }}"
+                                                                target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                            @endif
                                                             {{ Form::file('content_value[Sec7_box' . $is7 . '_image]', ['class' => 'form-control']) }}
                                                         </div>
                                                         <div class="col-md-1 form-group">
@@ -647,7 +655,9 @@
             </div>
         </div>
     </div>
+@endsection
 
+@push('script-page')
     <script>
         $(document).ready(function() {
             // Field type change handler (no options needed for text, number, docs)
@@ -764,9 +774,9 @@
             $('#addFieldModal').on('hidden.bs.modal', function() {
                 $('#fieldForm')[0].reset();
                 $('#fieldId').val('');
-                $('#fieldOptionsGroup').hide();
+                $('#saveFieldBtn').prop('disabled', false).text('{{ __('Save') }}');
                 $('#addFieldModalLabel').text('{{ __('Add Field') }}');
             });
         });
     </script>
-@endsection
+@endpush

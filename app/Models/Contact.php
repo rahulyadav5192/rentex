@@ -20,4 +20,9 @@ class Contact extends Model
     protected $casts = [
         'custom_fields' => 'array',
     ];
+
+    public function property()
+    {
+        return $this->belongsTo('App\Models\Property', 'property_id', 'id');
+    }
 }

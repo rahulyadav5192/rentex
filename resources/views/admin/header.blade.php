@@ -2,7 +2,18 @@
     $users = \Auth::user();
     $languages = \App\Models\Custom::languages();
     $userLang = \Auth::user()->lang;
-    $profile = asset(Storage::url('upload/profile/avatar.png'));
+    
+    // Default profile icon
+    $defaultProfile = asset('assets/images/admin/user.png');
+    
+    // Get user profile image
+    $userProfileImage = '';
+    if (!empty($users->profile)) {
+        $userProfileImage = fetch_file($users->profile, 'upload/profile/');
+    }
+    
+    // Use default if profile image is empty or invalid
+    $profileImage = !empty($userProfileImage) ? $userProfileImage : $defaultProfile;
 @endphp
 
 <header class="pc-header">
@@ -68,8 +79,10 @@
                     <a class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" aria-expanded="false">
 
-                        <img src="{{ !empty($users->profile) ? fetch_file($users->profile, 'upload/profile/') : $profile }}"
-                            alt="user-image" class="user-avtar" />
+                        <img src="{{ $profileImage }}" 
+                            alt="user-image" 
+                            class="user-avtar"
+                            onerror="this.onerror=null; this.src='{{ $defaultProfile }}';" />
 
                         <span>
                             <i class="ti ti-user-check"></i>

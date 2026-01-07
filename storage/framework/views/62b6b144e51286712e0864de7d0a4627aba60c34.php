@@ -98,7 +98,8 @@
                         Gate::check('manage maintenance request') ||
                         Gate::check('manage contact') ||
                         Gate::check('manage support') ||
-                        Gate::check('manage note')): ?>
+                        Gate::check('manage note') ||
+                        Gate::check('manage enquiry')): ?>
                     <li class="pc-item pc-caption">
                         <label><?php echo e(__('Business Management')); ?></label>
                         <i class="ti ti-chart-arcs"></i>
@@ -121,9 +122,17 @@
                             </a>
                         </li>
                     <?php endif; ?>
+                    <?php if(Gate::check('manage enquiry')): ?>
+                        <li class="pc-item <?php echo e(in_array($routeName, ['enquiry.index', 'enquiry.show', 'enquiry.edit']) ? 'active' : ''); ?>">
+                            <a href="<?php echo e(route('enquiry.index')); ?>" class="pc-link">
+                                <span class="pc-micon"><i class="ti ti-mail"></i></span>
+                                <span class="pc-mtext"><?php echo e(__('Enquiry')); ?></span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
                     <?php if(Gate::check('manage tenant') || Gate::check('manage property') || Gate::check('manage unit')): ?>
                         <li
-                            class="pc-item pc-hasmenu  <?php echo e(in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show', 'unit.index', 'unit.show', 'enquiry.index', 'enquiry.show', 'enquiry.edit']) ? 'pc-trigger active' : ''); ?>">
+                            class="pc-item pc-hasmenu  <?php echo e(in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show', 'unit.index', 'unit.show']) ? 'pc-trigger active' : ''); ?>">
                             <a href="#!" class="pc-link">
                                 <span class="pc-micon">
                                     <i class="ti ti-home"></i>
@@ -132,7 +141,7 @@
                                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="pc-submenu"
-                                style="display: <?php echo e(in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show', 'unit.index', 'unit.show', 'enquiry.index', 'enquiry.show', 'enquiry.edit']) ? 'block' : 'none'); ?>">
+                                style="display: <?php echo e(in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show', 'unit.index', 'unit.show']) ? 'block' : 'none'); ?>;">
                                 <?php if(Gate::check('manage property')): ?>
                                     <li
                                         class="pc-item <?php echo e(in_array($routeName, ['property.index', 'property.create', 'property.edit', 'property.show']) ? 'active' : ''); ?>">
@@ -144,12 +153,6 @@
                                     <li
                                         class="pc-item <?php echo e(in_array($routeName, ['unit.index', 'unit.show']) ? 'active' : ''); ?>">
                                         <a class="pc-link" href="<?php echo e(route('unit.index')); ?>"><?php echo e(__('Units')); ?></a>
-                                    </li>
-                                <?php endif; ?>
-                                <?php if(Gate::check('manage enquiry')): ?>
-                                    <li
-                                        class="pc-item <?php echo e(in_array($routeName, ['enquiry.index', 'enquiry.show', 'enquiry.edit']) ? 'active' : ''); ?>">
-                                        <a class="pc-link" href="<?php echo e(route('enquiry.index')); ?>"><?php echo e(__('Enquiry')); ?></a>
                                     </li>
                                 <?php endif; ?>
                             </ul>

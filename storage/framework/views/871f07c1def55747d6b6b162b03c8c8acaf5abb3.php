@@ -13,15 +13,17 @@
 ?>
 <?php $__env->startPush('script-page'); ?>
     <script>
-        $('.location').on('click', '.location_list_remove', function() {
-            if ($('.location_list').length > 1) {
-                $(this).closest('.location_remove').remove();
-            }
-        });
-        $('.location').on('click', '.location_clone', function() {
-            var clonedlocation = $(this).closest('.location').find('.location_list').first().clone();
-            clonedlocation.find('input[type="text"]').val('');
-            $(this).closest('.location').find('.location_list_results').append(clonedlocation);
+        $(document).ready(function() {
+            $('.location').on('click', '.location_list_remove', function() {
+                if ($('.location_list').length > 1) {
+                    $(this).closest('.location_remove').remove();
+                }
+            });
+            $('.location').on('click', '.location_clone', function() {
+                var clonedlocation = $(this).closest('.location').find('.location_list').first().clone();
+                clonedlocation.find('input[type="text"]').val('');
+                $(this).closest('.location').find('.location_list_results').append(clonedlocation);
+            });
         });
     </script>
 <?php $__env->stopPush(); ?>
@@ -184,8 +186,10 @@
                                                         <div class="col-md-5 form-group">
                                                             <?php echo e(Form::label('sec1_image', __('Image'), ['class' => 'form-label'])); ?>
 
-                                                            <a href="<?php echo e(asset(Storage::url($section->content_value['Sec1_box' . $is4 . '_image_path']))); ?>"
-                                                            target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                            <?php if(!empty($section->content_value['Sec1_box' . $is4 . '_image_path'])): ?>
+                                                                <a href="<?php echo e(asset(Storage::url($section->content_value['Sec1_box' . $is4 . '_image_path']))); ?>"
+                                                                target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                            <?php endif; ?>
                                                             <?php echo e(Form::file('content_value[Sec1_box' . $is4 . '_image]', ['class' => 'form-control'])); ?>
 
                                                         </div>
@@ -281,8 +285,10 @@
                                                     <div class="col-md-4 form-group">
                                                         <?php echo e(Form::label('about_image', __('Main Image'), ['class' => 'form-label'])); ?>
 
-                                                        <a href="<?php echo e(asset(Storage::url($section->content_value['about_image_path']))); ?>"
+                                                        <?php if(!empty($section->content_value['about_image_path'])): ?>
+                                                            <a href="<?php echo e(asset(Storage::url($section->content_value['about_image_path']))); ?>"
                                                             target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                        <?php endif; ?>
                                                         <?php echo e(Form::file('content_value[about_image]', ['class' => 'form-control'])); ?>
 
                                                     </div>
@@ -455,8 +461,10 @@
                                                         <div class="col-md-3 form-group">
                                                             <?php echo e(Form::label('Sec7_box' . $is7 . '_info', __('Image'), ['class' => 'form-label'])); ?>
 
-                                                            <a href="<?php echo e(asset(Storage::url($section->content_value['Sec7_box'.$is7.'_image_path']))); ?>"
-                                                            target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                            <?php if(!empty($section->content_value['Sec7_box' . $is7 . '_image_path'])): ?>
+                                                                <a href="<?php echo e(asset(Storage::url($section->content_value['Sec7_box' . $is7 . '_image_path']))); ?>"
+                                                                target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                            <?php endif; ?>
                                                             <?php echo e(Form::file('content_value[Sec7_box' . $is7 . '_image]', ['class' => 'form-control'])); ?>
 
                                                         </div>
@@ -770,25 +778,41 @@
             </div>
         </div>
     </div>
+<?php $__env->stopSection(); ?>
 
+<?php $__env->startPush('script-page'); ?>
     <script>
         $(document).ready(function() {
             // Field type change handler (no options needed for text, number, docs)
 
             // Add Field
-            $('#saveFieldBtn').on('click', function() {
+            $('#saveFieldBtn').on('click', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!$('#fieldLabel').val() || !$('#fieldLabel').val().trim()) {
+                    toastrs('Error!', '<?php echo e(__('Field Label is required')); ?>', 'error');
+                    return;
+                }
+                
+                if (!$('#fieldType').val()) {
+                    toastrs('Error!', '<?php echo e(__('Field Type is required')); ?>', 'error');
+                    return;
+                }
+                
                 let formData = {
-                    field_label: $('#fieldLabel').val(),
+                    field_label: $('#fieldLabel').val().trim(),
                     field_type: $('#fieldType').val(),
                     is_required: $('#isRequired').is(':checked') ? 1 : 0,
                     _token: '<?php echo e(csrf_token()); ?>'
                 };
 
-                // No options needed for text, number, or docs
-
                 let fieldId = $('#fieldId').val();
                 let url = fieldId ? '<?php echo e(route("lead-form-field.update", ":id")); ?>'.replace(':id', fieldId) : '<?php echo e(route("lead-form-field.store")); ?>';
                 let method = fieldId ? 'PUT' : 'POST';
+
+                // Disable button to prevent double submission
+                $('#saveFieldBtn').prop('disabled', true).text('<?php echo e(__('Saving...')); ?>');
 
                 $.ajax({
                     url: url,
@@ -798,14 +822,30 @@
                         if (response.status === 'success') {
                             toastrs('Success!', response.msg, 'success');
                             $('#addFieldModal').modal('hide');
-                            location.reload();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         } else {
                             toastrs('Error!', response.msg, 'error');
+                            $('#saveFieldBtn').prop('disabled', false).text('<?php echo e(__('Save')); ?>');
                         }
                     },
                     error: function(xhr) {
-                        let errorMsg = xhr.responseJSON?.msg || '<?php echo e(__('An error occurred')); ?>';
+                        let errorMsg = '<?php echo e(__('An error occurred')); ?>';
+                        if (xhr.responseJSON && xhr.responseJSON.msg) {
+                            errorMsg = xhr.responseJSON.msg;
+                        } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        } else if (xhr.responseText) {
+                            try {
+                                let errorData = JSON.parse(xhr.responseText);
+                                errorMsg = errorData.msg || errorData.message || errorMsg;
+                            } catch(e) {
+                                // Keep default error message
+                            }
+                        }
                         toastrs('Error!', errorMsg, 'error');
+                        $('#saveFieldBtn').prop('disabled', false).text('<?php echo e(__('Save')); ?>');
                     }
                 });
             });
@@ -822,16 +862,8 @@
                 $('#fieldType').val(fieldType);
                 $('#isRequired').prop('checked', fieldRequired == 1);
 
-                if (fieldType === 'select' && fieldOptions) {
-                    let options = typeof fieldOptions === 'string' ? JSON.parse(fieldOptions) : fieldOptions;
-                    $('#fieldOptions').val(Array.isArray(options) ? options.join('\n') : '');
-                    $('#fieldOptionsGroup').show();
-                } else {
-                    $('#fieldOptions').val('');
-                    $('#fieldOptionsGroup').hide();
-                }
-
                 $('#addFieldModalLabel').text('<?php echo e(__('Edit Field')); ?>');
+                $('#saveFieldBtn').prop('disabled', false).text('<?php echo e(__('Save')); ?>');
                 $('#addFieldModal').modal('show');
             });
 
@@ -865,11 +897,11 @@
             $('#addFieldModal').on('hidden.bs.modal', function() {
                 $('#fieldForm')[0].reset();
                 $('#fieldId').val('');
-                $('#fieldOptionsGroup').hide();
+                $('#saveFieldBtn').prop('disabled', false).text('<?php echo e(__('Save')); ?>');
                 $('#addFieldModalLabel').text('<?php echo e(__('Add Field')); ?>');
             });
         });
     </script>
-<?php $__env->stopSection(); ?>
+<?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Applications/XAMPP/xamppfiles/htdocs/rentex/resources/views/front-home/index.blade.php ENDPATH**/ ?>

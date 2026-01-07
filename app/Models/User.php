@@ -136,6 +136,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'logged history',
         'pricing transation',
         'settings',
+        'enquiry',
     ];
 
     public static function parentData()

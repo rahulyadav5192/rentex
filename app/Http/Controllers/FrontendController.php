@@ -68,6 +68,51 @@ class FrontendController extends Controller
         $loginUser = Auth::user();
         $parentId = parentId();
         
+        // Check if all sections exist (should be 11 sections: Section 0-10)
+        $sectionsCount = FrontHomePage::where('parent_id', $parentId)->count();
+        $expectedSections = ['Section 0', 'Section 1', 'Section 2', 'Section 3', 'Section 4', 'Section 5', 'Section 6', 'Section 7', 'Section 8', 'Section 9', 'Section 10'];
+        
+        if ($sectionsCount == 0) {
+            // No sections exist, create all default sections
+            FrontHomePageSection($parentId);
+        } elseif ($sectionsCount < 11) {
+            // Some sections are missing, check which ones and create them individually
+            $existingSections = FrontHomePage::where('parent_id', $parentId)->pluck('section')->toArray();
+            $missingSections = array_diff($expectedSections, $existingSections);
+            
+            if (!empty($missingSections)) {
+                // Get section data from helper function logic
+                $sectionDataMap = [
+                    'Section 0' => ['title' => 'Banner', 'content_value' => '{"name":"Banner","section_enabled":"active","title":"Rentex","sub_title":"Property management refers to the administration, operation, and oversight of real estate properties on behalf of property owners. It involves various tasks such as marketing rental properties, finding tenants, collecting rent and ensuring legal compliance.","banner_image1":{},"banner_image1_path":""}'],
+                    'Section 1' => ['title' => 'Offer', 'content_value' => '{"name":"Offer","section_enabled":"active","Sec1_title":"Property Highlights","Sec1_info":"Top reasons this property is a smart investment.","Sec1_box1_title":"Eco-Friendly Design","Sec1_box1_enabled":"active","Sec1_box1_info":"Energy-efficient appliances and solar panels","Sec1_box2_title":"Modern Amenities","Sec1_box2_enabled":"active","Sec1_box2_info":"Swimming pool, gym, and clubhouse included","Sec1_box3_title":"24\/7 Security","Sec1_box3_enabled":"active","Sec1_box3_info":"Round-the-clock surveillance and gated entry","Sec1_box4_title":"Low Maintenance Cost","Sec1_box4_enabled":"active","Sec1_box4_info":"Affordable society charges and upkeep","Sec1_box1_image_path":"","Sec1_box2_image_path":"","Sec1_box3_image_path":"","Sec1_box4_image_path":""}'],
+                    'Section 2' => ['title' => 'OverView', 'content_value' => '{"name":"OverView","section_enabled":"active","Box1_title":"Total Property","Box1_number":"850","Box2_title":"Total Tenant","Box2_number":"1500","Box3_title":"Total Amenities","Box3_number":"500","Box4_title":"Years of Experience","Box4_number":"10"}'],
+                    'Section 3' => ['title' => 'Category', 'content_value' => '{"name":"Amenity","section_enabled":"active","Sec3_title":"Available Amenities","Sec3_info":"Experience premium facilities that enhance your stay"}'],
+                    'Section 4' => ['title' => 'AboutUs', 'content_value' => '{"name":"AboutUs","section_enabled":"active","Sec4_title":"A whole world of freelance talent at your fingertips","Sec4_Box_title":["Proof of quality","No cost until you hire","Safe and secure"],"Sec4_Box_subtitle":["Check any pro\'s work samples, client reviews, and identity verification.","Interview potential fits for your job, negotiate rates, and only pay for work you approve.","Focus on your work knowing we help protect your data and privacy. We\'re here with 24\/7 support if you need it."],"about_image":{},"about_image_path":""}'],
+                    'Section 5' => ['title' => 'PopularService', 'content_value' => '{"name":"PopularService","section_enabled":"active","Sec5_title":"Find Your Perfect Property","Sec5_info":"Explore residential and commercial spaces that suit your needs."}'],
+                    'Section 6' => ['title' => 'Banner2', 'content_value' => '{"name":"Banner2","section_enabled":"active","Sec6_title":"Simplify, Organize, Grow","Sec6_info":"Effortlessly manage every aspect of your property .Our all-in-one system turns complex tasks into simple wins ✓","sec6_btn_name":"Get Started","sec6_btn_link":"#","banner_image2":{},"banner_image2_path":""}'],
+                    'Section 7' => ['title' => 'Testimonials', 'content_value' => '{"name":"Testimonials","section_enabled":"active","Sec7_title":"Testimonials","Sec7_info":"Interdum et malesuada fames ac ante ipsum","Sec7_box1_name":"","Sec7_box1_tag":"","Sec7_box1_Enabled":"active","Sec7_box1_review":"","Sec7_box2_name":"","Sec7_box2_tag":"","Sec7_box2_Enabled":"active","Sec7_box2_review":"","Sec7_box3_name":"","Sec7_box3_tag":"","Sec7_box3_Enabled":"active","Sec7_box3_review":"","Sec7_box4_name":"","Sec7_box4_tag":"","Sec7_box4_Enabled":"active","Sec7_box4_review":"","Sec7_box5_name":"","Sec7_box5_tag":"","Sec7_box5_Enabled":"active","Sec7_box5_review":"","Sec7_box6_image_path":"","Sec7_box7_image_path":"","Sec7_box8_image_path":""}'],
+                    'Section 8' => ['title' => 'AboutUS - Footer', 'content_value' => '{"name":"AboutUS - Footer","section_enabled":"active","Sec8_info":"Property management refers to the administration, operation, and oversight of real estate properties on behalf of property owners. It involves various tasks such as marketing rental properties, finding tenants, collecting rent and ensuring legal compliance.","fb_link":"#","twitter_link":"#","insta_link":"#","linkedin_link":"#"}'],
+                    'Section 9' => ['title' => 'Logo & Favicon', 'content_value' => '{"name":"Logo & Favicon","section_enabled":"active","logo_path":"","favicon_path":""}'],
+                    'Section 10' => ['title' => 'Lead Settings', 'content_value' => '{"name":"Lead Settings","section_enabled":"active"}'],
+                ];
+                
+                // Create missing sections
+                foreach ($missingSections as $sectionName) {
+                    if (isset($sectionDataMap[$sectionName])) {
+                        $sectionInfo = $sectionDataMap[$sectionName];
+                        $newSection = new FrontHomePage();
+                        $newSection->title = $sectionInfo['title'];
+                        $newSection->section = $sectionName;
+                        $newSection->content = '';
+                        $newSection->content_value = $sectionInfo['content_value'];
+                        $newSection->enabled = 1;
+                        $newSection->parent_id = $parentId;
+                        $newSection->save();
+                    }
+                }
+            }
+        }
+        
         // Check if Section 9 (Logo & Favicon) exists, if not create it
         $section9 = FrontHomePage::where('parent_id', $parentId)->where('section', 'Section 9')->first();
         $settings = settings();
@@ -717,8 +762,7 @@ class FrontendController extends Controller
 
         $validator = \Validator::make($request->all(), [
             'field_label' => 'required|string|max:255',
-            'field_type' => 'required|in:input,doc,checkbox,yes_no,select',
-            'field_options' => 'required_if:field_type,select|array',
+            'field_type' => 'required|in:text,number,docs',
             'is_required' => 'boolean',
         ]);
 

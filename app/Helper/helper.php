@@ -584,7 +584,10 @@ if (!function_exists('defaultTenantCreate')) {
             'name' => 'tenant',
             'parent_id' => $id,
         ];
-        $systemTenantRole = Role::create($tenantRoleData);
+        $systemTenantRole = Role::firstOrCreate(
+            ['name' => 'tenant', 'parent_id' => $id],
+            $tenantRoleData
+        );
         // Default Tenant permissions
         $systemTenantPermissions = [
             ['name' => 'manage invoice'],
@@ -616,7 +619,10 @@ if (!function_exists('defaultMaintainerCreate')) {
             'name' => 'maintainer',
             'parent_id' => $id,
         ];
-        $systemMaintainerRole = Role::create($maintainerRoleData);
+        $systemMaintainerRole = Role::firstOrCreate(
+            ['name' => 'maintainer', 'parent_id' => $id],
+            $maintainerRoleData
+        );
         // Default admin permissions
         $systemMaintainerPermissions = [
             ['name' => 'manage maintenance request'],

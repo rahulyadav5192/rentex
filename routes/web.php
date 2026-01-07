@@ -472,7 +472,50 @@ Route::prefix('web/{code}')->group(function () {
 
 });
 
+//-------------------------------Landing Pages-------------------------------------------
+Route::get('/about', function () {
+    return view('landing.about-us');
+})->name('landing.about');
 
+Route::get('/services', function () {
+    return view('landing.services');
+})->name('landing.services');
+
+Route::get('/service-details', function () {
+    return view('landing.service-details');
+})->name('landing.service-details');
+
+Route::get('/team', function () {
+    return view('landing.team');
+})->name('landing.team');
+
+Route::get('/team-details', function () {
+    return view('landing.team-details');
+})->name('landing.team-details');
+
+Route::get('/pricing', function () {
+    return view('landing.pricing');
+})->name('landing.pricing');
+
+Route::get('/faqs', function () {
+    return view('landing.faqs');
+})->name('landing.faqs');
+
+Route::get('/blog', function () {
+    return view('landing.blog');
+})->name('landing.blog');
+
+Route::get('/blog-details', function () {
+    return view('landing.blog-details');
+})->name('landing.blog-details');
+
+Route::get('/contact', function () {
+    return view('landing.contact');
+})->name('landing.contact');
+
+Route::get('/error', function () {
+    return view('landing.error');
+})->name('landing.error');
 
 //-------------------------------Front Home Page-------------------------------------------
 Route::resource('front-home', FrontendController::class)->middleware(

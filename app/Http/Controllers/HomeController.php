@@ -93,7 +93,7 @@ class HomeController extends Controller
                     $subscriptions = Subscription::get();
                     $menus = Page::where('enabled', 1)->get();
                     $FAQs = FAQ::where('enabled', 1)->get();
-                    return view('layouts.landing', compact('subscriptions', 'menus', 'FAQs'));
+                    return view('landing.index', compact('subscriptions', 'menus', 'FAQs'));
                 } else {
                     return redirect()->route('login');
                 }

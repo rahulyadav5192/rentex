@@ -17,6 +17,10 @@ class EnquiryController extends Controller
     {
         if (\Auth::user()->can('manage enquiry')) {
             $enquiries = Contact::where('parent_id', \Auth::user()->id)
+                ->with(['property' => function($query) {
+                    $query->where('parent_id', \Auth::user()->id)
+                        ->with(['thumbnail', 'propertyImages']);
+                }])
                 ->orderBy('id', 'desc')
                 ->get();
             

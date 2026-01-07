@@ -57,7 +57,7 @@
                                 <table class="table table-borderless">
                                     <tr>
                                         <td class="text-muted">{{ __('Property Name') }}:</td>
-                                        <td><strong><a href="{{ route('property.show', $property->id) }}" target="_blank">{{ $property->name }}</a></strong></td>
+                                        <td><strong><a href="{{ route('property.show', \Crypt::encrypt($property->id)) }}" target="_blank">{{ $property->name }}</a></strong></td>
                                     </tr>
                                     <tr>
                                         <td class="text-muted">{{ __('Address') }}:</td>

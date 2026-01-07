@@ -19,59 +19,48 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
+                <div class="card-body pt-0">
+                    <div class="dt-responsive table-responsive">
+                        <table class="table table-hover advance-datatable">
                             <thead>
                                 <tr>
+                                    <th>{{ __('Property') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     <th>{{ __('Phone') }}</th>
                                     <th>{{ __('Subject') }}</th>
-                                    <th>{{ __('Property') }}</th>
                                     <th>{{ __('Date') }}</th>
                                     <th class="text-end">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($enquiries as $enquiry)
+                                @foreach ($enquiries as $enquiry)
+                                    @php
+                                        $property = $enquiry->property;
+                                        $propertyName = $property && $property->parent_id == \Auth::user()->id ? $property->name : __('N/A');
+                                    @endphp
                                     <tr>
+                                        <td>{{ $propertyName }}</td>
                                         <td>{{ $enquiry->name }}</td>
                                         <td>{{ $enquiry->email }}</td>
                                         <td>{{ $enquiry->contact_number ?? '-' }}</td>
                                         <td>{{ $enquiry->subject }}</td>
-                                        <td>
-                                            @if ($enquiry->property_id)
-                                                @php
-                                                    $property = \App\Models\Property::find($enquiry->property_id);
-                                                @endphp
-                                                @if ($property)
-                                                    <a href="{{ route('property.show', $property->id) }}" target="_blank">
-                                                        {{ $property->name }}
-                                                    </a>
-                                                @else
-                                                    {{ __('N/A') }}
-                                                @endif
-                                            @else
-                                                {{ __('N/A') }}
-                                            @endif
-                                        </td>
                                         <td>{{ dateFormat($enquiry->created_at) }}</td>
                                         <td class="text-end">
                                             <div class="d-flex justify-content-end gap-2">
                                                 @if (Gate::check('show enquiry'))
-                                                    <a href="{{ route('enquiry.show', $enquiry->id) }}" class="btn btn-sm btn-primary">
+                                                    <a href="{{ route('enquiry.show', $enquiry->id) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-original-title="{{ __('View') }}">
                                                         <i class="ti ti-eye"></i>
                                                     </a>
                                                 @endif
                                                 @if (Gate::check('edit enquiry'))
-                                                    <a href="{{ route('enquiry.edit', $enquiry->id) }}" class="btn btn-sm btn-secondary">
+                                                    <a href="{{ route('enquiry.edit', $enquiry->id) }}" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-original-title="{{ __('Edit') }}">
                                                         <i class="ti ti-edit"></i>
                                                     </a>
                                                 @endif
                                                 @if (Gate::check('delete enquiry'))
                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['enquiry.destroy', $enquiry->id], 'id' => 'delete-form-' . $enquiry->id, 'style' => 'display:inline']) !!}
-                                                    <a href="#" class="btn btn-sm btn-danger confirm_dialog" data-form="delete-form-{{ $enquiry->id }}">
+                                                    <a href="#" class="btn btn-sm btn-danger confirm_dialog" data-form="delete-form-{{ $enquiry->id }}" data-bs-toggle="tooltip" data-bs-original-title="{{ __('Delete') }}">
                                                         <i class="ti ti-trash"></i>
                                                     </a>
                                                     {!! Form::close() !!}
@@ -79,11 +68,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center">{{ __('No enquiries found.') }}</td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
