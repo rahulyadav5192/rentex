@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AuthPageController;
 use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubscriptionController;
@@ -188,7 +189,11 @@ Route::resource('note', NoticeBoardController::class)->middleware(
 );
 
 //-------------------------------Contact-------------------------------------------
-Route::resource('contact', ContactController::class)->middleware(
+// Exclude 'index' from resource to avoid conflict with landing page /contact route
+// Define contact.index separately for admin panel
+Route::get('/admin/contact', [ContactController::class, 'index'])->middleware(['auth', 'XSS'])->name('contact.index');
+
+Route::resource('contact', ContactController::class)->except(['index'])->middleware(
     [
         'auth',
         'XSS',
@@ -449,30 +454,8 @@ Route::resource('advantage', AdvantageController::class)->middleware(
 
 
 
-Route::prefix('web/{code}')->group(function () {
-    Route::get('/', [FrontendController::class, 'themePage'])->name('web.page');
-
-    Route::get('/search/location', [FrontendController::class, 'searchLocation'])->name('search.location');
-
-    Route::get('/blog', [FrontendController::class, 'blogPage'])->name('blog.home');
-    Route::get('/blog/{slug}', [FrontendController::class, 'blogDetailPage'])->name('blog.detail');
-
-    Route::get('/contact', [FrontendController::class, 'contactPage'])->name('contact.home');
-
-    Route::get('/properties', [FrontendController::class, 'propertyPage'])->name('property.home');
-    Route::get('/search/filter', [FrontendController::class, 'search'])->name('search.filter');
-    Route::get('/search/package', [FrontendController::class, 'searchpackage'])->name('search.package');
-
-    Route::get('/property/{id}', [FrontendController::class, 'detailPage'])->name('property.detail');
-
-    Route::post('contact-us', [ContactController::class, 'frontDetailStore'])->name('contact-us');
-
-    Route::get('/get-states', [FrontendController::class, 'getStates'])->name('get-states');
-    Route::get('/get-cities', [FrontendController::class, 'getCities'])->name('get-cities');
-
-});
-
 //-------------------------------Landing Pages-------------------------------------------
+// IMPORTANT: These routes must be defined BEFORE resource routes to avoid conflicts
 Route::get('/about', function () {
     return view('landing.about-us');
 })->name('landing.about');
@@ -517,6 +500,29 @@ Route::get('/error', function () {
     return view('landing.error');
 })->name('landing.error');
 
+Route::prefix('web/{code}')->group(function () {
+    Route::get('/', [FrontendController::class, 'themePage'])->name('web.page');
+
+    Route::get('/search/location', [FrontendController::class, 'searchLocation'])->name('search.location');
+
+    Route::get('/blog', [FrontendController::class, 'blogPage'])->name('blog.home');
+    Route::get('/blog/{slug}', [FrontendController::class, 'blogDetailPage'])->name('blog.detail');
+
+    Route::get('/contact', [FrontendController::class, 'contactPage'])->name('contact.home');
+
+    Route::get('/properties', [FrontendController::class, 'propertyPage'])->name('property.home');
+    Route::get('/search/filter', [FrontendController::class, 'search'])->name('search.filter');
+    Route::get('/search/package', [FrontendController::class, 'searchpackage'])->name('search.package');
+
+    Route::get('/property/{id}', [FrontendController::class, 'detailPage'])->name('property.detail');
+
+    Route::post('contact-us', [ContactController::class, 'frontDetailStore'])->name('contact-us');
+
+    Route::get('/get-states', [FrontendController::class, 'getStates'])->name('get-states');
+    Route::get('/get-cities', [FrontendController::class, 'getCities'])->name('get-cities');
+
+});
+
 //-------------------------------Front Home Page-------------------------------------------
 Route::resource('front-home', FrontendController::class)->middleware(
     [
@@ -552,7 +558,15 @@ Route::resource('additional',   AdditionalController::class)->middleware(
 
 
 //-------------------------------Blog-------------------------------------------
-Route::resource('blog', BlogController::class)->middleware(
+// Exclude 'index' from resource to avoid conflict with landing page /blog route
+// Define blog.index separately for menu compatibility (BlogController index is commented out)
+Route::get('/admin/blog', function() {
+    // Placeholder for blog.index route name (menu compatibility)
+    // BlogController index method is commented out, redirect to create for now
+    return redirect()->route('blog.create');
+})->middleware(['auth', 'XSS'])->name('blog.index');
+
+Route::resource('blog', BlogController::class)->except(['index'])->middleware(
     [
         'auth',
         'XSS',
