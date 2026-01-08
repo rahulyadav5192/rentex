@@ -464,120 +464,33 @@ Route::get('/services', function () {
     return view('landing.services');
 })->name('landing.services');
 
-Route::get('/service-details/{slug?}', function ($slug = null) {
-    $services = [
-        'property-automation' => [
-            'title' => 'Property Automation',
-            'description' => 'Centralize all your properties, buildings, and units in one platform. Track occupancy, manage units, and monitor property performance effortlessly from a single dashboard.',
-            'content' => [
-                'Property Automation is a comprehensive solution designed to streamline your property management operations. With our advanced platform, you can centralize all your properties, buildings, and units in one place, making it easier than ever to track occupancy, manage units, and monitor property performance.',
-                'Our system provides a single dashboard that gives you complete visibility into your property portfolio. Whether you manage residential apartments, commercial buildings, or mixed-use properties, our automation tools help you stay organized and efficient.',
-                'Key features include automated unit tracking, occupancy monitoring, property performance analytics, and seamless integration with tenant management systems. This ensures that you always have up-to-date information about your properties at your fingertips.'
-            ],
-            'features' => [
-                'Centralized property database with detailed information',
-                'Real-time occupancy tracking and monitoring',
-                'Automated unit management and assignment',
-                'Property performance analytics and reporting',
-                'Seamless integration with tenant and billing systems',
-                'Customizable property categories and tags'
-            ]
-        ],
-        'tenant-management' => [
-            'title' => 'Tenant Management',
-            'description' => 'Manage tenant profiles, leases, documents, and communication with ease. Keep complete tenant history, rent status, and agreements organized and accessible anytime.',
-            'content' => [
-                'Tenant Management is an essential feature that helps you maintain comprehensive records of all your tenants. Our system allows you to manage tenant profiles, leases, documents, and communication all in one place.',
-                'With complete tenant history tracking, you can easily access rent status, lease agreements, payment history, and maintenance requests. This comprehensive view helps you build better relationships with your tenants and ensures nothing falls through the cracks.',
-                'The platform enables seamless communication with tenants, automated reminders for lease renewals, document storage, and easy access to tenant information whenever you need it.'
-            ],
-            'features' => [
-                'Complete tenant profile management',
-                'Lease agreement tracking and storage',
-                'Document management and organization',
-                'Tenant communication history',
-                'Rent payment status monitoring',
-                'Automated lease renewal reminders'
-            ]
-        ],
-        'rent-billing-automation' => [
-            'title' => 'Rent & Billing Automation',
-            'description' => 'Automate rent billing cycles, track payments, manage dues, and generate receipts. Get a clear view of collected, pending, and overdue rent across all properties.',
-            'content' => [
-                'Rent & Billing Automation eliminates the manual work involved in managing rent collection and billing. Our automated system handles billing cycles, tracks payments, manages dues, and generates receipts automatically.',
-                'You get a clear, comprehensive view of collected, pending, and overdue rent across all your properties. This visibility helps you identify issues early and take proactive measures to ensure consistent cash flow.',
-                'The system supports multiple payment methods, automated reminders for overdue payments, and detailed financial reporting. This ensures that your rent collection process is efficient, transparent, and hassle-free.'
-            ],
-            'features' => [
-                'Automated rent billing cycles',
-                'Payment tracking and management',
-                'Automated receipt generation',
-                'Overdue payment reminders',
-                'Multi-property rent overview',
-                'Financial reporting and analytics'
-            ]
-        ],
-        'maintenance-tasks' => [
-            'title' => 'Maintenance & Tasks',
-            'description' => 'Handle maintenance requests and operational tasks efficiently. Assign vendors, track progress, manage costs, and ensure issues are resolved on time.',
-            'content' => [
-                'Maintenance & Tasks management helps you handle maintenance requests and operational tasks efficiently. Our system allows you to assign vendors, track progress, manage costs, and ensure issues are resolved on time.',
-                'With automated workflows, you can streamline the entire maintenance process from request to completion. The system helps you prioritize tasks, assign them to the right vendors, and track progress in real-time.',
-                'Cost management features help you stay within budget while ensuring quality work. You can track expenses, compare vendor quotes, and generate maintenance reports to optimize your property maintenance operations.'
-            ],
-            'features' => [
-                'Maintenance request management',
-                'Vendor assignment and tracking',
-                'Real-time progress monitoring',
-                'Cost management and budgeting',
-                'Automated task prioritization',
-                'Maintenance history and reporting'
-            ]
-        ],
-        'lease-contract-management' => [
-            'title' => 'Lease & Contract Management',
-            'description' => 'Create, manage, and track lease agreements seamlessly. Monitor lease periods, renewals, deposits, and contract status with automated reminders.',
-            'content' => [
-                'Lease & Contract Management simplifies the entire lease lifecycle from creation to renewal. Our system allows you to create, manage, and track lease agreements seamlessly with automated reminders and notifications.',
-                'Monitor lease periods, renewals, deposits, and contract status all in one place. The system helps you stay on top of important dates and ensures that no lease-related task is forgotten.',
-                'With digital document storage, automated renewal reminders, and comprehensive contract tracking, you can manage all your lease agreements efficiently and maintain compliance with local regulations.'
-            ],
-            'features' => [
-                'Digital lease agreement creation',
-                'Lease period and renewal tracking',
-                'Deposit management',
-                'Automated renewal reminders',
-                'Contract status monitoring',
-                'Compliance and document storage'
-            ]
-        ],
-        'complete-visibility-reports' => [
-            'title' => 'Complete Visibility & Reports',
-            'description' => 'Gain full visibility into your property operations with real-time reports. Analyze occupancy, income, expenses, and maintenance costs to make informed decisions.',
-            'content' => [
-                'Complete Visibility & Reports provides comprehensive insights into your property operations. With real-time reporting, you can analyze occupancy rates, income, expenses, and maintenance costs to make informed business decisions.',
-                'Our advanced analytics help you identify trends, optimize operations, and maximize profitability. The system generates detailed reports on various aspects of your property management business.',
-                'From financial summaries to occupancy analytics, maintenance cost breakdowns to tenant satisfaction metrics, you get all the data you need to run your property management business successfully.'
-            ],
-            'features' => [
-                'Real-time property operation reports',
-                'Financial analytics and summaries',
-                'Occupancy rate analysis',
-                'Expense tracking and categorization',
-                'Maintenance cost breakdowns',
-                'Customizable report generation'
-            ]
-        ]
-    ];
-
-    $service = $slug && isset($services[$slug]) ? $services[$slug] : null;
-    
-    if (!$service && $slug) {
-        abort(404);
-    }
-
-    return view('landing.service-details', compact('service', 'services'));
+Route::get('/service-details', function () {
+    return view('landing.service-details');
 })->name('landing.service-details');
+
+Route::get('/service/property-automation', function () {
+    return view('landing.service-property-automation');
+})->name('landing.service.property-automation');
+
+Route::get('/service/tenant-management', function () {
+    return view('landing.service-tenant-management');
+})->name('landing.service.tenant-management');
+
+Route::get('/service/rent-billing-automation', function () {
+    return view('landing.service-rent-billing');
+})->name('landing.service.rent-billing');
+
+Route::get('/service/maintenance-tasks', function () {
+    return view('landing.service-maintenance-tasks');
+})->name('landing.service.maintenance-tasks');
+
+Route::get('/service/lease-contract-management', function () {
+    return view('landing.service-lease-contract');
+})->name('landing.service.lease-contract');
+
+Route::get('/service/complete-visibility-reports', function () {
+    return view('landing.service-visibility-reports');
+})->name('landing.service.visibility-reports');
 
 Route::get('/team', function () {
     return view('landing.team');

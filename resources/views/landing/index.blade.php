@@ -152,14 +152,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'property-automation') }}"
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service.property-automation') }}"
                                         aria-label="Property Automation service details page link">Property Automation</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Centralize all your properties, buildings, and units in one
                                     platform. Track occupancy, manage units, and monitor
                                     property performance effortlessly from a single dashboard.</p>
-                                <a href="{{ route('landing.service-details', 'property-automation') }}" aria-label="Property Automation service details page link"
+                                <a href="{{ route('landing.service.property-automation') }}" aria-label="Property Automation service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -184,14 +184,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'tenant-management') }}"
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service.tenant-management') }}"
                                         aria-label="Tenant Management service details page link">Tenant Management</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Manage tenant profiles, leases, documents, and communication with
                                     ease. Keep complete tenant history, rent status, and
                                     agreements organized and accessible anytime.</p>
-                                <a href="{{ route('landing.service-details', 'tenant-management') }}" aria-label="Tenant Management service details page link"
+                                <a href="{{ route('landing.service.tenant-management') }}" aria-label="Tenant Management service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -217,14 +217,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'rent-billing-automation') }}"
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service.rent-billing') }}"
                                         aria-label="Rent & Billing Automation service details page link">Rent & Billing Automation</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Automate rent billing cycles, track payments, manage dues, and
                                     generate receipts. Get a clear view of collected,
                                     pending, and overdue rent across all properties.</p>
-                                <a href="{{ route('landing.service-details', 'rent-billing-automation') }}" aria-label="Rent & Billing Automation service details page link"
+                                <a href="{{ route('landing.service.rent-billing') }}" aria-label="Rent & Billing Automation service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -278,14 +278,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'maintenance-tasks') }}"
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service.maintenance-tasks') }}"
                                         aria-label="Maintenance & Tasks service details page link">Maintenance & Tasks</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Handle maintenance requests and operational tasks efficiently.
                                     Assign vendors, track progress, manage costs, and ensure
                                     issues are resolved on time.</p>
-                                <a href="{{ route('landing.service-details', 'maintenance-tasks') }}" aria-label="Maintenance & Tasks service details page link"
+                                <a href="{{ route('landing.service.maintenance-tasks') }}" aria-label="Maintenance & Tasks service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -356,14 +356,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'lease-contract-management') }}"
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service.lease-contract') }}"
                                         aria-label="Lease & Contract Management service details page link">Lease & Contract Management</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Create, manage, and track lease agreements seamlessly. Monitor lease
                                     periods, renewals, deposits, and contract status
                                     with automated reminders.</p>
-                                <a href="{{ route('landing.service-details', 'lease-contract-management') }}" aria-label="Lease & Contract Management service details page link"
+                                <a href="{{ route('landing.service.lease-contract') }}" aria-label="Lease & Contract Management service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -387,14 +387,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'complete-visibility-reports') }}"
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service.visibility-reports') }}"
                                         aria-label="Complete Visibility & Reports service details page link">Complete Visibility & Reports</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Gain full visibility into your property operations with real-time
                                     reports. Analyze occupancy, income, expenses, and
                                     maintenance costs to make informed decisions.</p>
-                                <a href="{{ route('landing.service-details', 'complete-visibility-reports') }}" aria-label="Complete Visibility & Reports service details page link"
+                                <a href="{{ route('landing.service.visibility-reports') }}" aria-label="Complete Visibility & Reports service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>

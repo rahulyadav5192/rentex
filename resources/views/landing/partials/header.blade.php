@@ -25,8 +25,13 @@
                             <li class="menu-item-has-children">
                                 <a href="#" aria-label="Menu link">Services</a>
                                 <ul>
-                                    <li><a href="{{ route('landing.services') }}" aria-label="Menu link">Services</a></li>
-                                    <li><a href="{{ route('landing.service-details') }}" aria-label="Menu link">Service Details</a></li>
+                                    <li><a href="{{ route('landing.services') }}" aria-label="Menu link">All Services</a></li>
+                                    <li><a href="{{ route('landing.service.property-automation') }}" aria-label="Menu link">Property Automation</a></li>
+                                    <li><a href="{{ route('landing.service.tenant-management') }}" aria-label="Menu link">Tenant Management</a></li>
+                                    <li><a href="{{ route('landing.service.rent-billing') }}" aria-label="Menu link">Rent & Billing Automation</a></li>
+                                    <li><a href="{{ route('landing.service.maintenance-tasks') }}" aria-label="Menu link">Maintenance & Tasks</a></li>
+                                    <li><a href="{{ route('landing.service.lease-contract') }}" aria-label="Menu link">Lease & Contract Management</a></li>
+                                    <li><a href="{{ route('landing.service.visibility-reports') }}" aria-label="Menu link">Complete Visibility & Reports</a></li>
                                 </ul>
                             </li>
                             <li class="menu-item-has-children">
