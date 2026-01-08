@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Blog Details')
+@section('meta-description', 'Read detailed articles and insights about property management, tenant management, and real estate industry. Get expert tips and best practices from Propilor blog.')
+@section('meta-keywords', 'property management article, tenant management guide, property management tips, real estate insights')
+@section('og-title', 'Blog Details - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">

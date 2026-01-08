@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'FAQs')
+@section('meta-description', 'Frequently asked questions about Propilor Property and Tenant Management CRM. Find answers about features, pricing, setup, integrations, and how our platform can help you manage your properties more efficiently.')
+@section('meta-keywords', 'property management FAQ, tenant management questions, property software FAQ, property CRM help')
+@section('og-title', 'FAQs - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">

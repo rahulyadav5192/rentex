@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Blog')
+@section('meta-description', 'Read the latest articles, tips, and insights about property management, tenant management, and real estate industry trends. Stay updated with Propilor blog for best practices and expert advice.')
+@section('meta-keywords', 'property management blog, tenant management articles, property management tips, real estate blog, property management news')
+@section('og-title', 'Blog - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
         <section class="cs_page_heading cs_style_hero text-center position-relative">
@@ -208,29 +213,6 @@
   </button>
         <!-- End Scroll Up Button -->
         
-
-    
-    <!-- Meta Tags -->
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Saasox - saas & sofTware HTML Template">
-    <meta name="author" content="Themeservices">
-    <!-- Favicon Icon -->
-    <link rel="icon" href="{{ asset('landing/assets/img/favicon.png') }}">
-    <!-- Site Title -->
-    <title>Saasox - saas & sofTware HTML Template</title>
-    <link rel="stylesheet" href="{{ asset('landing/assets/css/') }}bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('landing/assets/css/') }}fontawesome.min.css">
-    <link rel="stylesheet" href="{{ asset('landing/assets/css/') }}animate.css">
-    <link rel="stylesheet" href="{{ asset('landing/assets/css/') }}odometer.css">
-    <link rel="stylesheet" href="{{ asset('landing/assets/css/') }}slick.min.css">
-    <link rel="stylesheet" href="{{ asset('landing/assets/css/') }}style.css">
-</head>
-
-<body>
-    
-    
     <!-- Start Page Heading -->
     <section class="cs_page_heading cs_bg_filed text-center cs_gray_bg_2 position-relative overflow-hidden" data-src="{{ asset('landing/assets/img/page-heading-bg.svg') }}">
         <div class="container">

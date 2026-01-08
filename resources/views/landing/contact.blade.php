@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Contact Us')
+@section('meta-description', 'Get in touch with Propilor. Have questions about our Property and Tenant Management CRM? Contact our support team for assistance, demos, or to learn how we can help streamline your property management operations.')
+@section('meta-keywords', 'contact propilor, property management support, property software contact, tenant management help')
+@section('og-title', 'Contact Us - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">

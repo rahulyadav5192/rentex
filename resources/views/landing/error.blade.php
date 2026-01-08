@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Page Not Found')
+@section('meta-description', 'The page you are looking for could not be found. Return to Propilor homepage to explore our Property and Tenant Management CRM platform.')
+@section('meta-keywords', '404 error, page not found')
+@section('og-title', 'Page Not Found - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">

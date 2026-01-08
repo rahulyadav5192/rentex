@@ -27,12 +27,18 @@ This means the vendor directory is missing or incomplete on the server.
    php composer.phar install --no-dev --optimize-autoloader
    ```
 
-3. **Clear Laravel caches:**
+3. **Clear ALL Laravel caches (IMPORTANT - Do this FIRST if vendor is missing):**
    ```bash
+   # Clear bootstrap cache files (this removes cached service providers)
+   rm -f bootstrap/cache/packages.php
+   rm -f bootstrap/cache/services.php
+   
+   # Clear all other caches
    php artisan config:clear
    php artisan cache:clear
    php artisan route:clear
    php artisan view:clear
+   php artisan optimize:clear
    ```
 
 4. **Regenerate optimized files:**
@@ -48,6 +54,24 @@ This means the vendor directory is missing or incomplete on the server.
    chown -R www-data:www-data storage bootstrap/cache
    ```
 
+### CRITICAL: If you get PayPal error BEFORE running composer
+
+If you see the PayPal error before you can run `composer install`, you MUST clear the bootstrap cache first:
+
+```bash
+cd /home/unisane/propilor.com
+
+# Remove cached service provider files
+rm -f bootstrap/cache/packages.php
+rm -f bootstrap/cache/services.php
+
+# Then run composer install
+composer install --no-dev --optimize-autoloader
+
+# Clear all caches
+php artisan optimize:clear
+```
+
 ### Alternative: If you can't run composer on server
 
 1. **On your local machine**, run:
@@ -56,6 +80,13 @@ This means the vendor directory is missing or incomplete on the server.
    ```
 
 2. **Upload the vendor directory** to your server (but this is not recommended as vendor should be excluded from version control)
+
+3. **On the server, clear bootstrap cache:**
+   ```bash
+   rm -f bootstrap/cache/packages.php
+   rm -f bootstrap/cache/services.php
+   php artisan optimize:clear
+   ```
 
 ### Important Notes:
 

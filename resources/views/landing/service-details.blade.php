@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Service Details')
+@section('meta-description', 'Learn more about Propilor\'s property and tenant management services. Detailed information about our features, tools, and how we help you manage your properties efficiently.')
+@section('meta-keywords', 'property management service details, tenant management features, property software features')
+@section('og-title', 'Service Details - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">

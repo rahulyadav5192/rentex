@@ -11,12 +11,21 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ !empty($settings['meta_seo_description']) ? $settings['meta_seo_description'] : 'SaasoX - saas & software HTML Template' }}">
-    <meta name="author" content="{{ !empty($settings['app_name']) ? $settings['app_name'] : 'Themeservices' }}">
+    <meta name="description" content="@yield('meta-description', !empty($settings['meta_seo_description']) ? $settings['meta_seo_description'] : 'Propilor - Complete Property and Tenant Management CRM. Automate your properties, tenants, rent billing, and maintenance with our modern all-in-one management platform.')">
+    <meta name="keywords" content="@yield('meta-keywords', 'property management, tenant management, CRM, property software, rental management, property management system')">
+    <meta name="author" content="Propilor">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@yield('og-title', 'Propilor - Property & Tenant Management CRM')">
+    <meta property="og:description" content="@yield('meta-description', 'Complete Property and Tenant Management CRM. Automate your properties, tenants, rent billing, and maintenance.')">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="@yield('og-title', 'Propilor - Property & Tenant Management CRM')">
+    <meta property="twitter:description" content="@yield('meta-description', 'Complete Property and Tenant Management CRM. Automate your properties, tenants, rent billing, and maintenance.')">
     <!-- Favicon Icon -->
-    <link rel="icon" href="{{ !empty($settings['company_favicon']) ? fetch_file($settings['company_favicon'], 'upload/logo/') : asset('landing/assets/img/favicon.png') }}">
+    <link rel="icon" href="{{  asset('landing/assets/img/favicon.png') }}">
     <!-- Site Title -->
-    <title>{{ !empty($settings['app_name']) ? $settings['app_name'] : env('APP_NAME') }} - @yield('page-title', 'Home')</title>
+    <title>@yield('page-title', 'Home') - Propilor | Property & Tenant Management CRM</title>
     
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

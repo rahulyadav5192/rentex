@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Our Team')
+@section('meta-description', 'Meet the Propilor team - dedicated professionals working to revolutionize property and tenant management. Learn about the experts behind the leading Property Management CRM platform.')
+@section('meta-keywords', 'propilor team, property management team, property software developers')
+@section('og-title', 'Our Team - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">

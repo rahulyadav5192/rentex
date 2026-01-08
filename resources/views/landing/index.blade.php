@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Home')
+@section('meta-description', 'Propilor - Complete Property and Tenant Management CRM. Automate your properties, tenants, rent billing, and maintenance with our modern all-in-one management platform. Streamline operations, track payments, manage maintenance requests, and grow your property business efficiently.')
+@section('meta-keywords', 'property management, tenant management, CRM, property software, rental management, property management system, property CRM, tenant CRM, rent management')
+@section('og-title', 'Propilor - Property & Tenant Management CRM')
+
 @section('content')
 <!-- Start Hero Section -->
     <section class="cs_hero cs_style_3 position-relative">

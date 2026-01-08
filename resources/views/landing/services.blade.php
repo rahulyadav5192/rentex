@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Our Services')
+@section('meta-description', 'Explore Propilor\'s comprehensive property and tenant management services. From automated rent collection and maintenance tracking to tenant communication and financial reporting - we provide all the tools you need to manage your properties efficiently.')
+@section('meta-keywords', 'property management services, tenant management services, property management features, rental management tools, property software features')
+@section('og-title', 'Our Services - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">

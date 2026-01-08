@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'Pricing')
+@section('meta-description', 'Choose the perfect Propilor plan for your property management needs. Flexible pricing options for property managers, landlords, and real estate professionals. Start with a free trial and scale as you grow.')
+@section('meta-keywords', 'property management pricing, tenant management pricing, property software cost, property CRM pricing, rental management software pricing')
+@section('og-title', 'Pricing - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">

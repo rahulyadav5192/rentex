@@ -1,5 +1,10 @@
 @extends('landing.layout')
 
+@section('page-title', 'About Us')
+@section('meta-description', 'Learn about Propilor - the leading Property and Tenant Management CRM. Discover our mission, vision, and how we help property managers streamline operations, automate workflows, and maximize efficiency.')
+@section('meta-keywords', 'about propilor, property management company, property management software company, tenant management solutions')
+@section('og-title', 'About Us - Propilor')
+
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">
