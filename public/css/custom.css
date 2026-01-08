@@ -70,7 +70,7 @@
 }
 
 .b-brand .logo {
-    max-width: 212px !important;
+    max-width: 175px !important;
 
 }
 
@@ -527,18 +527,18 @@ table.dataTable td.dt-type-date {
 }
 
 /* Active Links and Navigation */
-.pc-sidebar .pc-item.active > .pc-link,
-.pc-sidebar .pc-item:focus > .pc-link,
-.pc-sidebar .pc-item:hover > .pc-link {
+.pc-sidebar .pc-item.active>.pc-link,
+.pc-sidebar .pc-item:focus>.pc-link,
+.pc-sidebar .pc-item:hover>.pc-link {
     color: #000000 !important;
 }
 
-.pc-sidebar .pc-item.active > .pc-link .pc-micon i,
-.pc-sidebar .pc-item.active > .pc-link .pc-micon svg,
-.pc-sidebar .pc-item:focus > .pc-link .pc-micon i,
-.pc-sidebar .pc-item:focus > .pc-link .pc-micon svg,
-.pc-sidebar .pc-item:hover > .pc-link .pc-micon i,
-.pc-sidebar .pc-item:hover > .pc-link .pc-micon svg {
+.pc-sidebar .pc-item.active>.pc-link .pc-micon i,
+.pc-sidebar .pc-item.active>.pc-link .pc-micon svg,
+.pc-sidebar .pc-item:focus>.pc-link .pc-micon i,
+.pc-sidebar .pc-item:focus>.pc-link .pc-micon svg,
+.pc-sidebar .pc-item:hover>.pc-link .pc-micon i,
+.pc-sidebar .pc-item:hover>.pc-link .pc-micon svg {
     color: #000000 !important;
 }
 
@@ -670,15 +670,15 @@ table.dataTable td.dt-type-date {
 }
 
 /* Web Theme CSS Overrides - Replace Green Colors with Black */
-.header-nav .ace-responsive-menu > li > a:hover,
-.header-nav .ace-responsive-menu > li > a.active,
-.header-nav .ace-responsive-menu > li > a:focus,
-.header-nav .ace-responsive-menu > li > a.custom-active-style {
+.header-nav .ace-responsive-menu>li>a:hover,
+.header-nav .ace-responsive-menu>li>a.active,
+.header-nav .ace-responsive-menu>li>a:focus,
+.header-nav .ace-responsive-menu>li>a.custom-active-style {
     color: #000000 !important;
 }
 
-.header-nav .ace-responsive-menu > li > a:hover::after,
-.header-nav .ace-responsive-menu > li > a.active::after {
+.header-nav .ace-responsive-menu>li>a:hover::after,
+.header-nav .ace-responsive-menu>li>a.active::after {
     background-color: #000000 !important;
 }
 

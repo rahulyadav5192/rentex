@@ -46,7 +46,7 @@
                                     <li><a href="{{ route('landing.blog-details') }}" aria-label="Menu link">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{ route('landing.contact') }}" aria-label="Menu link">Contact Us</a></li>
+                            <li><a href="{{ route('register') }}" aria-label="Menu link">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>

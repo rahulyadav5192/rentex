@@ -22,7 +22,7 @@
                                 <span class="cs_theme_color_4">
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                                 </span>
-                                <span>Supercharge Your Sales</span>
+                                <span>Automate Your Properties</span>
                                 <span class="cs_theme_color_4">
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                                 </span>
@@ -35,14 +35,14 @@
                                 maintenance with a modern all-in-one management platform.
                             </p>
                             <div class="cs_btns_group">
-                                <a href="{{ route('landing.contact') }}" aria-label="Get started button"
+                                <a href="{{ url('register') }}" aria-label="Get started button"
                                     class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
                                     <span>Get Started Now</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
                                 </a>
-                                <a href="{{ route('landing.about') }}" aria-label="About page link"
+                                <a href="{{ url('login') }}" aria-label="About page link"
                                     class="cs_btn cs_style_1 cs_outline cs_ cs_fs_14 cs_bold cs_heading_color text-uppercase">
-                                    <span>Learn More</span>
+                                    <span>Login Now</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
                                 </a>
                             </div>
@@ -430,28 +430,22 @@
                             <div class="cs_section_heading cs_style_1 cs_mb_34">
                                 <div class="cs_section_subtitle cs_fs_18 cs_heading_color cs_mb_22">
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
-                                    <span>Appreciation feature</span>
+                                    <span>What is Propilor?</span>
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                                 </div>
-                                <h2 class="cs_section_title cs_fs_48 cs_semibold wow fadeInUp">Our Priority CRM Options
-                                    For The Future</h2>
-                                <p class="mb-0">CRM management is comprehensive contact management, allowing businesses
-                                    to centralize and organize customer information for easy access.</p>
+                                <h2 class="cs_section_title cs_fs_48 cs_semibold wow fadeInUp">Complete Property & Tenant Management Platform</h2>
+                                <p class="mb-0">Propilor is a modern, all-in-one property and tenant management platform designed to help property owners, landlords, and property managers manage their properties efficiently from a single dashboard.</p>
                             </div>
                             <div class="cs_service_item cs_radius_15 cs_gray_bg_2 cs_mb_24 cs_active">
-                                <h3 class="cs_service_title cs_fs_24 cs_semibold cs_mb_8">Sales Force Automation</h3>
-                                <p class="mb-0">CRM management is comprehensive contact management, allowing businesses
-                                    to centralize and organize customer information for allowing businesses to
-                                    centralize and organize easy access.</p>
+                                <h3 class="cs_service_title cs_fs_24 cs_semibold cs_mb_8">Simplify Your Operations</h3>
+                                <p class="mb-0">It simplifies day-to-day operations such as rent tracking, tenant management, maintenance handling, property listings, and communication, so you can focus on growing your portfolio instead of managing spreadsheets, calls, and manual follow-ups.</p>
                             </div>
                             <div class="cs_service_item cs_radius_15 cs_mb_48">
-                                <h3 class="cs_service_title cs_fs_24 cs_semibold cs_mb_8">Lead Management</h3>
-                                <p class="mb-0">CRM management is comprehensive contact management, allowing businesses
-                                    to centralize and organize customer information for allowing businesses to
-                                    centralize and organize easy access.</p>
+                                <h3 class="cs_service_title cs_fs_24 cs_semibold cs_mb_8">100% Free to Use</h3>
+                                <p class="mb-0">Best of all, Propilor is free to use, making professional property management accessible to everyone. No credit card required. Start managing your properties smarter with Propilor today.</p>
                             </div>
                             <div class="cs_btns_group">
-                                <a href="{{ route('landing.contact') }}" aria-label="Get started button"
+                                <a href="{{ url('register') }}" aria-label="Get started button"
                                     class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
                                     <span>Get Started Free</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -478,8 +472,8 @@
     <section class="cs_customer_review cs_bg_filed cs_radius_50" data-src="{{ asset('landing/assets/img/rating-bg-1.svg') }}">
         <div class="container">
             <div class="cs_section_heading cs_style_1 text-center cs_mb_47">
-                <h2 class="cs_fs_48 cs_semibold cs_white_color mb-0 wow fadeInDown">Customers Have Consistently <br>
-                    Rated Saaso 4.9/5</h2>
+                <h2 class="cs_fs_48 cs_semibold cs_white_color mb-0 wow fadeInDown">Trusted by Property Managers <br>
+                    Across the Globe</h2>
             </div>
             <div class="row cs_row_gap_30 cs_gap_y_30">
                 <div class="col-lg-4">
@@ -489,7 +483,7 @@
                                 <div class="cs_rating_percentage"></div>
                             </div>
                         </div>
-                        <p class="cs_fs_20 cs_white_color cs_mb_33">"The Interface Is Excellent"</p>
+                        <p class="cs_fs_20 cs_white_color cs_mb_33">"Easy to Use & Intuitive"</p>
                         <img src="{{ asset('landing/assets/img/rating-logo-1.svg') }}" alt="Logo">
                     </div>
                 </div>
@@ -500,7 +494,7 @@
                                 <div class="cs_rating_percentage"></div>
                             </div>
                         </div>
-                        <p class="cs_fs_20 cs_white_color cs_mb_33">"Improvements In Every Release"</p>
+                        <p class="cs_fs_20 cs_white_color cs_mb_33">"Automated Workflows Save Time"</p>
                         <img src="{{ asset('landing/assets/img/rating-logo-2.svg') }}" alt="Logo">
                     </div>
                 </div>
@@ -511,7 +505,7 @@
                                 <div class="cs_rating_percentage"></div>
                             </div>
                         </div>
-                        <p class="cs_fs_20 cs_white_color cs_mb_33">"The Interface Is Excellent"</p>
+                        <p class="cs_fs_20 cs_white_color cs_mb_33">"Free & Professional Platform"</p>
                         <img src="{{ asset('landing/assets/img/rating-logo-3.svg') }}" alt="Logo">
                     </div>
                 </div>
@@ -535,50 +529,47 @@
                             <div class="cs_section_heading cs_style_1 cs_mb_33">
                                 <div class="cs_section_subtitle cs_fs_18 cs_heading_color cs_mb_22">
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
-                                    <span>Our Benefits</span>
+                                    <span>Core Features</span>
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                                 </div>
-                                <h2 class="cs_section_title cs_fs_48 cs_semibold wow fadeInUp">Powerful Features to
-                                    Boost productivity</h2>
-                                <p class="cs_card_desc mb-0">All the generators on the Internet tend to repeat
-                                    predefined chunks as necessary, making this the first true generator on the
-                                    Internet.</p>
+                                <h2 class="cs_section_title cs_fs_48 cs_semibold wow fadeInUp">Everything You Need to Manage Properties</h2>
+                                <p class="cs_card_desc mb-0">Propilor provides all the essential tools to streamline your property management operations, from tenant tracking to automated rent collection.</p>
                             </div>
                             <div class="cs_iconbox_wrapper_3">
                                 <div class="cs_iconbox cs_style_5">
                                     <span class="cs_iconbox_icon cs_center cs_radius_100 cs_mb_18">
-                                        <img src="{{ asset('landing/assets/img/icons/safety.svg') }}" alt="Safe & Organized icon">
+                                        <img src="{{ asset('landing/assets/img/icons/safety.svg') }}" alt="Property & Unit Management icon">
                                     </span>
                                     <div class="cs_iconbox_info">
-                                        <h3 class="cs_fs_18 cs_semibold cs_mb_4">Safe & Organized</h3>
-                                        <p class="mb-0">All the generators on the Internet tend to repeat predefined</p>
+                                        <h3 class="cs_fs_18 cs_semibold cs_mb_4">Property & Unit Management</h3>
+                                        <p class="mb-0">Organize buildings, floors, and units. Track occupancy status and maintain a clear overview of your entire portfolio in one place.</p>
                                     </div>
                                 </div>
                                 <div class="cs_iconbox cs_style_5">
                                     <span class="cs_iconbox_icon cs_bg_1 cs_center cs_radius_100 cs_mb_18">
-                                        <img src="{{ asset('landing/assets/img/icons/analytics-2.svg') }}" alt="Advanced Analytics icon">
+                                        <img src="{{ asset('landing/assets/img/icons/analytics-2.svg') }}" alt="Automated Rent Collection icon">
                                     </span>
                                     <div class="cs_iconbox_info">
-                                        <h3 class="cs_fs_18 cs_semibold cs_mb_4">Advanced Analytics</h3>
-                                        <p class="mb-0">All the generators on the Internet tend to repeat predefined</p>
+                                        <h3 class="cs_fs_18 cs_semibold cs_mb_4">Automated Rent Collection</h3>
+                                        <p class="mb-0">Automate monthly rent generation and track paid, pending, and overdue rent effortlessly. Reduce manual calculations and improve transparency.</p>
                                     </div>
                                 </div>
                                 <div class="cs_iconbox cs_style_5">
                                     <span class="cs_iconbox_icon cs_bg_2 cs_center cs_radius_100 cs_mb_18">
-                                        <img src="{{ asset('landing/assets/img/icons/automation.svg') }}" alt="Powerful Automation icon">
+                                        <img src="{{ asset('landing/assets/img/icons/automation.svg') }}" alt="Maintenance Management icon">
                                     </span>
                                     <div class="cs_iconbox_info">
-                                        <h3 class="cs_fs_18 cs_semibold cs_mb_4">Powerful Automation</h3>
-                                        <p class="mb-0">All the generators on the Internet tend to repeat predefined</p>
+                                        <h3 class="cs_fs_18 cs_semibold cs_mb_4">Maintenance Request Management</h3>
+                                        <p class="mb-0">Tenants can raise maintenance requests directly. Assign to vendors, track progress, and close tickets once resolved for faster issue resolution.</p>
                                     </div>
                                 </div>
                                 <div class="cs_iconbox cs_style_5">
                                     <span class="cs_iconbox_icon cs_bg_3 cs_center cs_radius_100 cs_mb_18">
-                                        <img src="{{ asset('landing/assets/img/icons/easy-intinsive.svg') }}" alt="Easy And Intuitive icon">
+                                        <img src="{{ asset('landing/assets/img/icons/easy-intinsive.svg') }}" alt="Free Property Website icon">
                                     </span>
                                     <div class="cs_iconbox_info">
-                                        <h3 class="cs_fs_18 cs_semibold cs_mb_4">Easy And Intuitive</h3>
-                                        <p class="mb-0">All the generators on the Internet tend to repeat predefined</p>
+                                        <h3 class="cs_fs_18 cs_semibold cs_mb_4">Free Property Website</h3>
+                                        <p class="mb-0">Get a free professional website for your properties. Showcase your portfolio and provide contact information without any technical setup.</p>
                                     </div>
                                 </div>
                             </div>
@@ -666,15 +657,14 @@
                     <div class="cs_section_heading cs_style_1 cs_mb_37">
                         <div class="cs_section_subtitle cs_fs_18 cs_heading_color cs_mb_22">
                             <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
-                            <span>Our Integrations</span>
+                            <span>Who is Propilor for?</span>
                             <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                         </div>
-                        <h2 class="cs_section_title cs_fs_48 cs_semibold text-capitalize mb-0 wow zoomIn">Connected to
-                            Your Favourite Applications</h2>
+                        <h2 class="cs_section_title cs_fs_48 cs_semibold text-capitalize mb-0 wow zoomIn">Built for Property Owners, Landlords & Managers</h2>
                     </div>
-                    <a href="#" aria-label="Integrations page link"
+                    <a href="{{ url('register') }}" aria-label="Get started link"
                         class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
-                        <span>See all integrations</span>
+                        <span>Get Started Free</span>
                         <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
                     </a>
                 </div>
@@ -696,8 +686,7 @@
                         <span>Testimonial</span>
                         <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                     </div>
-                    <h2 class="cs_section_title cs_fs_48 cs_semibold mb-0 wow fadeInUp">Positive Feedback from <br> Our
-                        Clients</h2>
+                    <h2 class="cs_section_title cs_fs_48 cs_semibold mb-0 wow fadeInUp">What Property Managers <br> Say About Propilor</h2>
                 </div>
                 <div class="cs_section_heading_right">
                     <div class="cs_slider_arrows cs_style_1 cs_type_1">
@@ -749,15 +738,12 @@
                                 <div class="cs_rating cs_mb_27" data-rating="5">
                                     <div class="cs_rating_percentage"></div>
                                 </div>
-                                <blockquote>We've been using CRM management for months now, and the Our sales pipeline
-                                    visibility has improved, allowing us make data-driven. We've been using CRM
-                                    management for months now,and the results speak for themselves. Our
-                                    sales pipeline visibility has improved, allowing us to make data-driven.
+                                <blockquote>As a property manager handling multiple buildings, Propilor's centralized dashboard is a game-changer. I can track all tenants, rent payments, and maintenance requests from one place. The automated email alerts ensure I never miss important deadlines. Highly recommended!
                                 </blockquote>
                                 <div class="cs_avatar cs_style_1">
                                     <div class="cs_avatar_info">
-                                        <h3 class="cs_fs_24 cs_semibold mb-0">Jacob Jones</h3>
-                                        <p class="cs_fs_14 mb-0">CEO, Bernard Health</p>
+                                        <h3 class="cs_fs_24 cs_semibold mb-0">Michael Chen</h3>
+                                        <p class="cs_fs_14 mb-0">Property Manager, 50+ Units</p>
                                     </div>
                                 </div>
                                 <div class="cs_quote_icon position-absolute">
@@ -784,43 +770,24 @@
                     <span>Pricing Plan</span>
                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                 </div>
-                <h2 class="cs_section_title cs_fs_48 cs_semibold cs_white_color text-capitalize wow fadeInDown">Choose
-                    Your Best Plan</h2>
-                <p class="cs_white_color cs_mb_33">All the generators on the Internet tend to repeat predefined chunks
-                    as necessary, making this <br> the first true generator on the Internet.</p>
-                <div class="cs_center">
-                    <ul
-                        class="cs_pricing_control cs_type_1 cs_center cs_mp_0 cs_fs_14 cs_white_color cs_bold text-uppercase position-relative">
-                        <li class="active">
-                            <a href="yearly" aria-label="Pricing toggle button">Bill Annually</a>
-                            <div class="cs_offer_info cs_theme_color_4 cs_heading_font cs_normal position-absolute">
-                                <span>Save 20%</span>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="monthly" aria-label="Pricing toggle button">Bill Monthly</a>
-                        </li>
-                    </ul>
-                </div>
+                <h2 class="cs_section_title cs_fs_48 cs_semibold cs_white_color text-capitalize wow fadeInDown">100% Free Forever</h2>
+                <p class="cs_white_color cs_mb_33">Propilor is completely free to use. No credit card required. <br> Start managing your properties professionally today with all features included.</p>
             </div>
-            <div class="row cs_row_gap_30 cs_gap_y_30">
+            <div class="row cs_row_gap_30 cs_gap_y_30 justify-content-center">
                 <div class="col-lg-4">
                     <div class="cs_pricing_table cs_style_1 cs_type_1 cs_radius_20 position-relative">
                         <div class="cs_pricing_table_heading cs_mb_18">
-                            <h2 class="cs_plan_title cs_fs_24 cs_semibold cs_white_color mb-0">Free</h2>
+                            <h2 class="cs_plan_title cs_fs_24 cs_semibold cs_white_color mb-0">Property & Unit Management</h2>
                         </div>
                         <div class="cs_pricing_info cs_mb_20">
-                            <div class="cs_price cs_fs_74 cs_semibold cs_white_color cs_heading_font cs_mb_4">$
-                                <span class="monthlyPrice">0</span>
-                                <span class="yearlyPrice">0</span>
-                                <small>Per User/Month</small>
+                            <div class="cs_price cs_fs_74 cs_semibold cs_white_color cs_heading_font cs_mb_4">
+                                <span>Free</span>
                             </div>
-                            <p class="cs_white_color mb-0">For Smaller Teams Looking to automate basic Sales Marketing
-                                and Business Processes</p>
+                            <p class="cs_white_color mb-0">Manage multiple properties and units with ease. Organize buildings, floors, and units, track occupancy status.</p>
                         </div>
                         <div class="cs_separator cs_mb_22"></div>
                         <div class="cs_feature_wrapper cs_mb_30">
-                            <h3 class="cs_fs_18 cs_semibold cs_white_color cs_mb_15">Core Features</h3>
+                            <h3 class="cs_fs_18 cs_semibold cs_white_color cs_mb_15">Included Features</h3>
                             <ul class="cs_pricing_feature_list cs_mp_0">
                                 <li>
                                     <span class="cs_feature_icon">
@@ -831,7 +798,7 @@
                                                 fill="currentColor" />
                                         </svg>
                                     </span>
-                                    <span class="cs_feature_title">Email Marketing</span>
+                                    <span class="cs_feature_title">Tenant Management</span>
                                 </li>
                                 <li>
                                     <span class="cs_feature_icon">
@@ -842,7 +809,7 @@
                                                 fill="currentColor" />
                                         </svg>
                                     </span>
-                                    <span class="cs_feature_title">Marketing, Sales, Workflow Automation</span>
+                                    <span class="cs_feature_title">Automated Rent Collection</span>
                                 </li>
                                 <li>
                                     <span class="cs_feature_icon">
@@ -853,7 +820,7 @@
                                                 fill="currentColor" />
                                         </svg>
                                     </span>
-                                    <span class="cs_feature_title">Pipelines</span>
+                                    <span class="cs_feature_title">Maintenance Management</span>
                                 </li>
                                 <li>
                                     <span class="cs_feature_icon">
@@ -864,7 +831,7 @@
                                                 fill="currentColor" />
                                         </svg>
                                     </span>
-                                    <span class="cs_feature_title">Lead Management</span>
+                                    <span class="cs_feature_title">Free Property Website</span>
                                 </li>
                                 <li>
                                     <span class="cs_feature_icon">
@@ -875,18 +842,18 @@
                                                 fill="currentColor" />
                                         </svg>
                                     </span>
-                                    <span class="cs_feature_title">Up to 3 Seats</span>
+                                    <span class="cs_feature_title">Reports & Insights</span>
                                 </li>
                             </ul>
                         </div>
-                        <a href="{{ route('landing.contact') }}" aria-label="Buy service button"
+                        <a href="{{ url('register') }}" aria-label="Buy service button"
                             class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color w-100 text-uppercase">
                             <span>Get Started</span>
                             <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4" style="display: none;">
                     <div class="cs_pricing_table cs_style_1 cs_type_1 cs_radius_20 position-relative">
                         <div
                             class="cs_pricing_badge cs_theme_bg_4 cs_medium cs_heading_color text-center position-absolute">
@@ -964,14 +931,14 @@
                                 </li>
                             </ul>
                         </div>
-                        <a href="{{ route('landing.contact') }}" aria-label="Buy service button"
+                        <a href="{{ url('register') }}" aria-label="Buy service button"
                             class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color w-100 text-uppercase">
                             <span>Get Started</span>
                             <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4" style="display: none;">
                     <div class="cs_pricing_table cs_style_1 cs_type_1 cs_radius_20 position-relative">
                         <div class="cs_pricing_table_heading cs_mb_18">
                             <h2 class="cs_plan_title cs_fs_24 cs_semibold cs_white_color mb-0">Professional</h2>
@@ -1046,7 +1013,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <a href="{{ route('landing.contact') }}" aria-label="Buy service button"
+                        <a href="{{ url('register') }}" aria-label="Buy service button"
                             class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color w-100 text-uppercase">
                             <span>Get Started</span>
                             <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -1070,7 +1037,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Expertise</span>
+                    <span class="cs_fs_20 cs_medium">All-in-One Management</span>
                 </div>
                 <div>
                     <span>
@@ -1080,7 +1047,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Innovation Think</span>
+                    <span class="cs_fs_20 cs_medium">Easy to Use</span>
                 </div>
                 <div>
                     <span>
@@ -1090,7 +1057,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Quality Assurance</span>
+                    <span class="cs_fs_20 cs_medium">100% Free Forever</span>
                 </div>
                 <div>
                     <span>
@@ -1100,7 +1067,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Client Satisfaction Work</span>
+                    <span class="cs_fs_20 cs_medium">Automated Workflows</span>
                 </div>
                 <div>
                     <span>
@@ -1110,7 +1077,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">High Security Website</span>
+                    <span class="cs_fs_20 cs_medium">Free Property Website</span>
                 </div>
                 <div>
                     <span>
@@ -1120,7 +1087,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Discover the World of InnovateTech</span>
+                    <span class="cs_fs_20 cs_medium">Cloud-Based & Secure</span>
                 </div>
             </div>
             <div class="cs_brands_list">
@@ -1132,7 +1099,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Expertise</span>
+                    <span class="cs_fs_20 cs_medium">All-in-One Management</span>
                 </div>
                 <div>
                     <span>
@@ -1142,7 +1109,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Innovation Think</span>
+                    <span class="cs_fs_20 cs_medium">Easy to Use</span>
                 </div>
                 <div>
                     <span>
@@ -1152,7 +1119,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Quality Assurance</span>
+                    <span class="cs_fs_20 cs_medium">100% Free Forever</span>
                 </div>
                 <div>
                     <span>
@@ -1162,7 +1129,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Client Satisfaction Work</span>
+                    <span class="cs_fs_20 cs_medium">Automated Workflows</span>
                 </div>
                 <div>
                     <span>
@@ -1172,7 +1139,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">High Security Website</span>
+                    <span class="cs_fs_20 cs_medium">Free Property Website</span>
                 </div>
                 <div>
                     <span>
@@ -1182,7 +1149,7 @@
                                 fill="currentColor" />
                         </svg>
                     </span>
-                    <span class="cs_fs_20 cs_medium">Discover the World of InnovateTech</span>
+                    <span class="cs_fs_20 cs_medium">Cloud-Based & Secure</span>
                 </div>
             </div>
         </div>
@@ -1200,9 +1167,8 @@
                             <span>FAQ’s</span>
                             <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                         </div>
-                        <h2 class="cs_section_title cs_fs_48 cs_semibold wow fadeInLeft">Frequently Ask Questions</h2>
-                        <p class="cs_card_desc cs_mb_32">All the generators on the Internet tend to repeat predefined
-                            chunks as necessary, making this the first true</p>
+                        <h2 class="cs_section_title cs_fs_48 cs_semibold wow fadeInLeft">Frequently Asked Questions</h2>
+                        <p class="cs_card_desc cs_mb_32">Find answers to common questions about Propilor property and tenant management platform. Learn how we can help streamline your property operations.</p>
                         <a href="{{ route('landing.faqs') }}" aria-label="FAQ page link"
                             class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
                             <span>Check More Faq</span>
@@ -1214,54 +1180,46 @@
                     <div class="cs_faq_wrapper_1">
                         <div class="cs_accordian cs_style_2 cs_gray_bg_2 cs_radius_10 position-relative active">
                             <div class="cs_accordian_head">
-                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. CRM software, and how can it
-                                    benefit my business?</h3>
+                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. What is Propilor and how can it help manage my properties?</h3>
                                 <span class="cs_accordian_toggler cs_center cs_radius_100 position-absolute">
                                     <i class="fa-solid fa-arrow-up"></i>
                                 </span>
                             </div>
                             <div class="cs_accordian_body">
-                                <p>CRM (Customer Relationship Management) software helps businesses centralize data,
-                                    streamline sales processes, and improve customer.</p>
+                                <p>Propilor is a modern, all-in-one property and tenant management platform designed to help property owners, landlords, and property managers manage their properties efficiently from a single dashboard. It simplifies day-to-day operations such as rent tracking, tenant management, maintenance handling, and property listings.</p>
                             </div>
                         </div>
                         <div class="cs_accordian cs_style_2 cs_gray_bg_2 cs_radius_10 position-relative">
                             <div class="cs_accordian_head">
-                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. How do I get started with
-                                    CRM software?</h3>
+                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. Is Propilor really free to use?</h3>
                                 <span class="cs_accordian_toggler cs_center cs_radius_100 position-absolute">
                                     <i class="fa-solid fa-arrow-up"></i>
                                 </span>
                             </div>
                             <div class="cs_accordian_body">
-                                <p>CRM (Customer Relationship Management) software helps businesses centralize data,
-                                    streamline sales processes, and improve customer.</p>
+                                <p>Yes! Propilor is 100% free to use. No credit card required. All features including property management, tenant tracking, automated rent collection, maintenance management, free property website, and reports are available at no cost.</p>
                             </div>
                         </div>
                         <div class="cs_accordian cs_style_2 cs_gray_bg_2 cs_radius_10 position-relative">
                             <div class="cs_accordian_head">
-                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. Can I customize CRM software
-                                    my business needs?</h3>
+                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. Who can use Propilor?</h3>
                                 <span class="cs_accordian_toggler cs_center cs_radius_100 position-absolute">
                                     <i class="fa-solid fa-arrow-up"></i>
                                 </span>
                             </div>
                             <div class="cs_accordian_body">
-                                <p>CRM (Customer Relationship Management) software helps businesses centralize data,
-                                    streamline sales processes, and improve customer.</p>
+                                <p>Propilor is built for property owners, landlords, property managers, and small to medium property management companies. Whether you manage a few units or a growing portfolio, Propilor adapts to your needs.</p>
                             </div>
                         </div>
                         <div class="cs_accordian cs_style_2 cs_gray_bg_2 cs_radius_10 position-relative">
                             <div class="cs_accordian_head">
-                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. How secure is my data in CRM
-                                    software?</h3>
+                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. How secure is my property and tenant data?</h3>
                                 <span class="cs_accordian_toggler cs_center cs_radius_100 position-absolute">
                                     <i class="fa-solid fa-arrow-up"></i>
                                 </span>
                             </div>
                             <div class="cs_accordian_body">
-                                <p>CRM (Customer Relationship Management) software helps businesses centralize data,
-                                    streamline sales processes, and improve customer.</p>
+                                <p>Propilor is a cloud-based platform with secure data storage. Your information is stored securely, ensuring reliability and peace of mind. You can access your data anytime, anywhere with proper authentication.</p>
                             </div>
                         </div>
                     </div>
