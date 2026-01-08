@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="cs_main_header_right">
-                    <a href="{{ route('landing.contact') }}" aria-label="Get started button"
+                    <a href="{{ route('register') }}" aria-label="Get started button"
                         class="cs_btn cs_style_1 cs_theme_bg_4 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                         <span>Get Started</span>
                         <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>

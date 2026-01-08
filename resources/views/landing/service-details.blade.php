@@ -1,19 +1,20 @@
 @extends('landing.layout')
 
-@section('page-title', 'Service Details')
-@section('meta-description', 'Learn more about Propilor\'s property and tenant management services. Detailed information about our features, tools, and how we help you manage your properties efficiently.')
+@section('page-title', !empty($service) ? $service['title'] . ' - Service Details' : 'Service Details')
+@section('meta-description', !empty($service) ? $service['description'] : 'Learn more about Propilor\'s property and tenant management services. Detailed information about our features, tools, and how we help you manage your properties efficiently.')
 @section('meta-keywords', 'property management service details, tenant management features, property software features')
-@section('og-title', 'Service Details - Propilor')
+@section('og-title', !empty($service) ? $service['title'] . ' - Propilor' : 'Service Details - Propilor')
 
 @section('content')
 <!-- Start Page Heading -->
     <section class="cs_page_heading cs_style_hero text-center position-relative">
         <div class="cs_page_heading_content cs_bg_filed cs_radius_50 position-relative z-1" data-src="{{ asset('landing/assets/img/page-heading-bg.svg') }}">
         <div class="container">
-            <h1 class="cs_fs_64 cs_bold cs_mb_8">Service Details</h1>
+            <h1 class="cs_fs_64 cs_bold cs_mb_8">{{ !empty($service) ? $service['title'] : 'Service Details' }}</h1>
             <ol class="breadcrumb cs_fs_18 cs_heading_font">
                 <li class="breadcrumb-item"><a aria-label="Back to home page link" href="/">Home</a></li>
-                <li class="breadcrumb-item active">Service Details</li>
+                <li class="breadcrumb-item"><a aria-label="Services page link" href="{{ route('landing.services') }}">Services</a></li>
+                <li class="breadcrumb-item active">{{ !empty($service) ? $service['title'] : 'Service Details' }}</li>
             </ol>
                 <div class="cs_hero_shape_1 position-absolute">
                     <img src="{{ asset('landing/assets/img/dna-shape.png') }}" alt="Shape">
@@ -30,40 +31,83 @@
         <div class="cs_height_120 cs_height_lg_80"></div>
         <div class="container">
             <div class="cs_service_details">
-                <div class="cs_banner cs_radius_50">
-                    <img src="{{ asset('landing/assets/img/service_img-1.jpg') }}" alt="Service details banner">
-                </div>
-                <p>Our UI/UX design services are crafted to elevate your digital presence with precision and creativity. We begin by understanding your goals and your audience, ensuring that every design decision aligns with your brand’s vision. Our approach
-                    integrates user research, wireframing, and prototyping to create intuitive and engaging interfaces.
-                </p>
-                <p>We focus on delivering seamless user experiences that drive engagement and satisfaction. From concept to launch, our team is dedicated to design solutions that are not only visually appealing but also functionally robust. We continuously
-                    test and refine our designs to meet the highest standards of usability.</p>
-                <h2>Boost your brand with the help of our creative agency's UX design.</h2>
-                <p>Enhance your brand’s impact with our creative agency's expert UX design services. We’ll craft engaging and intuitive user experiences that elevate your brand and captivate your audience.</p>
-                <ul>
-                    <li>consectetur placerat augue vestibulum</li>
-                    <li> adipiscing elit Etiam aliquam, enim vitae</li>
-                    <li>Mauris tincidunt a eget facilisis Quisque</li>
-                    <li>Donec at augue ante Nam posuere mauris</li>
-                    <li>Lorem ipsum dolor sit amet, consectetur</li>
-                    <li>quis pretium elit placerat id Fusce egestas</li>
-                </ul>
-                <div class="row cs_row_gap_30 cs_gap_y_30 cs_mb_32">
-                    <div class="col-md-6">
-                        <div class="cs_radius_20">
-                            <img src="{{ asset('landing/assets/img/service_img-2.jpg') }}" alt="Service image">
+                @if(!empty($service))
+                    <div class="cs_banner cs_radius_50">
+                        <img src="{{ asset('landing/assets/img/service_img-1.jpg') }}" alt="{{ $service['title'] }} banner">
+                    </div>
+                    
+                    @foreach($service['content'] as $paragraph)
+                        <p>{{ $paragraph }}</p>
+                    @endforeach
+                    
+                    <h2>Key Features of {{ $service['title'] }}</h2>
+                    <p>Our {{ $service['title'] }} solution comes with a comprehensive set of features designed to streamline your property management operations and help you achieve better results.</p>
+                    
+                    <ul>
+                        @foreach($service['features'] as $feature)
+                            <li>{{ $feature }}</li>
+                        @endforeach
+                    </ul>
+                    
+                    <div class="row cs_row_gap_30 cs_gap_y_30 cs_mb_32">
+                        <div class="col-md-6">
+                            <div class="cs_radius_20">
+                                <img src="{{ asset('landing/assets/img/service_img-2.jpg') }}" alt="{{ $service['title'] }} feature image">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="cs_radius_20">
+                                <img src="{{ asset('landing/assets/img/service_img-3.jpg') }}" alt="{{ $service['title'] }} feature image">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="cs_radius_20">
-                            <img src="{{ asset('landing/assets/img/service_img-3.jpg') }}" alt="Service image">
-                        </div>
+                    
+                    <p>With Propilor's {{ $service['title'] }}, you can streamline your operations, reduce manual work, and focus on growing your property management business. Our platform is designed to be intuitive, powerful, and scalable to meet your needs.</p>
+                    
+                    <p>Get started today and experience the difference that professional property management software can make. Join thousands of property owners and managers who trust Propilor to manage their properties efficiently.</p>
+                    
+                    <div class="text-center cs_mt_50">
+                        <a href="{{ url('register') }}" class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
+                            <span>Get Started Free</span>
+                            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+                        </a>
                     </div>
-                </div>
-                <p>Nam posuere mauris enim, quis pretium elit placerat id Fusce egestas nisi vel ipsum vehicula facilisis In pulvinar imperdiet venenatis Class aptent taciti sociosqu ad litora torent per conubia nostra, per inceptos himenaeos. Donec eu pulvinar
-                    lorem. Etiam vestibulum ligula quis nisl feugiat, consectetur placerat augue vestibulum Nulla aliquam elit eu diam pharetra.Nam posuere mauris enim, </p>
-                <p>Nam posuere mauris enim, quis pretium elit placerat id Fusce egestas nisi vel ipsum vehicula facilisis In pulvinar imperdiet venenatis Class aptent taciti sociosqu ad litora torent per conubia nostra, per inceptos himenaeos. Donec eu pulvinar
-                    lorem. </p>
+                @else
+                    <div class="cs_banner cs_radius_50">
+                        <img src="{{ asset('landing/assets/img/service_img-1.jpg') }}" alt="Service details banner">
+                    </div>
+                    <p>Explore our comprehensive property and tenant management services designed to help you streamline operations and maximize efficiency.</p>
+                    <p>Propilor offers a complete suite of tools and features to manage your properties, tenants, rent collection, maintenance, and more - all in one place.</p>
+                    
+                    <h2>Our Services</h2>
+                    <div class="row cs_row_gap_30 cs_gap_y_30">
+                        @if(!empty($services))
+                            @foreach($services as $slug => $serviceItem)
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="cs_iconbox cs_style_4 cs_radius_15 position-relative overflow-hidden">
+                                        <div class="cs_iconbox_content cs_radius_15 position-relative">
+                                            <div class="cs_iconbox_header cs_mb_17">
+                                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0">
+                                                    <a href="{{ route('landing.service-details', $slug) }}" aria-label="{{ $serviceItem['title'] }} details link">
+                                                        {{ $serviceItem['title'] }}
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div class="cs_iconbox_info">
+                                                <p class="cs_mb_25">{{ $serviceItem['description'] }}</p>
+                                                <a href="{{ route('landing.service-details', $slug) }}" aria-label="{{ $serviceItem['title'] }} details link"
+                                                    class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
+                                                    <span>READ MORE</span>
+                                                    <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
         <div class="cs_height_120 cs_height_lg_80"></div>

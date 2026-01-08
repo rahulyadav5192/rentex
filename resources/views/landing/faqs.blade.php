@@ -37,10 +37,10 @@
                             <span>FAQ’s</span>
                             <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                         </div>
-                        <h2 class="cs_section_title cs_fs_48 cs_semibold">Frequently Ask Questions</h2>
-                        <p class="cs_card_desc cs_mb_32">All the generators on the Internet tend to repeat predefined chunks as necessary, making this the first true</p>
-                        <a href="{{ route('landing.faqs') }}" aria-label="FAQ page link" class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
-              <span>Check More Faq</span>
+                        <h2 class="cs_section_title cs_fs_48 cs_semibold">Frequently Asked Questions</h2>
+                        <p class="cs_card_desc cs_mb_32">Find answers to common questions about Propilor property and tenant management platform. Learn how we can help streamline your property operations.</p>
+                        <a href="{{ url('register') }}" aria-label="Get started link" class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
+              <span>Get Started Free</span>
               <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
               </a>
                     </div>
@@ -49,46 +49,46 @@
                     <div class="cs_faq_wrapper_1">
                         <div class="cs_accordian cs_style_2 cs_gray_bg_2 cs_radius_10 position-relative active">
                             <div class="cs_accordian_head">
-                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. CRM software, and how can it benefit my business?</h3>
+                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. What is Propilor and how can it help manage my properties?</h3>
                                 <span class="cs_accordian_toggler cs_center cs_radius_100 position-absolute">
                   <i class="fa-solid fa-arrow-up"></i>
                   </span>
                             </div>
                             <div class="cs_accordian_body">
-                                <p>CRM (Customer Relationship Management) software helps businesses centralize data, streamline sales processes, and improve customer.</p>
+                                <p>Propilor is a modern, all-in-one property and tenant management platform designed to help property owners, landlords, and property managers manage their properties efficiently from a single dashboard. It simplifies day-to-day operations such as rent tracking, tenant management, maintenance handling, and property listings.</p>
                             </div>
                         </div>
                         <div class="cs_accordian cs_style_2 cs_gray_bg_2 cs_radius_10 position-relative">
                             <div class="cs_accordian_head">
-                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. How do I get started with CRM software?</h3>
+                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. Is Propilor really free to use?</h3>
                                 <span class="cs_accordian_toggler cs_center cs_radius_100 position-absolute">
                   <i class="fa-solid fa-arrow-up"></i>
                   </span>
                             </div>
                             <div class="cs_accordian_body">
-                                <p>CRM (Customer Relationship Management) software helps businesses centralize data, streamline sales processes, and improve customer.</p>
+                                <p>Yes! Propilor is 100% free to use. No credit card required. All features including property management, tenant tracking, automated rent collection, maintenance management, free property website, and reports are available at no cost.</p>
                             </div>
                         </div>
                         <div class="cs_accordian cs_style_2 cs_gray_bg_2 cs_radius_10 position-relative">
                             <div class="cs_accordian_head">
-                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. Can I customize CRM software my business needs?</h3>
+                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. Who can use Propilor?</h3>
                                 <span class="cs_accordian_toggler cs_center cs_radius_100 position-absolute">
                   <i class="fa-solid fa-arrow-up"></i>
                   </span>
                             </div>
                             <div class="cs_accordian_body">
-                                <p>CRM (Customer Relationship Management) software helps businesses centralize data, streamline sales processes, and improve customer.</p>
+                                <p>Propilor is built for property owners, landlords, property managers, and small to medium property management companies. Whether you manage a few units or a growing portfolio, Propilor adapts to your needs.</p>
                             </div>
                         </div>
                         <div class="cs_accordian cs_style_2 cs_gray_bg_2 cs_radius_10 position-relative">
                             <div class="cs_accordian_head">
-                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. How secure is my data in CRM software?</h3>
+                                <h3 class="cs_accordian_title cs_fs_20 cs_semibold mb-0">Q. How secure is my property and tenant data?</h3>
                                 <span class="cs_accordian_toggler cs_center cs_radius_100 position-absolute">
                   <i class="fa-solid fa-arrow-up"></i>
                   </span>
                             </div>
                             <div class="cs_accordian_body">
-                                <p>CRM (Customer Relationship Management) software helps businesses centralize data, streamline sales processes, and improve customer.</p>
+                                <p>Propilor is a cloud-based platform with secure data storage. Your information is stored securely, ensuring reliability and peace of mind. You can access your data anytime, anywhere with proper authentication.</p>
                             </div>
                         </div>
                     </div>

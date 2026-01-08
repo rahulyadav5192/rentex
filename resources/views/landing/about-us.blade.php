@@ -41,22 +41,22 @@
                             <div class="cs_section_heading cs_style_1 cs_mb_34">
                                 <div class="cs_section_subtitle cs_fs_18 cs_heading_color cs_mb_22">
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
-                                    <span>Appreciation feature</span>
+                                    <span>About Propilor</span>
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                                 </div>
-                                <h2 class="cs_section_title cs_fs_48 cs_semibold">Our Priority CRM Options For The Future</h2>
-                                <p class="mb-0">CRM management is comprehensive contact management, allowing businesses to centralize and organize customer information for easy access.</p>
+                                <h2 class="cs_section_title cs_fs_48 cs_semibold">Making Property Management Simple & Accessible</h2>
+                                <p class="mb-0">Propilor is a modern, all-in-one property and tenant management platform designed to help property owners, landlords, and property managers manage their properties efficiently from a single dashboard.</p>
                             </div>
                             <div class="cs_service_item cs_radius_15 cs_gray_bg_2 cs_mb_24 cs_active">
-                                <h3 class="cs_service_title cs_fs_24 cs_semibold cs_mb_8">Sales Force Automation</h3>
-                                <p class="mb-0">CRM management is comprehensive contact management, allowing businesses to centralize and organize customer information for allowing businesses to centralize and organize easy access.</p>
+                                <h3 class="cs_service_title cs_fs_24 cs_semibold cs_mb_8">Our Mission</h3>
+                                <p class="mb-0">Propilor aims to make property management simple, transparent, and accessible for everyone. By removing complexity and cost barriers, Propilor empowers property owners and managers to operate professionally, even without large teams or expensive software.</p>
                             </div>
                             <div class="cs_service_item cs_radius_15 cs_mb_48">
-                                <h3 class="cs_service_title cs_fs_24 cs_semibold cs_mb_8">Lead Management</h3>
-                                <p class="mb-0">CRM management is comprehensive contact management, allowing businesses to centralize and organize customer information for allowing businesses to centralize and organize easy access.</p>
+                                <h3 class="cs_service_title cs_fs_24 cs_semibold cs_mb_8">100% Free Forever</h3>
+                                <p class="mb-0">Best of all, Propilor is free to use, making professional property management accessible to everyone. No credit card required. Start managing your properties smarter with Propilor today.</p>
                             </div>
                             <div class="cs_btns_group">
-                                <a href="{{ route('landing.contact') }}" aria-label="Get started button" class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
+                                <a href="{{ url('register') }}" aria-label="Get started button" class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
                   <span>Get Started Free</span>
                   <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
                   </a>
@@ -80,7 +80,7 @@
     <section class="cs_customer_review cs_bg_filed cs_radius_50" data-src="{{ asset('landing/assets/img/rating-bg-1.svg') }}">
         <div class="container">
             <div class="cs_section_heading cs_style_1 text-center cs_mb_47">
-                <h2 class="cs_fs_48 cs_semibold cs_white_color mb-0">Customers Have Consistently <br> Rated Saaso 4.9/5</h2>
+                <h2 class="cs_fs_48 cs_semibold cs_white_color mb-0">Trusted by Property Managers <br> Across the Globe</h2>
             </div>
             <div class="row cs_row_gap_30 cs_gap_y_30">
                 <div class="col-lg-4">
@@ -90,7 +90,7 @@
                                 <div class="cs_rating_percentage"></div>
                             </div>
                         </div>
-                        <p class="cs_fs_20 cs_white_color cs_mb_33">"The Interface Is Excellent"</p>
+                        <p class="cs_fs_20 cs_white_color cs_mb_33">"Easy to Use & Intuitive"</p>
                         <img src="{{ asset('landing/assets/img/rating-logo-1.svg') }}" alt="Logo">
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                                 <div class="cs_rating_percentage"></div>
                             </div>
                         </div>
-                        <p class="cs_fs_20 cs_white_color cs_mb_33">"Improvements In Every Release"</p>
+                        <p class="cs_fs_20 cs_white_color cs_mb_33">"Automated Workflows Save Time"</p>
                         <img src="{{ asset('landing/assets/img/rating-logo-2.svg') }}" alt="Logo">
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                                 <div class="cs_rating_percentage"></div>
                             </div>
                         </div>
-                        <p class="cs_fs_20 cs_white_color cs_mb_33">"The Interface Is Excellent"</p>
+                        <p class="cs_fs_20 cs_white_color cs_mb_33">"Free & Professional Platform"</p>
                         <img src="{{ asset('landing/assets/img/rating-logo-3.svg') }}" alt="Logo">
                     </div>
                 </div>
@@ -136,29 +136,29 @@
                             <div class="cs_section_heading cs_style_1 cs_mb_27">
                                 <div class="cs_section_subtitle cs_fs_18 cs_heading_color cs_mb_22">
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
-                                    <span>Customizations & Analysis</span>
+                                    <span>Reports & Insights</span>
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                                 </div>
-                                <h2 class="cs_section_title cs_fs_48 cs_semibold">We Make It Easy To Track All User Analytics</h2>
-                                <p class="cs_card_desc mb-0">All the generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                                <h2 class="cs_section_title cs_fs_48 cs_semibold">Clear Reports & Visual Insights</h2>
+                                <p class="cs_card_desc mb-0">Propilor provides clear and simple reports to help you understand your property performance. Track rent collection, expenses, occupancy status, and maintenance costs with visual insights that support better decision-making.</p>
                             </div>
                             <div class="cs_iconbox_wrapper_1">
                                 <div class="cs_iconbox cs_style_1 cs_type_1">
                                     <span class="cs_iconbox_icon cs_center cs_accent_bg">
-                    <img src="{{ asset('landing/assets/img/icons/advanced-tracking.svg') }}" alt="Advanced tracking icon">
+                    <img src="{{ asset('landing/assets/img/icons/advanced-tracking.svg') }}" alt="Reports icon">
                     </span>
                                     <div class="cs_iconbox_info">
-                                        <h3 class="cs_fs_20 cs_semibold cs_mb_1">Advanced tracking</h3>
-                                        <p class="mb-0">All the generators on the Internet tend to repeat predefined chunks as</p>
+                                        <h3 class="cs_fs_20 cs_semibold cs_mb_1">Financial Reports</h3>
+                                        <p class="mb-0">Track rent collection, expenses, and income with detailed financial reports that help you understand your property's financial health.</p>
                                     </div>
                                 </div>
                                 <div class="cs_iconbox cs_style_1 cs_type_1">
                                     <span class="cs_iconbox_icon cs_center cs_bg_1">
-                    <img src="{{ asset('landing/assets/img/icons/in-depth.svg') }}" alt="In-depth monitoring icon">
+                    <img src="{{ asset('landing/assets/img/icons/in-depth.svg') }}" alt="Analytics icon">
                     </span>
                                     <div class="cs_iconbox_info">
-                                        <h3 class="cs_fs_20 cs_semibold cs_mb_1">In-depth monitoring</h3>
-                                        <p class="mb-0">All the generators on the Internet tend to repeat predefined chunks as</p>
+                                        <h3 class="cs_fs_20 cs_semibold cs_mb_1">Occupancy Analytics</h3>
+                                        <p class="mb-0">Monitor occupancy status, tenant turnover, and property utilization with visual insights that support better portfolio management.</p>
                                     </div>
                                 </div>
                             </div>
@@ -179,31 +179,31 @@
                         <div class="cs_counter_number cs_fs_48 cs_semibold cs_white_color cs_mb_10">
                             <span class="odometer" data-count-to="16"></span>K+
                         </div>
-                        <p class="cs_fs_24 cs_heading_font mb-0">Completed Our <br> Projects</p>
+                        <p class="cs_fs_24 cs_heading_font mb-0">Properties <br> Managed</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="cs_numberbox cs_center_column text-center">
                         <div class="cs_counter_number cs_fs_48 cs_semibold cs_white_color cs_mb_10">
-                            <span class="odometer" data-count-to="180"></span>+
+                            <span class="odometer" data-count-to="50"></span>K+
                         </div>
-                        <p class="cs_fs_24 cs_heading_font mb-0">Our Expert Support <br> Team Members</p>
+                        <p class="cs_fs_24 cs_heading_font mb-0">Active <br> Tenants</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="cs_numberbox cs_center_column text-center">
                         <div class="cs_counter_number cs_fs_48 cs_semibold cs_white_color cs_mb_10">
-                            <span class="odometer" data-count-to="6"></span>K+
+                            <span class="odometer" data-count-to="10"></span>K+
                         </div>
-                        <p class="cs_fs_24 cs_heading_font mb-0">Our Worldwide <br> Clients</p>
+                        <p class="cs_fs_24 cs_heading_font mb-0">Property Managers <br> Using Propilor</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="cs_numberbox cs_center_column text-center">
                         <div class="cs_counter_number cs_fs_48 cs_semibold cs_white_color cs_mb_10">
-                            <span class="odometer" data-count-to="35"></span>+
+                            <span class="odometer" data-count-to="100"></span>%
                         </div>
-                        <p class="cs_fs_24 cs_heading_font mb-0">We are Winning <br> Awards</p>
+                        <p class="cs_fs_24 cs_heading_font mb-0">Free <br> Forever</p>
                     </div>
                 </div>
             </div>
@@ -233,12 +233,12 @@
                                     <span>Costumer Story</span>
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                                 </div>
-                                <h2 class="cs_section_title cs_fs_48 cs_semibold text-capitalize mb-0">How a certain consumer used a product successfully</h2>
+                                <h2 class="cs_section_title cs_fs_48 cs_semibold text-capitalize mb-0">How Property Managers Use Propilor Successfully</h2>
                             </div>
-                            <p class="cs_card_desc cs_mb_51">CRM management is comprehensive contact management, allowing businesses to centralize and organize customer information for easy access.</p>
+                            <p class="cs_card_desc cs_mb_51">Property managers across the globe use Propilor to streamline their operations, automate rent collection, manage maintenance requests, and grow their property portfolios efficiently. See how Propilor transforms property management workflows.</p>
                             <div class="cs_btns_group">
-                                <a href="#" aria-label="Get started button" class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
-                  <span>read costumer story </span>
+                                <a href="{{ url('register') }}" aria-label="Get started button" class="cs_btn cs_style_1 cs_bg_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
+                  <span>Get Started Free</span>
                   <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
                   </a>
                                 <div class="cs_client_info_wrapper">
@@ -276,15 +276,15 @@
                                         <div class="cs_rating_percentage"></div>
                                     </div>
                                 </div>
-                                <blockquote>This is why having reviews and client testimonials is so important for your business. So, in this article, go over some client testimonial examples you should be aware of and how you can go about gathering those testimonials
-                                    for yourself. This is why having reviews and client testimonials is so important for your business. So, in this article, we’ll go over some client testimonial</blockquote>
+                                <blockquote>Propilor has completely transformed how I manage my properties. The automated rent collection and maintenance tracking features save me hours every week. The free website feature helped me establish an online presence instantly. Best of all, it's completely free!
+                                </blockquote>
                                 <div class="cs_avatar cs_style_1">
                                     <span class="cs_avatar_icon cs_center cs_radius_100">
                     <img src="{{ asset('landing/assets/img/avatar-5.jpg') }}" alt="Avatar">
                     </span>
                                     <div class="cs_avatar_info">
-                                        <h3 class="cs_fs_20 cs_semibold mb-0">Juliana Rose</h3>
-                                        <p class="cs_fs_14 mb-0">Marketing Manager</p>
+                                        <h3 class="cs_fs_20 cs_semibold mb-0">Sarah Mitchell</h3>
+                                        <p class="cs_fs_14 mb-0">Property Owner, 15 Units</p>
                                     </div>
                                 </div>
                             </div>
@@ -299,15 +299,15 @@
                                         <div class="cs_rating_percentage"></div>
                                     </div>
                                 </div>
-                                <blockquote>This is why having reviews and client testimonials is so important for your business. So, in this article, go over some client testimonial examples you should be aware of and how you can go about gathering those testimonials
-                                    for yourself. This is why having reviews and client testimonials is so important for your business. So, in this article, we’ll go over some client testimonial</blockquote>
+                                <blockquote>As a property manager handling multiple buildings, Propilor's centralized dashboard is a game-changer. I can track all tenants, rent payments, and maintenance requests from one place. The automated email alerts ensure I never miss important deadlines. Highly recommended!
+                                </blockquote>
                                 <div class="cs_avatar cs_style_1">
                                     <span class="cs_avatar_icon cs_center cs_radius_100">
                     <img src="{{ asset('landing/assets/img/avatar-6.jpg') }}" alt="Avatar">
                     </span>
                                     <div class="cs_avatar_info">
-                                        <h3 class="cs_fs_20 cs_semibold mb-0">Anjelina Rose</h3>
-                                        <p class="cs_fs_14 mb-0">UI/UX Designer</p>
+                                        <h3 class="cs_fs_20 cs_semibold mb-0">Michael Chen</h3>
+                                        <p class="cs_fs_14 mb-0">Property Manager, 50+ Units</p>
                                     </div>
                                 </div>
                             </div>
@@ -333,7 +333,7 @@
                     <span>Our Team</span>
                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                 </div>
-                <h2 class="cs_section_title cs_fs_48 cs_semibold mb-0">Our Experts Team Member</h2>
+                <h2 class="cs_section_title cs_fs_48 cs_semibold mb-0">Meet the Propilor Team</h2>
             </div>
             <div class="row cs_row_gap_30 cs_gap_y_30 justify-content-center">
                 <div class="col-lg-4">

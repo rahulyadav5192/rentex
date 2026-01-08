@@ -31,35 +31,35 @@
         <div class="container">
             <div class="cs_features_items_wrapper position-relative z-1">
                 <div class="cs_feature_item cs_radius_20 cs_bg_filed" data-src="{{ asset('landing/assets/img/feature-item-bg.svg') }}">
-                    <h3 class="cs_fs_36 cs_semibold cs_white_color cs_mb_40">See more and get visibility <br> for your business</h3>
-                    <a href="{{ route('landing.contact') }}" aria-label="Get started button" class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
-            <span>Get Started</span>
+                    <h3 class="cs_fs_36 cs_semibold cs_white_color cs_mb_40">Complete Property & Tenant <br> Management Platform</h3>
+                    <a href="{{ url('register') }}" aria-label="Get started button" class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_white_color text-uppercase">
+            <span>Get Started Free</span>
             <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
             </a>
                 </div>
                 <div class="cs_feature_item cs_white_bg cs_radius_20">
                     <span class="cs_feature_icon cs_center cs_radius_12 cs_mb_15">
-            <img src="{{ asset('landing/assets/img/icons/code-icon.svg') }}" alt="Coding icon">
+            <img src="{{ asset('landing/assets/img/icons/code-icon.svg') }}" alt="Property Management icon">
             </span>
                     <h3 class="cs_fs_24 cs_semibold cs_mb_6">
-                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Software Development</a>
+                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Property & Unit Management</a>
                     </h3>
                     <ul class="cs_features_list cs_mp_0">
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Security</span>
+                            <span>Organize Buildings & Units</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Agile Methodologies</span>
+                            <span>Track Occupancy Status</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Clear Requirements</span>
+                            <span>Portfolio Overview</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Feedback &  Improvement</span>
+                            <span>Scalable Management</span>
                         </li>
                     </ul>
                     <a href="{{ route('landing.service-details') }}" aria-label="Service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
@@ -69,27 +69,27 @@
                 </div>
                 <div class="cs_feature_item cs_white_bg cs_radius_20">
                     <span class="cs_feature_icon cs_center cs_bg_1 cs_radius_12 cs_mb_15">
-            <img src="{{ asset('landing/assets/img/icons/cloud-computing.svg') }}" alt="Cloud computing icon">
+            <img src="{{ asset('landing/assets/img/icons/cloud-computing.svg') }}" alt="Rent Collection icon">
             </span>
                     <h3 class="cs_fs_24 cs_semibold cs_mb_6">
-                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Cloud Computing Solutions</a>
+                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Automated Rent Collection</a>
                     </h3>
                     <ul class="cs_features_list cs_mp_0">
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Security</span>
+                            <span>Monthly Rent Generation</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Agile Methodologies</span>
+                            <span>Payment Tracking</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Clear Requirements</span>
+                            <span>Overdue Alerts</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Feedback &  Improvement</span>
+                            <span>Transparent Records</span>
                         </li>
                     </ul>
                     <a href="{{ route('landing.service-details') }}" aria-label="Service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
@@ -99,27 +99,27 @@
                 </div>
                 <div class="cs_feature_item cs_white_bg cs_radius_20">
                     <span class="cs_feature_icon cs_bg_2 cs_center cs_radius_12 cs_mb_15">
-            <img src="{{ asset('landing/assets/img/icons/quality-assurance.svg') }}" alt="Quality assurance icon">
+            <img src="{{ asset('landing/assets/img/icons/quality-assurance.svg') }}" alt="Maintenance icon">
             </span>
                     <h3 class="cs_fs_24 cs_semibold cs_mb_6">
-                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Quality Assurance</a>
+                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Maintenance Management</a>
                     </h3>
                     <ul class="cs_features_list cs_mp_0">
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Security</span>
+                            <span>Tenant Request System</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Agile Methodologies</span>
+                            <span>Vendor Assignment</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Clear Requirements</span>
+                            <span>Progress Tracking</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Feedback &  Improvement</span>
+                            <span>Ticket Management</span>
                         </li>
                     </ul>
                     <a href="{{ route('landing.service-details') }}" aria-label="Service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
@@ -129,27 +129,27 @@
                 </div>
                 <div class="cs_feature_item cs_white_bg cs_radius_20">
                     <span class="cs_feature_icon cs_bg_3 cs_center cs_radius_12 cs_mb_15">
-            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Cybersecurity security icon">
+            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Property Website icon">
             </span>
                     <h3 class="cs_fs_24 cs_semibold cs_mb_6">
-                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Cybersecurity Services</a>
+                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Free Property Website</a>
                     </h3>
                     <ul class="cs_features_list cs_mp_0">
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Security</span>
+                            <span>Professional Website</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Agile Methodologies</span>
+                            <span>Property Showcase</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Clear Requirements</span>
+                            <span>Lead Collection</span>
                         </li>
                         <li>
                             <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
-                            <span>Feedback &  Improvement</span>
+                            <span>No Technical Setup</span>
                         </li>
                     </ul>
                     <a href="{{ route('landing.service-details') }}" aria-label="Service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
@@ -171,15 +171,15 @@
                     <span>Awesome Feature</span>
                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                 </div>
-                <h2 class="cs_section_title cs_fs_48 cs_semibold mb-0">Our Fantastic App Features</h2>
+                <h2 class="cs_section_title cs_fs_48 cs_semibold mb-0">How to Get Started with Propilor</h2>
             </div>
             <div class="cs_features_steps_wrapper">
                 <div class="cs_feature_step cs_center_column">
                     <div class="cs_step_index cs_radius_50 cs_fs_14 cs_semibold cs_heading_color text-uppercase"><span>Step One</span></div>
                     <div class="cs_vertical_line"></div>
                     <div class="cs_step_indfo_wrapper cs_radius_30 text-center position-relative">
-                        <h3 class="cs_fs_24 cs_semibold cs_mb_10">Download App</h3>
-                        <p class="mb-0">All the generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                        <h3 class="cs_fs_24 cs_semibold cs_mb_10">Create Your Account</h3>
+                        <p class="mb-0">Sign up for free in minutes. No credit card required. Simply register with your email address and start managing your properties immediately.</p>
                         <img src="{{ asset('landing/assets/img/border-shape.png') }}" alt="Border shape">
                     </div>
                 </div>
@@ -187,8 +187,8 @@
                     <div class="cs_step_index cs_radius_50 cs_fs_14 cs_semibold cs_heading_color text-uppercase"><span>Step Two</span></div>
                     <div class="cs_vertical_line"></div>
                     <div class="cs_step_indfo_wrapper cs_radius_30 text-center position-relative">
-                        <h3 class="cs_fs_24 cs_semibold cs_mb_10">Create account</h3>
-                        <p class="mb-0">All the generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                        <h3 class="cs_fs_24 cs_semibold cs_mb_10">Add Your Properties</h3>
+                        <p class="mb-0">Add your properties, units, and tenant information to your dashboard. Organize buildings, floors, and units with ease.</p>
                         <img src="{{ asset('landing/assets/img/border-shape.png') }}" alt="Border shape">
                     </div>
                 </div>
@@ -196,8 +196,8 @@
                     <div class="cs_step_index cs_radius_50 cs_fs_14 cs_semibold cs_heading_color text-uppercase"><span>Step Three</span></div>
                     <div class="cs_vertical_line"></div>
                     <div class="cs_step_indfo_wrapper cs_radius_30 text-center position-relative">
-                        <h3 class="cs_fs_24 cs_semibold cs_mb_10">Install App, & Enjoy</h3>
-                        <p class="mb-0">All the generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                        <h3 class="cs_fs_24 cs_semibold cs_mb_10">Start Managing</h3>
+                        <p class="mb-0">Begin tracking rent, managing maintenance requests, and accessing reports. Automate workflows and grow your portfolio efficiently.</p>
                         <img src="{{ asset('landing/assets/img/border-shape.png') }}" alt="Border shape">
                     </div>
                 </div>
@@ -225,26 +225,26 @@
                                     <span>Customizations & Analysis</span>
                                     <img src="{{ asset('landing/assets/img/icons/star-1.svg') }}" alt="Star icon">
                                 </div>
-                                <h2 class="cs_section_title cs_fs_48 cs_semibold">We Make It Easy To Track All User Analytics</h2>
-                                <p class="cs_card_desc mb-0">All the generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                                <h2 class="cs_section_title cs_fs_48 cs_semibold">Reports & Insights for Better Decisions</h2>
+                                <p class="cs_card_desc mb-0">Propilor provides clear and simple reports to help you understand your property performance. Track rent collection, expenses, occupancy status, and maintenance costs with visual insights.</p>
                             </div>
                             <div class="cs_iconbox_wrapper_1">
                                 <div class="cs_iconbox cs_style_1 cs_type_1">
                                     <span class="cs_iconbox_icon cs_center cs_accent_bg">
-                    <img src="{{ asset('landing/assets/img/icons/advanced-tracking.svg') }}" alt="Advanced tracking icon">
+                    <img src="{{ asset('landing/assets/img/icons/advanced-tracking.svg') }}" alt="Reports icon">
                     </span>
                                     <div class="cs_iconbox_info">
-                                        <h3 class="cs_fs_20 cs_semibold cs_mb_1">Advanced tracking</h3>
-                                        <p class="mb-0">All the generators on the Internet tend to repeat predefined chunks as</p>
+                                        <h3 class="cs_fs_20 cs_semibold cs_mb_1">Financial Reports</h3>
+                                        <p class="mb-0">Track rent collection, expenses, and income with detailed financial reports that help you understand your property's financial health.</p>
                                     </div>
                                 </div>
                                 <div class="cs_iconbox cs_style_1 cs_type_1">
                                     <span class="cs_iconbox_icon cs_center cs_bg_1">
-                    <img src="{{ asset('landing/assets/img/icons/in-depth.svg') }}" alt="In-depth monitoring icon">
+                    <img src="{{ asset('landing/assets/img/icons/in-depth.svg') }}" alt="Analytics icon">
                     </span>
                                     <div class="cs_iconbox_info">
-                                        <h3 class="cs_fs_20 cs_semibold cs_mb_1">In-depth monitoring</h3>
-                                        <p class="mb-0">All the generators on the Internet tend to repeat predefined chunks as</p>
+                                        <h3 class="cs_fs_20 cs_semibold cs_mb_1">Occupancy Analytics</h3>
+                                        <p class="mb-0">Monitor occupancy status, tenant turnover, and property utilization with visual insights that support better portfolio management.</p>
                                     </div>
                                 </div>
                             </div>

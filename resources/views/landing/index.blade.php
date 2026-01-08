@@ -152,14 +152,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details') }}"
-                                        aria-label="Service details page link">Property Automation</a></h3>
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'property-automation') }}"
+                                        aria-label="Property Automation service details page link">Property Automation</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Centralize all your properties, buildings, and units in one
                                     platform. Track occupancy, manage units, and monitor
                                     property performance effortlessly from a single dashboard.</p>
-                                <a href="{{ route('landing.service-details') }}" aria-label="Service details page link"
+                                <a href="{{ route('landing.service-details', 'property-automation') }}" aria-label="Property Automation service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -184,14 +184,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details') }}"
-                                        aria-label="Service details page link">Tenant Management</a></h3>
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'tenant-management') }}"
+                                        aria-label="Tenant Management service details page link">Tenant Management</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Manage tenant profiles, leases, documents, and communication with
                                     ease. Keep complete tenant history, rent status, and
                                     agreements organized and accessible anytime.</p>
-                                <a href="{{ route('landing.service-details') }}" aria-label="Service details page link"
+                                <a href="{{ route('landing.service-details', 'tenant-management') }}" aria-label="Tenant Management service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -217,14 +217,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details') }}"
-                                        aria-label="Service details page link">Rent & Billing Automation</a></h3>
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'rent-billing-automation') }}"
+                                        aria-label="Rent & Billing Automation service details page link">Rent & Billing Automation</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Automate rent billing cycles, track payments, manage dues, and
                                     generate receipts. Get a clear view of collected,
                                     pending, and overdue rent across all properties.</p>
-                                <a href="{{ route('landing.service-details') }}" aria-label="Service details page link"
+                                <a href="{{ route('landing.service-details', 'rent-billing-automation') }}" aria-label="Rent & Billing Automation service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -278,14 +278,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details') }}"
-                                        aria-label="Service details page link">Maintenance & Tasks</a></h3>
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'maintenance-tasks') }}"
+                                        aria-label="Maintenance & Tasks service details page link">Maintenance & Tasks</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Handle maintenance requests and operational tasks efficiently.
                                     Assign vendors, track progress, manage costs, and ensure
                                     issues are resolved on time.</p>
-                                <a href="{{ route('landing.service-details') }}" aria-label="Service details page link"
+                                <a href="{{ route('landing.service-details', 'maintenance-tasks') }}" aria-label="Maintenance & Tasks service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -356,14 +356,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details') }}"
-                                        aria-label="Service details page link">Lease & Contract Management</a></h3>
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'lease-contract-management') }}"
+                                        aria-label="Lease & Contract Management service details page link">Lease & Contract Management</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Create, manage, and track lease agreements seamlessly. Monitor lease
                                     periods, renewals, deposits, and contract status
                                     with automated reminders.</p>
-                                <a href="{{ route('landing.service-details') }}" aria-label="Service details page link"
+                                <a href="{{ route('landing.service-details', 'lease-contract-management') }}" aria-label="Lease & Contract Management service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -387,14 +387,14 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
-                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details') }}"
-                                        aria-label="Service details page link">Complete Visibility & Reports</a></h3>
+                                <h3 class="cs_iconbox_title cs_fs_24 cs_semibold mb-0"><a href="{{ route('landing.service-details', 'complete-visibility-reports') }}"
+                                        aria-label="Complete Visibility & Reports service details page link">Complete Visibility & Reports</a></h3>
                             </div>
                             <div class="cs_iconbox_info">
                                 <p class="cs_mb_25">Gain full visibility into your property operations with real-time
                                     reports. Analyze occupancy, income, expenses, and
                                     maintenance costs to make informed decisions.</p>
-                                <a href="{{ route('landing.service-details') }}" aria-label="Service details page link"
+                                <a href="{{ route('landing.service-details', 'complete-visibility-reports') }}" aria-label="Complete Visibility & Reports service details page link"
                                     class="cs_btn cs_style_1 cs_fs_14 cs_bold cs_heading_color text-uppercase">
                                     <span>READ MORE</span>
                                     <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
@@ -1345,7 +1345,7 @@
     <!-- End Blog Section -->
     
     <!-- Start Scroll Up Button -->
-    <button type="button" aria-label="Scroll to top button"
+    <button type="button" aria-label="Scroll to top button" style="z-index: 999;"
         class="cs_scrollup cs_purple_bg cs_white_color cs_radius_100">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 10L1.7625 11.7625L8.75 4.7875V20H11.25V4.7875L18.225 11.775L20 10L10 0L0 10Z"
