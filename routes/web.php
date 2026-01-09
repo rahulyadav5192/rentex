@@ -501,7 +501,8 @@ Route::get('/team-details', function () {
 })->name('landing.team-details');
 
 Route::get('/pricing', function () {
-    return view('landing.pricing');
+    $subscriptions = \App\Models\Subscription::orderBy('package_amount', 'asc')->get();
+    return view('landing.pricing', compact('subscriptions'));
 })->name('landing.pricing');
 
 Route::get('/faqs', function () {

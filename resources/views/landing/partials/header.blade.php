@@ -21,9 +21,8 @@
                     <div class="cs_nav">
                         <ul class="cs_nav_list">
                             <li><a href="{{ url('/') }}" aria-label="Menu link">Home</a></li>
-                            <li><a href="{{ route('landing.about') }}" aria-label="Menu link">About Us</a></li>
                             <li class="menu-item-has-children">
-                                <a href="#" aria-label="Menu link">Services</a>
+                                <a href="{{ route('landing.services') }}" aria-label="Menu link">Services</a>
                                 <ul>
                                     <li><a href="{{ route('landing.services') }}" aria-label="Menu link">All Services</a></li>
                                     <li><a href="{{ route('landing.service.property-automation') }}" aria-label="Menu link">Property Automation</a></li>
@@ -34,24 +33,11 @@
                                     <li><a href="{{ route('landing.service.visibility-reports') }}" aria-label="Menu link">Complete Visibility & Reports</a></li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children">
-                                <a href="#" aria-label="Menu link">Pages</a>
-                                <ul>
-                                    <li><a href="{{ route('landing.team') }}" aria-label="Menu link">Our Team</a></li>
-                                    <li><a href="{{ route('landing.team-details') }}" aria-label="Menu link">Team Details</a></li>
-                                    <li><a href="{{ route('landing.pricing') }}" aria-label="Menu link">Our Pricing</a></li>
-                                    <li><a href="{{ route('landing.faqs') }}" aria-label="Menu link">FAQ & Answer</a></li>
-                                    <li><a href="{{ route('landing.error') }}" aria-label="Menu link">Error</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item-has-children">
-                                <a href="#" aria-label="Menu link">Blog</a>
-                                <ul>
-                                    <li><a href="{{ url('blog') }}" aria-label="Menu link">Blog</a></li>
-                                    <li><a href="{{ route('landing.blog-details') }}" aria-label="Menu link">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="{{ route('register') }}" aria-label="Menu link">Contact Us</a></li>
+                            <li><a href="{{ route('landing.pricing') }}" aria-label="Menu link">Pricing</a></li>
+                            <li><a href="{{ route('landing.about') }}" aria-label="Menu link">About Us</a></li>
+                            <li><a href="{{ route('landing.faqs') }}" aria-label="Menu link">FAQ</a></li>
+                            <li><a href="{{ route('landing.blog') }}" aria-label="Menu link">Blog</a></li>
+                            <li><a href="{{ route('landing.contact') }}" aria-label="Menu link">Contact</a></li>
                         </ul>
                     </div>
                 </div>

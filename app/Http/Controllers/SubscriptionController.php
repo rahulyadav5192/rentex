@@ -60,6 +60,12 @@ class SubscriptionController extends Controller
             $subscription->property_limit = $request->property_limit;
             $subscription->tenant_limit = $request->tenant_limit;
             $subscription->enabled_logged_history = isset($request->enabled_logged_history) ? 1 : 0;
+            $subscription->most_popular = isset($request->most_popular) ? 1 : 0;
+            $subscription->description = $request->description;
+            $subscription->email_notification = isset($request->email_notification) ? 1 : 0;
+            $subscription->subdomain = isset($request->subdomain) ? 1 : 0;
+            $subscription->custom_domain = isset($request->custom_domain) ? 1 : 0;
+            $subscription->yearly_discount = $request->yearly_discount ?? 20;
             $subscription->save();
 
             return redirect()->route('subscriptions.index')->with('success', __('Subscription successfully created.'));
@@ -118,6 +124,12 @@ class SubscriptionController extends Controller
             $subscription->property_limit = $request->property_limit;
             $subscription->tenant_limit = $request->tenant_limit;
             $subscription->enabled_logged_history = isset($request->enabled_logged_history) ? 1 : 0;
+            $subscription->most_popular = isset($request->most_popular) ? 1 : 0;
+            $subscription->description = $request->description;
+            $subscription->email_notification = isset($request->email_notification) ? 1 : 0;
+            $subscription->subdomain = isset($request->subdomain) ? 1 : 0;
+            $subscription->custom_domain = isset($request->custom_domain) ? 1 : 0;
+            $subscription->yearly_discount = $request->yearly_discount ?? 20;
             $subscription->save();
 
             return redirect()->route('subscriptions.index')->with('success', __('Subscription successfully updated.'));

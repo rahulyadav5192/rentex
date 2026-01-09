@@ -32,12 +32,12 @@
             <div class="row cs_row_gap_30 cs_gap_y_30 justify-content-center">
                 <div class="col-lg-4 col-md-6">
                     <div class="cs_team cs_style_1">
-                        <a href="{{ route('landing.team-details') }}" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
-              <img src="{{ asset('landing/assets/img/team-img-1.jpg') }}" alt="Team image">
+                        <a href="#" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
+              <img src="{{ asset('landing/assets/img/rahul.png') }}" alt="Team image">
               </a>
                         <div class="cs_team_info cs_radius_30 cs_white_bg cs_center_column text-center">
-                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="{{ route('landing.team-details') }}">Miler Michel</a></h3>
-                            <p class="cs_fs_18 cs_heading_color cs_mb_12">co-Founder</p>
+                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="#">Rahul Yadav</a></h3>
+                            <p class="cs_fs_18 cs_heading_color cs_mb_12">Founder & CEO</p>
                             <div class="cs_social_links cs_style_1">
                                 <a href="#" aria-label="Social link"><i class="fa-brands fa-facebook-f"></i></a>
                                 <a href="#" aria-label="Social link"><i class="fa-brands fa-twitter"></i></a>
@@ -49,11 +49,11 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="cs_team cs_style_1">
-                        <a href="{{ route('landing.team-details') }}" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
+                        <a href="#" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
               <img src="{{ asset('landing/assets/img/team-img-2.jpg') }}" alt="Team image">
               </a>
                         <div class="cs_team_info cs_radius_30 cs_white_bg cs_center_column text-center">
-                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="{{ route('landing.team-details') }}">Olivia Martinez</a></h3>
+                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="#">Olivia Martinez</a></h3>
                             <p class="cs_fs_18 cs_heading_color cs_mb_12">co-Founder</p>
                             <div class="cs_social_links cs_style_1">
                                 <a href="#" aria-label="Social link"><i class="fa-brands fa-facebook-f"></i></a>
@@ -66,11 +66,11 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="cs_team cs_style_1">
-                        <a href="{{ route('landing.team-details') }}" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
+                        <a href="#" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
               <img src="{{ asset('landing/assets/img/team-img-3.jpg') }}" alt="Team image">
               </a>
                         <div class="cs_team_info cs_radius_30 cs_white_bg cs_center_column text-center">
-                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="{{ route('landing.team-details') }}">Scarlett Adams</a></h3>
+                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="#">Scarlett Adams</a></h3>
                             <p class="cs_fs_18 cs_heading_color cs_mb_12">HR manager</p>
                             <div class="cs_social_links cs_style_1">
                                 <a href="#" aria-label="Social link"><i class="fa-brands fa-facebook-f"></i></a>
@@ -83,12 +83,12 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="cs_team cs_style_1">
-                        <a href="{{ route('landing.team-details') }}" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
-              <img src="{{ asset('landing/assets/img/team-img-4.jpg') }}" alt="Team image">
+                        <a href="#" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
+              <img src="{{ asset('landing/assets/img/Mohd Kavish.jpg') }}" alt="Team image">
               </a>
                         <div class="cs_team_info cs_radius_30 cs_white_bg cs_center_column text-center">
-                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="{{ route('landing.team-details') }}">Annette Black</a></h3>
-                            <p class="cs_fs_18 cs_heading_color cs_mb_12">co-Founder</p>
+                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="#">Mohd. Kavish</a></h3>
+                            <p class="cs_fs_18 cs_heading_color cs_mb_12">Product Designer</p>
                             <div class="cs_social_links cs_style_1">
                                 <a href="#" aria-label="Social link"><i class="fa-brands fa-facebook-f"></i></a>
                                 <a href="#" aria-label="Social link"><i class="fa-brands fa-twitter"></i></a>
@@ -100,11 +100,11 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="cs_team cs_style_1">
-                        <a href="{{ route('landing.team-details') }}" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
+                        <a href="#" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
               <img src="{{ asset('landing/assets/img/team-img-5.jpg') }}" alt="Team image">
               </a>
                         <div class="cs_team_info cs_radius_30 cs_white_bg cs_center_column text-center">
-                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="{{ route('landing.team-details') }}">Jacob Jones</a></h3>
+                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="#">Jacob Jones</a></h3>
                             <p class="cs_fs_18 cs_heading_color cs_mb_12">co-Founder</p>
                             <div class="cs_social_links cs_style_1">
                                 <a href="#" aria-label="Social link"><i class="fa-brands fa-facebook-f"></i></a>
@@ -117,11 +117,11 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="cs_team cs_style_1">
-                        <a href="{{ route('landing.team-details') }}" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
+                        <a href="#" class="cs_team_thumbnail cs_radius_100 cs_center position-relative z-1">
               <img src="{{ asset('landing/assets/img/team-img-6.jpg') }}" alt="Team image">
               </a>
                         <div class="cs_team_info cs_radius_30 cs_white_bg cs_center_column text-center">
-                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="{{ route('landing.team-details') }}">Dianne Russell</a></h3>
+                            <h3 class="cs_team_title cs_fs_24 cs_semibold cs_mb_4"><a href="#">Dianne Russell</a></h3>
                             <p class="cs_fs_18 cs_heading_color cs_mb_12">HR manager</p>
                             <div class="cs_social_links cs_style_1">
                                 <a href="#" aria-label="Social link"><i class="fa-brands fa-facebook-f"></i></a>

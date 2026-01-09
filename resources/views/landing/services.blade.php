@@ -42,7 +42,7 @@
             <img src="{{ asset('landing/assets/img/icons/code-icon.svg') }}" alt="Property Management icon">
             </span>
                     <h3 class="cs_fs_24 cs_semibold cs_mb_6">
-                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Property & Unit Management</a>
+                        <a href="{{ route('landing.service.property-automation') }}" aria-label="Property Automation service details link">Property & Unit Management</a>
                     </h3>
                     <ul class="cs_features_list cs_mp_0">
                         <li>
@@ -62,7 +62,7 @@
                             <span>Scalable Management</span>
                         </li>
                     </ul>
-                    <a href="{{ route('landing.service-details') }}" aria-label="Service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+                    <a href="{{ route('landing.service.property-automation') }}" aria-label="Property Automation service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
             <span>Read More</span>
             <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
             </a>
@@ -72,7 +72,7 @@
             <img src="{{ asset('landing/assets/img/icons/cloud-computing.svg') }}" alt="Rent Collection icon">
             </span>
                     <h3 class="cs_fs_24 cs_semibold cs_mb_6">
-                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Automated Rent Collection</a>
+                        <a href="{{ route('landing.service.rent-billing') }}" aria-label="Rent & Billing Automation service details link">Automated Rent Collection</a>
                     </h3>
                     <ul class="cs_features_list cs_mp_0">
                         <li>
@@ -92,7 +92,7 @@
                             <span>Transparent Records</span>
                         </li>
                     </ul>
-                    <a href="{{ route('landing.service-details') }}" aria-label="Service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+                    <a href="{{ route('landing.service.rent-billing') }}" aria-label="Rent & Billing Automation service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
             <span>Read More</span>
             <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
             </a>
@@ -102,7 +102,7 @@
             <img src="{{ asset('landing/assets/img/icons/quality-assurance.svg') }}" alt="Maintenance icon">
             </span>
                     <h3 class="cs_fs_24 cs_semibold cs_mb_6">
-                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Maintenance Management</a>
+                        <a href="{{ route('landing.service.maintenance-tasks') }}" aria-label="Maintenance & Tasks service details link">Maintenance Management</a>
                     </h3>
                     <ul class="cs_features_list cs_mp_0">
                         <li>
@@ -122,7 +122,7 @@
                             <span>Ticket Management</span>
                         </li>
                     </ul>
-                    <a href="{{ route('landing.service-details') }}" aria-label="Service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+                    <a href="{{ route('landing.service.maintenance-tasks') }}" aria-label="Maintenance & Tasks service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
             <span>Read More</span>
             <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
             </a>

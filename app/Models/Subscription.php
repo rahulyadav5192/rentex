@@ -14,6 +14,12 @@ class Subscription extends Model
         'property_limit',
         'tenant_limit',
         'enabled_logged_history',
+        'most_popular',
+        'description',
+        'email_notification',
+        'subdomain',
+        'custom_domain',
+        'yearly_discount',
     ];
 
     public static $intervals = [

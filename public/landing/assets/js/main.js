@@ -386,6 +386,10 @@
       11. Pricing value Toggle
     --------------------------------------------------------------*/
     function pricingToggle() {
+        // Initialize on page load - show monthly prices by default
+        $('.yearlyPrice').hide();
+        $('.monthlyPrice').show();
+        
         let currentAttrValue = 'monthly';
         $('.cs_pricing_control a').on('click', function(e) {
             $(this).parents('li').addClass('active').siblings().removeClass('active');
