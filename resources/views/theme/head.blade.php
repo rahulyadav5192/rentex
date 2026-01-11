@@ -36,8 +36,8 @@
     <meta property="twitter:image"
         content="{{ asset(Storage::url('upload/seo')) . '/' . $settings['meta_seo_image'] }}">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    {{-- Tailwind CSS CDN - Disabled for new theme, using tailwind-build.css instead --}}
+    {{-- <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -88,7 +88,7 @@
                 },
             },
         };
-    </script>
+    </script> --}}
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet"/>
@@ -250,7 +250,72 @@
     </script>
 
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-
-
+    
+    <!-- New Theme CSS - Load AFTER existing CSS to override if needed -->
+    <!-- Bootstrap Icons - Load first -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Tailwind Build CSS - Must load before index.css -->
+    <link rel="stylesheet" href="{{ asset('theme-new/css/tailwind-build.css') }}" id="tailwind-build-css">
+    <!-- Custom Index CSS - Load last to override -->
+    <link rel="stylesheet" href="{{ asset('theme-new/css/index.css') }}" id="theme-index-css">
+    
+    <style>
+        /* Override conflicting styles for new theme */
+        body.tw-flex {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        /* Ensure new theme classes work */
+        .tw-* {
+            box-sizing: border-box;
+        }
+        
+        /* Remove old theme wrapper styles */
+        .wrapper,
+        .body_content,
+        .preloader,
+        .hiddenbar-body-ovelay {
+            display: none !important;
+        }
+        
+        /* Hero section spacing */
+        #hero-section {
+            margin-top: 80px !important;
+        }
+        
+        @media (min-width: 1024px) {
+            #hero-section {
+                margin-top: 100px !important;
+            }
+        }
+        
+        /* Dark mode dots background */
+        .tw-dark #hero-section {
+            background-image: url('{{ asset('theme-new/assets/images/background/dots.svg') }}') !important;
+        }
+        
+        /* Moving bubbles animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            33% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            66% {
+                transform: translateY(10px) translateX(-10px);
+            }
+        }
+        
+        .purple-bg-grad {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Remove tilt from dashboard */
+        #dashboard {
+            transform: perspective(1200px) translateX(0px) translateY(0px) scale(1) rotate(0deg) rotateX(0deg) !important;
+        }
+    </style>
 
 </head>

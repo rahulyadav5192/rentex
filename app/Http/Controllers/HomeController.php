@@ -74,6 +74,10 @@ class HomeController extends Controller
                 $result['totalUnit'] = PropertyUnit::where('parent_id', parentId())->count();
                 $result['totalIncome'] = InvoicePayment::where('parent_id', parentId())->sum('amount');
                 $result['totalExpense'] = Expense::where('parent_id', parentId())->sum('amount');
+                $result['totalTenant'] = Tenant::where('parent_id', parentId())->count();
+                $result['totalStaff'] = User::where('parent_id', parentId())->whereNotIn('type', ['owner', 'tenant', 'maintainer'])->count();
+                $result['totalMaintainer'] = Maintainer::where('parent_id', parentId())->count();
+                $result['totalEnquiry'] = Contact::where('parent_id', parentId())->count();
                 $result['recentProperty'] = Property::where('parent_id', parentId())->orderby('id', 'desc')->limit(5)->get();
                 $result['recentTenant'] = Tenant::where('parent_id', parentId())->orderby('id', 'desc')->limit(5)->get();
                 $result['incomeExpenseByMonth'] = $this->incomeByMonth();

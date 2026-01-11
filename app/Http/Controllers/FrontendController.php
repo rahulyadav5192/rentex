@@ -10,6 +10,7 @@ use App\Models\LeadFormField;
 use App\Models\Notification;
 use App\Models\Property;
 use App\Models\PropertyUnit;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,13 @@ class FrontendController extends Controller
             ->get()
             ->groupBy('listing_type');
 
-        return view('theme.index', compact('settings', 'parent_id', 'user', 'allAmenities', 'listingTypes', 'propertiesByType'));
+        // Get latest blogs for blog section
+        $blogs = Blog::where('parent_id', $user->id)->latest()->take(3)->get();
+
+        // Get subscriptions for pricing section
+        $subscriptions = Subscription::orderBy('package_amount', 'asc')->get();
+
+        return view('theme.index', compact('settings', 'parent_id', 'user', 'allAmenities', 'listingTypes', 'propertiesByType', 'blogs', 'subscriptions'));
     }
 
 

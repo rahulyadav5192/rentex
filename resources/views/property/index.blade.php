@@ -156,6 +156,9 @@
                                 {{ __('View Listings') }}
                             </a>
                         @can('create property')
+                                <a class="btn btn-secondary" href="{{ route('property.import.index') }}" data-size="md"> <i
+                                        class="ti ti-upload align-text-bottom "></i>
+                                    {{ __('Import Properties') }}</a>
                                 <a class="btn btn-secondary" href="{{ route('property.create') }}" data-size="md"> <i
                                         class="ti ti-circle-plus align-text-bottom "></i>
                                     {{ __('Create Property') }}</a>

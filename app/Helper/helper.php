@@ -41,7 +41,7 @@ if (!function_exists('settingsKeys')) {
         return $settingsKeys = [
             "app_name" => "",
             "theme_mode" => "light",
-            "layout_font" => "Roboto",
+            "layout_font" => "Poppins",
             "accent_color" => "preset-6",
             "color_type" => "preset",
             "custom_color" => "--primary-rgb: 0,0,0",

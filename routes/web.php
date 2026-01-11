@@ -311,6 +311,17 @@ Route::group(
         Route::delete('property/{pid}/unit/{id}/destroy', [PropertyController::class, 'unitDestroy'])->name('unit.destroy');
         Route::get('property/{pid}/unit', [PropertyController::class, 'getPropertyUnit'])->name('property.unit');
         Route::delete('/property/document/{pid}', [PropertyController::class, 'fileDestroy'])->name('property.image.delete');
+        
+        // Property Import Routes
+        Route::prefix('property-import')->name('property.import.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\PropertyImportController::class, 'index'])->name('index');
+            Route::get('/mapping', [\App\Http\Controllers\PropertyImportController::class, 'mapping'])->name('mapping');
+            Route::post('/upload', [\App\Http\Controllers\PropertyImportController::class, 'upload'])->name('upload');
+            Route::post('/validate', [\App\Http\Controllers\PropertyImportController::class, 'validateImport'])->name('validate');
+            Route::post('/execute', [\App\Http\Controllers\PropertyImportController::class, 'import'])->name('execute');
+            Route::get('/result', [\App\Http\Controllers\PropertyImportController::class, 'result'])->name('result');
+            Route::get('/cancel', [\App\Http\Controllers\PropertyImportController::class, 'cancel'])->name('cancel');
+        });
     }
 );
 

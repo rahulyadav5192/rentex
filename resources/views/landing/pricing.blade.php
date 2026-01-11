@@ -105,7 +105,7 @@
                                             <span class="monthlyPrice">${{ number_format($monthlyPrice, 0) }}</span>
                                             <span class="yearlyPrice">${{ number_format(round($yearlyPrice / 12, 0), 0) }}</span>
                                         @endif
-                                        <small>Per User/Month</small>
+                                        <small>Per Month</small>
                         </div>
                                     <p class="mb-0">{{ $subscription->description ?: 'Get essential features to kickstart your journey to success' }}</p>
                         </div>

@@ -1,0 +1,6 @@
+property_name,description,country,state,city,zip_code,address,unit_name,rent,rent_type,rent_duration,status,tenant_name
+Green Villa,Premium residential apartments,USA,California,Los Angeles,90001,123 Sunset Blvd,A-101,1200,monthly,12,vacant,
+Green Villa,Premium residential apartments,USA,California,Los Angeles,90001,123 Sunset Blvd,A-102,1300,monthly,12,occupied,John Doe
+Green Villa,Premium residential apartments,USA,California,Los Angeles,90001,123 Sunset Blvd,A-103,1250,monthly,12,vacant,
+Blue Homes,Modern family housing,USA,Texas,Austin,73301,45 Lake View Rd,B-1,900,monthly,6,vacant,
+Blue Homes,Modern family housing,USA,Texas,Austin,73301,45 Lake View Rd,B-2,950,monthly,6,occupied,Emma Watson

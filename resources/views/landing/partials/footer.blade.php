@@ -7,8 +7,8 @@
         $logo = asset('landing/assets/img/logo_white.png');
     }
     $companyAddress = !empty($settings['company_address']) ? $settings['company_address'] : '12 Division Park, SKY 12546. Berlin';
-    $companyEmail = !empty($settings['company_email']) ? $settings['company_email'] : 'help@webteck-mail.com';
-    $companyPhone = !empty($settings['company_phone']) ? $settings['company_phone'] : '+(215) 2536-32156';
+    $companyEmail = !empty($settings['company_email']) ? $settings['company_email'] : 'info.propilor@gmail.com';
+    $companyPhone = !empty($settings['company_phone']) ? $settings['company_phone'] : '+91 8303084138';
     $companyName = !empty($settings['app_name']) ? $settings['app_name'] : env('APP_NAME');
 @endphp
 <!-- Start Footer Section -->

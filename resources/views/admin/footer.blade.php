@@ -76,7 +76,7 @@
 <script src="{{ asset('assets/js/plugins/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/buttons.bootstrap5.min.js') }}"></script>
 <script>
-    font_change("{{ $settings['layout_font'] }}");
+    font_change("{{ !empty($settings['layout_font']) ? $settings['layout_font'] : 'Poppins' }}");
 </script>
 
 <script>
@@ -98,7 +98,7 @@
 <form method="post" action="{{ route('theme.settings') }}">
     {{ csrf_field() }}
     <input type="hidden" name="theme_mode" id="theme_mode" value="{{ $settings['theme_mode'] }}">
-    <input type="hidden" name="layout_font" id="layout_font" value="{{ $settings['layout_font'] }}">
+    <input type="hidden" name="layout_font" id="layout_font" value="{{ !empty($settings['layout_font']) ? $settings['layout_font'] : 'Poppins' }}">
     <input type="hidden" name="accent_color" id="accent_color" value="{{ $settings['accent_color'] }}">
     <input type="hidden" name="sidebar_caption" id="sidebar_caption" value="{{ $settings['sidebar_caption'] }}">
     <input type="hidden" name="theme_layout" id="theme_layout" value="{{ $settings['theme_layout'] }}">
@@ -378,7 +378,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="layout_font"
                                             id="layoutfontRoboto"
-                                            {{ $settings['layout_font'] == 'Roboto' ? 'checked' : '' }} value="Roboto"
+                                            {{ (!empty($settings['layout_font']) && $settings['layout_font'] == 'Roboto') ? 'checked' : '' }} value="Roboto"
                                             onclick="font_change('Roboto')" />
                                         <label class="form-check-label"
                                             for="layoutfontRoboto">{{ __('Roboto') }}</label>
@@ -386,7 +386,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="layout_font"
                                             id="layoutfontPoppins"
-                                            {{ $settings['layout_font'] == 'Poppins' ? 'checked' : '' }}
+                                            {{ (empty($settings['layout_font']) || $settings['layout_font'] == 'Poppins') ? 'checked' : '' }}
                                             value="Poppins" onclick="font_change('Poppins')" />
                                         <label class="form-check-label"
                                             for="layoutfontPoppins">{{ __('Poppins') }}</label>

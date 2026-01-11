@@ -816,7 +816,9 @@
                                 <div class="cs_pricing_table_heading cs_mb_18">
                                     <h2 class="cs_plan_title cs_fs_24 cs_semibold cs_white_color mb-0">{{ $subscription->title }}</h2>
                                     <span class="cs_plan_icon">
+                                        @if(!$isMostPopular)
                                         <img src="{{ asset('landing/assets/img/icons/' . $iconMap[$iconIndex]) }}" alt="Pricing plan icon">
+                                        @endif
                                     </span>
                                 </div>
                                 <div class="cs_pricing_info cs_mb_20">
@@ -843,7 +845,7 @@
                                             <span class="monthlyPrice">${{ number_format($monthlyPrice, 0) }}</span>
                                             <span class="yearlyPrice">${{ number_format(round($yearlyPrice / 12, 0), 0) }}</span>
                                         @endif
-                                        <small>Per User/Month</small>
+                                        <small>Per Month</small>
                                     </div>
                                     <p class="cs_white_color mb-0">{{ $subscription->description ?: 'Get essential features to kickstart your journey to success' }}</p>
                                 </div>
@@ -945,7 +947,7 @@
                             <div class="cs_price cs_fs_74 cs_semibold cs_white_color cs_heading_font cs_mb_4">$
                                 <span class="monthlyPrice">39</span>
                                 <span class="yearlyPrice">29</span>
-                                <small>Per User/Month</small>
+                                <small>Per Month</small>
                             </div>
                             <p class="cs_white_color mb-0">For Smaller Teams Looking to automate basic Sales Marketing
                                 and Business Processes</p>
@@ -1027,7 +1029,7 @@
                             <div class="cs_price cs_fs_74 cs_semibold cs_white_color cs_heading_font cs_mb_4">$
                                 <span class="monthlyPrice">69</span>
                                 <span class="yearlyPrice">49</span>
-                                <small>Per User/Month</small>
+                                <small>Per Month</small>
                             </div>
                             <p class="cs_white_color mb-0">For Smaller Teams Looking to automate basic Sales Marketing
                                 and Business Processes</p>

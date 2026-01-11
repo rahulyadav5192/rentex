@@ -309,6 +309,24 @@
                                             </div>
                                         </div>
                                         {{ Form::close() }}
+                                        
+                                        <hr class="my-4">
+                                        
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5 class="mb-3 text-danger">{{ __('Danger Zone') }}</h5>
+                                                <div class="alert alert-warning" role="alert">
+                                                    <i class="ti ti-alert-triangle me-2"></i>
+                                                    <strong>{{ __('Warning') }}:</strong> {{ __('Once you delete your account, Data Will Be Lost. Please be certain. You can start a new account') }}
+                                                </div>
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['setting.account.delete'], 'class' => 'd-inline']) !!}
+                                                <button type="button" class="btn btn-danger btn-rounded common_confirm_dialog" data-actions="Account">
+                                                    <i class="ti ti-user-x me-2"></i>
+                                                    {{ __('Delete Account') }}
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </div>
                                     </div>
                                 @endif
                                 @if (Gate::check('manage password settings'))

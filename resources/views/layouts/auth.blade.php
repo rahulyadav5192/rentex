@@ -41,7 +41,7 @@
         content="{{ !empty($settings['meta_seo_image']) ? fetch_file($settings['meta_seo_image'], 'upload/logo/') : '#' }}">
 
     <link rel="icon" href="{{ asset('landing/assets/img/favicon.png') }}" type="image/png" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
         id="main-font-link" />
     <link rel="stylesheet" href="{{ asset('assets/fonts/phosphor/duotone/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}" />
@@ -129,7 +129,7 @@
 
     @stack('script-page')
     <script>
-        font_change('Roboto');
+        font_change('{{ !empty($settings['layout_font']) ? $settings['layout_font'] : 'Poppins' }}');
     </script>
 </body>
 
