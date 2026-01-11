@@ -7,7 +7,7 @@
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
     <li class="breadcrumb-item"><a href="{{ route('property.index') }}">{{ __('Property') }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('property.import') }}">{{ __('Import') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('property.import.index') }}">{{ __('Import') }}</a></li>
     <li class="breadcrumb-item" aria-current="page">{{ __('Mapping') }}</li>
 @endsection
 
