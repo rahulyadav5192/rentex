@@ -27,6 +27,7 @@ class Tenant extends Model
         'exit_date',
         'reason',
         'is_active',
+        'parent_id',
     ];
 
     public function properties()

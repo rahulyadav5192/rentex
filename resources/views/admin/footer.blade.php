@@ -26,21 +26,21 @@
 
                 <p class="m-0">
                     @if (!empty($settings['copyright']))
-                        {{ $settings['copyright'] }}
+                        {{ $settings['copyright'] }} © {{ env('APP_NAME') }}.com
                     @else
                         {{ __('Copyright') }} {{ date('Y') }} © {{ env('APP_NAME') }}
                         {{ __('All rights reserved') }}.
                     @endif
                 </p>
             </div>
-            <div class="col-sm-6 ms-auto my-1">
+            {{-- <div class="col-sm-6 ms-auto my-1">
                 <ul class="list-inline footer-link mb-0 justify-content-sm-end d-flex">
                     @foreach ($DefaultCustomPage as $item)
                         <li class="list-inline-item"><a href="{{ route('page', $item->slug) }}"
                                 target="_blank">{{ $item->title }}</a></li>
                     @endforeach
                 </ul>
-            </div>
+            </div> --}}
         </div>
     </div>
 </footer>

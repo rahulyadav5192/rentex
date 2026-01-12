@@ -95,7 +95,9 @@
                             <h5>{{ __('Tenant List') }}</h5>
                         </div>
                         @can('create tenant')
-                            <div class="col-auto">
+                            <div class="col-auto d-flex gap-2">
+                                <a class="btn btn-secondary" href="{{ route('tenant.import.index') }}" data-size="md"> <i
+                                        class="ti ti-upload align-text-bottom" style="color: #fff;"></i> {{ __('Import Tenants') }}</a>
                                 <a class="btn btn-secondary" href="{{ route('tenant.create') }}" data-size="md"> <i
                                         class="ti ti-circle-plus align-text-bottom" style="color: #fff;"></i> {{ __('Create Tenant') }}</a>
                             </div>

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('page-title')
-    {{ __('Import Properties & Units') }}
+    {{ __('Import Tenants') }}
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('property.index') }}">{{ __('Property') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('tenant.index') }}">{{ __('Tenant') }}</a></li>
     <li class="breadcrumb-item" aria-current="page">{{ __('Import') }}</li>
 @endsection
 
@@ -24,7 +24,7 @@
                             <i class="ti ti-info-circle me-2"></i>
                             <strong>{{ __('Supported formats:') }}</strong> CSV, XLSX, XLS (Max 10MB)
                             <br>
-                            <strong>{{ __('File structure:') }}</strong> Each row represents one unit. Property data may repeat across rows.
+                            <strong>{{ __('File structure:') }}</strong> Each row represents one tenant. Property and unit names will be matched automatically (case-insensitive).
                         </div>
 
                         <!-- Required Fields Section -->
@@ -34,26 +34,8 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted mb-3">{{ __('The following fields are required in your import file:') }}</p>
-                                
-                                <h6 class="text-primary mb-2">{{ __('Property Fields') }}</h6>
-                                <div class="row mb-3">
-                                    @foreach($propertyFields as $field => $config)
-                                        @if($config['required'])
-                                            <div class="col-md-6 mb-2">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="ti ti-check text-success me-2"></i>
-                                                    <strong>{{ $config['label'] }}</strong>
-                                                    <span class="badge bg-danger ms-2">{{ __('Required') }}</span>
-                                                </div>
-                                                <small class="text-muted ms-4">{{ __('Type:') }} {{ ucfirst($config['type']) }}</small>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-
-                                <h6 class="text-primary mb-2">{{ __('Unit Fields') }}</h6>
                                 <div class="row">
-                                    @foreach($unitFields as $field => $config)
+                                    @foreach($tenantFields as $field => $config)
                                         @if($config['required'])
                                             <div class="col-md-6 mb-2">
                                                 <div class="d-flex align-items-center">
@@ -76,28 +58,8 @@
                             </div>
                             <div class="card-body">
                                 <p class="text-muted mb-3">{{ __('The following fields are optional but recommended:') }}</p>
-                                
-                                <h6 class="text-primary mb-2">{{ __('Property Fields') }}</h6>
-                                <div class="row mb-3">
-                                    @foreach($propertyFields as $field => $config)
-                                        @if(!$config['required'])
-                                            <div class="col-md-6 mb-2">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="ti ti-circle text-muted me-2"></i>
-                                                    <strong>{{ $config['label'] }}</strong>
-                                                </div>
-                                                <small class="text-muted ms-4">{{ __('Type:') }} {{ ucfirst($config['type']) }}</small>
-                                                @if(isset($config['options']))
-                                                    <br><small class="text-muted ms-4">{{ __('Options:') }} {{ implode(', ', $config['options']) }}</small>
-                                                @endif
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-
-                                <h6 class="text-primary mb-2">{{ __('Unit Fields') }}</h6>
                                 <div class="row">
-                                    @foreach($unitFields as $field => $config)
+                                    @foreach($tenantFields as $field => $config)
                                         @if(!$config['required'])
                                             <div class="col-md-6 mb-2">
                                                 <div class="d-flex align-items-center">
@@ -105,9 +67,6 @@
                                                     <strong>{{ $config['label'] }}</strong>
                                                 </div>
                                                 <small class="text-muted ms-4">{{ __('Type:') }} {{ ucfirst($config['type']) }}</small>
-                                                @if(isset($config['options']))
-                                                    <br><small class="text-muted ms-4">{{ __('Options:') }} {{ implode(', ', $config['options']) }}</small>
-                                                @endif
                                             </div>
                                         @endif
                                     @endforeach
@@ -126,51 +85,43 @@
                                     <table class="table table-bordered table-sm">
                                         <thead class="table-light">
                                             <tr>
+                                                <th>first_name</th>
+                                                <th>last_name</th>
+                                                <th>email</th>
+                                                <th>password</th>
+                                                <th>phone_number</th>
                                                 <th>property_name</th>
-                                                <th>property_address</th>
                                                 <th>unit_name</th>
-                                                <th>unit_rent</th>
-                                                <th>unit_bedroom</th>
-                                                <th>unit_baths</th>
-                                                <th>property_type</th>
-                                                <th>property_city</th>
+                                                <th>lease_start_date</th>
+                                                <th>lease_end_date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <td>John</td>
+                                                <td>Doe</td>
+                                                <td>john.doe@example.com</td>
+                                                <td>password123</td>
+                                                <td>1234567890</td>
                                                 <td>Sunset Apartments</td>
-                                                <td>123 Main St</td>
                                                 <td>A101</td>
-                                                <td>1200</td>
-                                                <td>2</td>
-                                                <td>1</td>
-                                                <td>own_property</td>
-                                                <td>New York</td>
+                                                <td>2024-01-01</td>
+                                                <td>2024-12-31</td>
                                             </tr>
                                             <tr>
+                                                <td>Jane</td>
+                                                <td>Smith</td>
+                                                <td>jane.smith@example.com</td>
+                                                <td>password456</td>
+                                                <td>0987654321</td>
                                                 <td>Sunset Apartments</td>
-                                                <td>123 Main St</td>
                                                 <td>A102</td>
-                                                <td>1300</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>own_property</td>
-                                                <td>New York</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ocean View Complex</td>
-                                                <td>456 Beach Blvd</td>
-                                                <td>B201</td>
-                                                <td>1500</td>
-                                                <td>3</td>
-                                                <td>2</td>
-                                                <td>lease_property</td>
-                                                <td>Los Angeles</td>
+                                                <td>2024-02-01</td>
+                                                <td>2025-01-31</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <p class="text-muted mt-2"><small><i class="ti ti-info-circle me-1"></i>{{ __('Note: Property data can repeat across rows. Properties are automatically grouped by name and address.') }}</small></p>
                             </div>
                         </div>
 
@@ -178,11 +129,10 @@
                         <div class="alert alert-warning">
                             <h6 class="mb-2"><i class="ti ti-lightbulb me-2"></i>{{ __('Field Name Tips:') }}</h6>
                             <ul class="mb-0">
-                                <li>{{ __('Column names can vary (e.g., "Property Name", "PropertyName", "property_name" will all work)') }}</li>
-                                <li>{{ __('Properties are automatically grouped by name and address combination') }}</li>
-                                <li>{{ __('If multiple rows have the same property name and address, only one property will be created') }}</li>
+                                <li>{{ __('Column names can vary (e.g., "First Name", "Firstname", "Fname" will all work)') }}</li>
+                                <li>{{ __('Property and Unit names will be matched automatically by trimming and converting to lowercase') }}</li>
+                                <li>{{ __('If a property/unit is not found, you can select it manually during the mapping step') }}</li>
                                 <li>{{ __('Date fields can be in various formats (YYYY-MM-DD, MM/DD/YYYY, etc.)') }}</li>
-                                <li>{{ __('Numeric fields (rent, bedrooms, etc.) should contain only numbers') }}</li>
                             </ul>
                         </div>
 
@@ -206,7 +156,7 @@
                                 <button type="submit" class="btn btn-primary" id="upload-btn">
                                     <i class="ti ti-upload me-2"></i>{{ __('Upload & Preview') }}
                                 </button>
-                                <a href="{{ route('property.index') }}" class="btn btn-secondary">
+                                <a href="{{ route('tenant.index') }}" class="btn btn-secondary">
                                     <i class="ti ti-x me-2"></i>{{ __('Cancel') }}
                                 </a>
                             </div>
@@ -237,7 +187,7 @@ $(document).ready(function() {
         $('#upload-error').addClass('d-none');
         
         $.ajax({
-            url: '{{ route("property.import.upload") }}',
+            url: '{{ route("tenant.import.upload") }}',
             type: 'POST',
             data: formData,
             processData: false,
@@ -254,7 +204,7 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.success) {
-                    window.location.href = '{{ route("property.import.mapping") }}';
+                    window.location.href = '{{ route("tenant.import.mapping") }}';
                 } else {
                     $('#upload-error').removeClass('d-none').text(response.error || '{{ __("Upload failed.") }}');
                     $('#upload-btn').prop('disabled', false).html('<i class="ti ti-upload me-2"></i>{{ __("Upload & Preview") }}');

@@ -341,6 +341,18 @@ Route::get('tenant/{pid}/unit', [TenantController::class, 'getPropertyUnit'])->n
 
 Route::get('/tenant/unit-details/{id}', [TenantController::class, 'getUnitDetails'])->name('tenant.unit.details');
 
+// Tenant Import Routes
+Route::prefix('tenant-import')->name('tenant.import.')->middleware(['auth', 'XSS'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\TenantImportController::class, 'index'])->name('index');
+    Route::get('/mapping', [\App\Http\Controllers\TenantImportController::class, 'mapping'])->name('mapping');
+    Route::post('/upload', [\App\Http\Controllers\TenantImportController::class, 'upload'])->name('upload');
+    Route::post('/validate', [\App\Http\Controllers\TenantImportController::class, 'validateImport'])->name('validate');
+    Route::get('/units', [\App\Http\Controllers\TenantImportController::class, 'getUnits'])->name('units');
+    Route::post('/execute', [\App\Http\Controllers\TenantImportController::class, 'execute'])->name('execute');
+    Route::get('/result', [\App\Http\Controllers\TenantImportController::class, 'result'])->name('result');
+    Route::get('/cancel', [\App\Http\Controllers\TenantImportController::class, 'cancel'])->name('cancel');
+});
+
 //-------------------------------Type-------------------------------------------
 Route::resource('type', TypeController::class)->middleware(
     [

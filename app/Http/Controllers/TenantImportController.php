@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PropertyImportRequest;
-use App\Services\PropertyImportService;
+use App\Http\Requests\TenantImportRequest;
+use App\Services\TenantImportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 
-class PropertyImportController extends Controller
+class TenantImportController extends Controller
 {
     protected $importService;
 
-    public function __construct(PropertyImportService $importService)
+    public function __construct(TenantImportService $importService)
     {
         $this->importService = $importService;
     }
@@ -23,13 +23,12 @@ class PropertyImportController extends Controller
      */
     public function index()
     {
-        if (!\Auth::user()->can('create property')) {
+        if (!\Auth::user()->can('create tenant')) {
             return redirect()->back()->with('error', __('Permission Denied!'));
         }
 
-        $propertyFields = $this->importService->getPropertyFields();
-        $unitFields = $this->importService->getUnitFields();
-        return view('property.import.index', compact('propertyFields', 'unitFields'));
+        $tenantFields = $this->importService->getTenantFields();
+        return view('tenant.import.index', compact('tenantFields'));
     }
 
     /**
@@ -37,7 +36,7 @@ class PropertyImportController extends Controller
      */
     public function upload(Request $request)
     {
-        if (!\Auth::user()->can('create property')) {
+        if (!\Auth::user()->can('create tenant')) {
             return response()->json(['error' => __('Permission Denied!')], 403);
         }
 
@@ -63,10 +62,9 @@ class PropertyImportController extends Controller
         }
 
         try {
-            
             // Sanitize filename to avoid issues with spaces and special characters
             $originalName = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
+            $extension = $file->getClientOriginalExtension(); // Get original extension (case preserved) for filename
             $nameWithoutExt = pathinfo($originalName, PATHINFO_FILENAME);
             $sanitizedName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nameWithoutExt);
             $fileName = 'import_' . time() . '_' . $sanitizedName . '.' . $extension;
@@ -94,10 +92,10 @@ class PropertyImportController extends Controller
             $previewRows = array_slice($previewData[0], 1, 3); // Skip header, get 3 rows
 
             // Store file path in session for next steps
-            session(['import_file_path' => $filePath]);
-            session(['import_headings' => $headings]);
-            session(['import_preview' => $previewRows]);
-            session(['import_total_rows' => count($previewData[0]) - 1]); // Exclude header
+            session(['tenant_import_file_path' => $filePath]);
+            session(['tenant_import_headings' => $headings]);
+            session(['tenant_import_preview' => $previewRows]);
+            session(['tenant_import_total_rows' => count($previewData[0]) - 1]); // Exclude header
 
             return response()->json([
                 'success' => true,
@@ -117,38 +115,40 @@ class PropertyImportController extends Controller
      */
     public function mapping()
     {
-        if (!\Auth::user()->can('create property')) {
-            return redirect()->route('property.index')->with('error', __('Permission Denied!'));
+        if (!\Auth::user()->can('create tenant')) {
+            return redirect()->route('tenant.index')->with('error', __('Permission Denied!'));
         }
 
-        $filePath = session('import_file_path');
+        $filePath = session('tenant_import_file_path');
         if (!$filePath || !Storage::exists($filePath)) {
-            return redirect()->route('property.import')->with('error', __('File not found. Please upload again.'));
+            return redirect()->route('tenant.import.index')->with('error', __('File not found. Please upload again.'));
         }
 
-        $headings = session('import_headings', []);
-        $preview = session('import_preview', []);
+        $headings = session('tenant_import_headings', []);
+        $preview = session('tenant_import_preview', []);
 
         // Get all mappable fields
-        $propertyFields = $this->importService->getPropertyFields();
-        $unitFields = $this->importService->getUnitFields();
+        $tenantFields = $this->importService->getTenantFields();
 
         // Auto-map common field names
         $autoMappings = $this->importService->autoMapFields($headings);
 
-        return view('property.import.mapping', compact('headings', 'preview', 'propertyFields', 'unitFields', 'autoMappings'));
+        // Get all properties for selection
+        $properties = $this->importService->getAllProperties(parentId());
+
+        return view('tenant.import.mapping', compact('headings', 'preview', 'tenantFields', 'autoMappings', 'properties'));
     }
 
     /**
-     * Step 4: Validate and preview grouped data
+     * Step 4: Validate and preview data
      */
-    public function validateImport(PropertyImportRequest $request)
+    public function validateImport(TenantImportRequest $request)
     {
-        if (!\Auth::user()->can('create property')) {
+        if (!\Auth::user()->can('create tenant')) {
             return response()->json(['error' => __('Permission Denied!')], 403);
         }
 
-        $filePath = session('import_file_path');
+        $filePath = session('tenant_import_file_path');
         if (!$filePath || !Storage::exists($filePath)) {
             return response()->json(['error' => __('File not found. Please upload again.')], 404);
         }
@@ -156,8 +156,35 @@ class PropertyImportController extends Controller
         try {
             $mappings = $request->mappings;
             
+            // Get property and unit selections - handle both array formats
+            $propertySelections = [];
+            $unitSelections = [];
+            
+            if ($request->has('property_selections')) {
+                $propertySelections = is_array($request->property_selections) 
+                    ? $request->property_selections 
+                    : [];
+            }
+            
+            if ($request->has('unit_selections')) {
+                $unitSelections = is_array($request->unit_selections) 
+                    ? $request->unit_selections 
+                    : [];
+            }
+            
+            // Debug: Log received selections
+            \Log::info('Tenant Import Validation', [
+                'property_selections' => $propertySelections,
+                'unit_selections' => $unitSelections,
+                'property_selections_count' => count($propertySelections),
+                'unit_selections_count' => count($unitSelections),
+                'property_selections_keys' => array_keys($propertySelections),
+                'unit_selections_keys' => array_keys($unitSelections),
+                'all_request_keys' => array_keys($request->all()),
+            ]);
+            
             // Validate required mappings
-            $requiredFields = ['property_name', 'property_address', 'unit_name'];
+            $requiredFields = ['first_name', 'last_name', 'email', 'password', 'phone_number', 'property_name', 'unit_name'];
             foreach ($requiredFields as $field) {
                 if (empty($mappings[$field]) || $mappings[$field] === 'ignore') {
                     return response()->json([
@@ -167,11 +194,13 @@ class PropertyImportController extends Controller
             }
 
             // Process and validate data
-            $result = $this->importService->validateImportData($filePath, $mappings);
+            $result = $this->importService->validateImportData($filePath, $mappings, $propertySelections, $unitSelections);
 
             // Store mappings and validation result in session
-            session(['import_mappings' => $mappings]);
-            session(['import_validation' => $result]);
+            session(['tenant_import_mappings' => $mappings]);
+            session(['tenant_import_property_selections' => $propertySelections]);
+            session(['tenant_import_unit_selections' => $unitSelections]);
+            session(['tenant_import_validation' => $result]);
 
             return response()->json([
                 'success' => true,
@@ -185,17 +214,29 @@ class PropertyImportController extends Controller
     }
 
     /**
+     * Get units for a property (AJAX)
+     */
+    public function getUnits(Request $request)
+    {
+        $propertyId = $request->property_id;
+        $units = $this->importService->getUnitsByProperty($propertyId, parentId());
+        return response()->json($units);
+    }
+
+    /**
      * Step 5: Execute import
      */
-    public function import(Request $request)
+    public function execute(Request $request)
     {
-        if (!\Auth::user()->can('create property')) {
+        if (!\Auth::user()->can('create tenant')) {
             return response()->json(['error' => __('Permission Denied!')], 403);
         }
 
-        $filePath = session('import_file_path');
-        $mappings = session('import_mappings');
-        $validation = session('import_validation');
+        $filePath = session('tenant_import_file_path');
+        $mappings = session('tenant_import_mappings');
+        $propertySelections = session('tenant_import_property_selections', []);
+        $unitSelections = session('tenant_import_unit_selections', []);
+        $validation = session('tenant_import_validation');
 
         if (!$filePath || !Storage::exists($filePath)) {
             return response()->json(['error' => __('File not found. Please upload again.')], 404);
@@ -213,15 +254,33 @@ class PropertyImportController extends Controller
             ], 422);
         }
 
+        // Check if there are unmatched properties or units
+        if (!empty($validation['unmatched_properties']) || !empty($validation['unmatched_units'])) {
+            return response()->json([
+                'error' => __('Cannot import. Please select properties and units for all unmatched rows.'),
+                'unmatched_properties' => $validation['unmatched_properties'],
+                'unmatched_units' => $validation['unmatched_units'],
+            ], 422);
+        }
+
         try {
-            $result = $this->importService->executeImport($filePath, $mappings);
+            $result = $this->importService->executeImport($filePath, $mappings, $propertySelections, $unitSelections);
 
             // Clean up session and temp file
             Storage::delete($filePath);
-            session()->forget(['import_file_path', 'import_headings', 'import_preview', 'import_mappings', 'import_validation', 'import_total_rows']);
+            session()->forget([
+                'tenant_import_file_path', 
+                'tenant_import_headings', 
+                'tenant_import_preview', 
+                'tenant_import_mappings', 
+                'tenant_import_property_selections',
+                'tenant_import_unit_selections',
+                'tenant_import_validation', 
+                'tenant_import_total_rows'
+            ]);
 
             // Store result in session for result page
-            session(['import_result' => $result]);
+            session(['tenant_import_result' => $result]);
 
             return response()->json([
                 'success' => true,
@@ -239,8 +298,8 @@ class PropertyImportController extends Controller
      */
     public function result()
     {
-        $importResult = session('import_result', []);
-        return view('property.import.result', compact('importResult'));
+        $importResult = session('tenant_import_result', []);
+        return view('tenant.import.result', compact('importResult'));
     }
 
     /**
@@ -248,14 +307,23 @@ class PropertyImportController extends Controller
      */
     public function cancel()
     {
-        $filePath = session('import_file_path');
+        $filePath = session('tenant_import_file_path');
         if ($filePath && Storage::exists($filePath)) {
             Storage::delete($filePath);
         }
         
-        session()->forget(['import_file_path', 'import_headings', 'import_preview', 'import_mappings', 'import_validation', 'import_total_rows']);
+        session()->forget([
+            'tenant_import_file_path', 
+            'tenant_import_headings', 
+            'tenant_import_preview', 
+            'tenant_import_mappings', 
+            'tenant_import_property_selections',
+            'tenant_import_unit_selections',
+            'tenant_import_validation', 
+            'tenant_import_total_rows'
+        ]);
         
-        return redirect()->route('property.index')->with('success', __('Import cancelled.'));
+        return redirect()->route('tenant.index')->with('success', __('Import cancelled.'));
     }
 }
 
