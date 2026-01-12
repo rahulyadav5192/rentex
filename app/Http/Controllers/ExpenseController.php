@@ -25,7 +25,13 @@ class ExpenseController extends Controller
         if (\Auth::user()->can('create expense')) {
             $property = Property::where('parent_id', parentId())->get()->pluck('name', 'id');
             $property->prepend(__('Select Property'), '');
-            $types = Type::where('parent_id', parentId())->where('type', 'expense')->get()->pluck('title', 'id');
+            $types = Type::where('type', 'expense')
+                ->where(function($query) {
+                    $query->where('parent_id', parentId())
+                          ->orWhere('parent_id', 0);
+                })
+                ->get()
+                ->pluck('title', 'id');
             $types->prepend(__('Select Type'), '');
 
             $billNumber = $this->expenseNumber();
@@ -95,7 +101,13 @@ class ExpenseController extends Controller
         if (\Auth::user()->can('edit expense')) {
             $property = Property::where('parent_id', parentId())->get()->pluck('name', 'id');
             $property->prepend(__('Select Property'), '');
-            $types = Type::where('parent_id', parentId())->where('type', 'expense')->get()->pluck('title', 'id');
+            $types = Type::where('type', 'expense')
+                ->where(function($query) {
+                    $query->where('parent_id', parentId())
+                          ->orWhere('parent_id', 0);
+                })
+                ->get()
+                ->pluck('title', 'id');
             $types->prepend(__('Select Type'), '');
 
             $billNumber = $expense->expense_id;

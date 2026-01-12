@@ -38,7 +38,13 @@ class InvoiceController extends Controller
         if (\Auth::user()->can('create invoice')) {
             $property = Property::where('parent_id', parentId())->get()->pluck('name', 'id');
             $property->prepend(__('Select Property'), '');
-            $types = Type::where('parent_id', parentId())->where('type', 'invoice')->get()->pluck('title', 'id');
+            $types = Type::where('type', 'invoice')
+                ->where(function($query) {
+                    $query->where('parent_id', parentId())
+                          ->orWhere('parent_id', 0);
+                })
+                ->get()
+                ->pluck('title', 'id');
             $types->prepend(__('Select Type'), '');
 
             $invoiceNumber = $this->invoiceNumber();
@@ -148,7 +154,13 @@ class InvoiceController extends Controller
             $invoice = Invoice::where('id', $id)->first();
             $property = Property::where('parent_id', parentId())->get()->pluck('name', 'id');
             $property->prepend(__('Select Property'), '');
-            $types = Type::where('parent_id', parentId())->where('type', 'invoice')->get()->pluck('title', 'id');
+            $types = Type::where('type', 'invoice')
+                ->where(function($query) {
+                    $query->where('parent_id', parentId())
+                          ->orWhere('parent_id', 0);
+                })
+                ->get()
+                ->pluck('title', 'id');
             $types->prepend(__('Select Type'), '');
 
             $invoiceNumber = $invoice->invoice_id;

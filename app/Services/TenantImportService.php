@@ -246,6 +246,14 @@ class TenantImportService
         $unmatchedProperties = [];
         $unmatchedUnits = [];
         $parentId = parentId();
+        
+        // Log incoming selections for debugging
+        \Log::info('TenantImportService validateImportData', [
+            'property_selections' => $propertySelections,
+            'unit_selections' => $unitSelections,
+            'property_selections_type' => gettype($propertySelections),
+            'unit_selections_type' => gettype($unitSelections),
+        ]);
 
         foreach ($rows as $rowIndex => $row) {
             $rowNumber = $rowIndex + 2; // +2 because we start from row 2

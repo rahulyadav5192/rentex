@@ -130,6 +130,8 @@
 var properties = @json($properties);
 var unmatchedProperties = {};
 var unmatchedUnits = {};
+var savedPropertySelections = {}; // Store selections across validations
+var savedUnitSelections = {}; // Store selections across validations
 
 $(document).ready(function() {
     $('#mapping-form').on('submit', function(e) {
@@ -165,15 +167,12 @@ $(document).ready(function() {
         html += '{{ __("Total rows:") }} <strong>' + validation.total_rows + '</strong>';
         html += '</div>';
 
-        // Store current selections before updating unmatched data
-        const currentPropertySelections = {};
-        const currentUnitSelections = {};
-        
+        // Store current selections from DOM before updating
         $('.property-select').each(function() {
             const key = $(this).data('row-key');
             const value = $(this).val();
             if (key && value) {
-                currentPropertySelections[key] = value;
+                savedPropertySelections[key] = value;
             }
         });
         
@@ -181,7 +180,7 @@ $(document).ready(function() {
             const key = $(this).data('row-key');
             const value = $(this).val();
             if (key && value) {
-                currentUnitSelections[key] = value;
+                savedUnitSelections[key] = value;
             }
         });
 
@@ -208,8 +207,8 @@ $(document).ready(function() {
             html += '<div class="mt-3">';
             Object.keys(unmatchedProperties).forEach(function(key) {
                 const item = unmatchedProperties[key];
-                // Use stored selection if available
-                const selectedPropertyId = currentPropertySelections[key] || '';
+                // Use saved selection if available
+                const selectedPropertyId = savedPropertySelections[key] || '';
                 
                 html += '<div class="mb-3 p-3 border rounded" data-row-key="' + key + '">';
                 html += '<strong>{{ __("Row") }} ' + item.row + ':</strong> ' + item.first_name + ' ' + item.last_name + '<br>';
@@ -234,9 +233,10 @@ $(document).ready(function() {
             html += '<div class="mt-3">';
             Object.keys(unmatchedUnits).forEach(function(key) {
                 const item = unmatchedUnits[key];
-                // Use stored selections if available
-                const selectedUnitId = currentUnitSelections[key] || '';
-                const propertyId = currentPropertySelections[key] || item.property_id || '';
+                // Use saved selections if available
+                const selectedUnitId = savedUnitSelections[key] || '';
+                // Get property ID from saved selection or from item
+                const propertyId = savedPropertySelections[key] || item.property_id || '';
                 
                 html += '<div class="mb-3 p-3 border rounded" data-row-key="' + key + '" data-property-id="' + propertyId + '">';
                 html += '<strong>{{ __("Row") }} ' + item.row + ':</strong> ' + item.first_name + ' ' + item.last_name + '<br>';
@@ -279,6 +279,13 @@ $(document).ready(function() {
             const rowKey = $(this).data('row-key');
             const propertyId = $(this).val();
             
+            // Save the selection
+            if (propertyId) {
+                savedPropertySelections[rowKey] = propertyId;
+            } else {
+                delete savedPropertySelections[rowKey];
+            }
+            
             if (!propertyId) {
                 return;
             }
@@ -291,6 +298,19 @@ $(document).ready(function() {
                 // Also update the parent div's data-property-id
                 unitSelect.closest('[data-row-key="' + rowKey + '"]').attr('data-property-id', propertyId);
                 loadUnitsForProperty(rowKey, propertyId);
+            }
+        });
+        
+        // Save unit selection when changed
+        $(document).on('change', '.unit-select', function() {
+            const rowKey = $(this).data('row-key');
+            const unitId = $(this).val();
+            
+            // Save the selection
+            if (unitId) {
+                savedUnitSelections[rowKey] = unitId;
+            } else {
+                delete savedUnitSelections[rowKey];
             }
         });
 
@@ -360,6 +380,23 @@ $(document).ready(function() {
     }
 
     function revalidateWithSelections() {
+        // Update saved selections from current DOM state
+        $('.property-select').each(function() {
+            const key = $(this).data('row-key');
+            const value = $(this).val();
+            if (key && value) {
+                savedPropertySelections[key] = value;
+            }
+        });
+        
+        $('.unit-select').each(function() {
+            const key = $(this).data('row-key');
+            const value = $(this).val();
+            if (key && value) {
+                savedUnitSelections[key] = value;
+            }
+        });
+        
         // Get form data as object
         const formDataArray = $('#mapping-form').serializeArray();
         const formDataObj = {};
@@ -369,31 +406,15 @@ $(document).ready(function() {
             formDataObj[item.name] = item.value;
         });
         
-        // Get property selections
-        const propertySelections = {};
-        $('.property-select').each(function() {
-            const key = $(this).data('row-key');
-            const value = $(this).val();
-            if (key && value) {
-                propertySelections[key] = value;
-            }
-        });
-
-        // Get unit selections
-        const unitSelections = {};
-        $('.unit-select').each(function() {
-            const key = $(this).data('row-key');
-            const value = $(this).val();
-            if (key && value) {
-                unitSelections[key] = value;
-            }
-        });
+        // Use saved selections (which include current DOM state + previously saved)
+        const propertySelections = Object.assign({}, savedPropertySelections);
+        const unitSelections = Object.assign({}, savedUnitSelections);
 
         // Add selections to form data object
         formDataObj.property_selections = propertySelections;
         formDataObj.unit_selections = unitSelections;
 
-        // Build final data - need to send in Laravel's array format
+        // Build final data object - jQuery will convert nested objects to Laravel array format
         const finalData = {
             _token: formDataObj._token || '{{ csrf_token() }}'
         };
@@ -405,19 +426,19 @@ $(document).ready(function() {
             }
         });
         
-        // Add property selections in Laravel array format: property_selections[row_2]=123
-        Object.keys(propertySelections).forEach(function(key) {
-            finalData['property_selections[' + key + ']'] = propertySelections[key];
-        });
+        // Add property and unit selections as nested objects
+        // jQuery will automatically convert these to property_selections[row_2]=123 format
+        if (Object.keys(propertySelections).length > 0) {
+            finalData.property_selections = propertySelections;
+        }
         
-        // Add unit selections in Laravel array format: unit_selections[row_2]=456
-        Object.keys(unitSelections).forEach(function(key) {
-            finalData['unit_selections[' + key + ']'] = unitSelections[key];
-        });
+        if (Object.keys(unitSelections).length > 0) {
+            finalData.unit_selections = unitSelections;
+        }
         
         // Debug: log the data being sent
-        console.log('Property selections:', propertySelections);
-        console.log('Unit selections:', unitSelections);
+        console.log('Property selections object:', propertySelections);
+        console.log('Unit selections object:', unitSelections);
         console.log('Final data being sent:', finalData);
 
         $('#revalidate-btn').prop('disabled', true).html('<i class="ti ti-loader me-2"></i>{{ __("Validating...") }}');
