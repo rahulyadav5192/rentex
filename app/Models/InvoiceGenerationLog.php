@@ -23,4 +23,9 @@ class InvoiceGenerationLog extends Model
         'generation_date' => 'date',
         'details' => 'array',
     ];
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'parent_id');
+    }
 }

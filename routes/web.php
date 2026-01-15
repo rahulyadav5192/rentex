@@ -169,6 +169,16 @@ Route::group(
 );
 
 //-------------------------------Auto Invoice Settings-------------------------------------------
+// Cron endpoint for auto-invoice generation (no auth required, uses token)
+Route::get('/auto-invoice/cron/generate', [AutoInvoiceController::class, 'cronGenerate'])->name('auto.invoice.cron.generate');
+
+// Super Admin Auto Invoice Management
+Route::prefix('admin/auto-invoice')->name('admin.auto.invoice.')->middleware(['auth', 'XSS'])->group(function () {
+    Route::get('/', [AutoInvoiceController::class, 'adminIndex'])->name('index');
+    Route::get('/logs', [AutoInvoiceController::class, 'adminLogs'])->name('logs');
+    Route::post('/generate/{parentId}', [AutoInvoiceController::class, 'adminGenerate'])->name('generate');
+});
+
 Route::prefix('auto-invoice')->name('auto.invoice.')->middleware(['auth', 'XSS'])->group(function () {
     Route::get('/', [AutoInvoiceController::class, 'index'])->name('index');
     Route::post('/global-settings', [AutoInvoiceController::class, 'updateGlobalSettings'])->name('global.settings');

@@ -50,6 +50,12 @@
                             </a>
                         </li>
                     @endif
+                    <li class="pc-item {{ in_array($routeName, ['admin.auto.invoice.index', 'admin.auto.invoice.logs']) ? 'active' : '' }}">
+                        <a href="{{ route('admin.auto.invoice.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-file-invoice"></i></span>
+                            <span class="pc-mtext">{{ __('Auto Invoice') }}</span>
+                        </a>
+                    </li>
                 @else
                     @if (Gate::check('manage user') || Gate::check('manage role') || Gate::check('manage logged history'))
                         <li

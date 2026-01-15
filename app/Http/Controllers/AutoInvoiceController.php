@@ -10,6 +10,7 @@ use App\Services\AutoInvoiceService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AutoInvoiceController extends Controller
 {
@@ -258,5 +259,200 @@ class AutoInvoiceController extends Controller
             'success' => true,
             'data' => $log,
         ]);
+    }
+
+    /**
+     * Cron endpoint to generate invoices automatically
+     * This endpoint checks if today is the invoice generation day and generates invoices
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cronGenerate(Request $request)
+    {
+        // Verify cron token for security
+        $cronToken = $request->input('token');
+        $expectedToken = env('AUTO_INVOICE_CRON_TOKEN', 'your-secret-cron-token-here');
+        
+        if ($cronToken !== $expectedToken) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid token',
+            ], 401);
+        }
+
+        $today = Carbon::now();
+        $todayDay = $today->day;
+        
+        // Get all unique parent IDs from properties with auto-invoice enabled
+        // and where today matches their invoice_generation_day
+        $parentIds = Property::where('auto_invoice_enabled', true)
+            ->where('invoice_generation_day', $todayDay)
+            ->distinct()
+            ->pluck('parent_id')
+            ->toArray();
+
+        if (empty($parentIds)) {
+            return response()->json([
+                'success' => true,
+                'message' => 'No properties found with invoice generation day matching today',
+                'date' => $today->format('Y-m-d'),
+                'day' => $todayDay,
+                'processed' => 0,
+                'total_created' => 0,
+                'total_failed' => 0,
+            ]);
+        }
+
+        $totalCreated = 0;
+        $totalFailed = 0;
+        $processed = 0;
+        $errors = [];
+
+        foreach ($parentIds as $parentId) {
+            try {
+                $result = $this->autoInvoiceService->generateInvoices($parentId, $today, false);
+                
+                $totalCreated += $result['invoices_created'];
+                $totalFailed += $result['invoices_failed'];
+                $processed++;
+
+                if (!empty($result['errors'])) {
+                    $errors = array_merge($errors, $result['errors']);
+                }
+            } catch (\Exception $e) {
+                $totalFailed++;
+                $errors[] = "Parent ID {$parentId}: " . $e->getMessage();
+                Log::error('Auto invoice cron error', [
+                    'parent_id' => $parentId,
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Invoice generation completed',
+            'date' => $today->format('Y-m-d'),
+            'day' => $todayDay,
+            'processed' => $processed,
+            'total_created' => $totalCreated,
+            'total_failed' => $totalFailed,
+            'errors' => $errors,
+        ]);
+    }
+
+    /**
+     * Super Admin: View all auto-invoice settings across all owners
+     */
+    public function adminIndex()
+    {
+        if (\Auth::user()->type != 'super admin') {
+            return redirect()->back()->with('error', __('Permission Denied!'));
+        }
+
+        // Get all owners (not just top-level ones)
+        $owners = \App\Models\User::where('type', 'owner')
+            ->orderBy('first_name')
+            ->orderBy('last_name')
+            ->get();
+
+        // Get statistics
+        $stats = [
+            'total_owners' => $owners->count(),
+            'owners_with_auto_invoice' => Property::whereIn('parent_id', $owners->pluck('id'))
+                ->where('auto_invoice_enabled', true)
+                ->distinct()
+                ->pluck('parent_id')
+                ->count(),
+            'total_properties_enabled' => Property::whereIn('parent_id', $owners->pluck('id'))
+                ->where('auto_invoice_enabled', true)
+                ->count(),
+            'total_units_enabled' => PropertyUnit::whereIn('parent_id', $owners->pluck('id'))
+                ->where('auto_invoice_enabled', true)
+                ->count(),
+        ];
+
+        // Get properties with auto-invoice enabled grouped by owner
+        $propertiesByOwner = [];
+        foreach ($owners as $owner) {
+            $properties = Property::where('parent_id', $owner->id)
+                ->where('auto_invoice_enabled', true)
+                ->withCount(['totalUnits' => function($query) use ($owner) {
+                    $query->where('parent_id', $owner->id)
+                          ->where('auto_invoice_enabled', true)
+                          ->where('is_occupied', true);
+                }])
+                ->get();
+            
+            if ($properties->count() > 0) {
+                $propertiesByOwner[$owner->id] = [
+                    'owner' => $owner,
+                    'properties' => $properties,
+                ];
+            }
+        }
+
+        return view('admin.auto-invoice.index', compact('owners', 'stats', 'propertiesByOwner'));
+    }
+
+    /**
+     * Super Admin: View all generation logs across all owners
+     */
+    public function adminLogs()
+    {
+        if (\Auth::user()->type != 'super admin') {
+            return redirect()->back()->with('error', __('Permission Denied!'));
+        }
+
+        $logs = InvoiceGenerationLog::with('owner')
+            ->orderBy('generation_date', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        // Get owner names for logs
+        $ownerIds = $logs->pluck('parent_id')->unique();
+        $ownerUsers = \App\Models\User::whereIn('id', $ownerIds)->get();
+        $owners = [];
+        foreach ($ownerUsers as $user) {
+            $owners[$user->id] = $user->name;
+        }
+
+        return view('admin.auto-invoice.logs', compact('logs', 'owners'));
+    }
+
+    /**
+     * Super Admin: Manually trigger invoice generation for a specific owner
+     */
+    public function adminGenerate($parentId)
+    {
+        if (\Auth::user()->type != 'super admin') {
+            return response()->json(['success' => false, 'message' => __('Permission Denied!')], 403);
+        }
+
+        $owner = \App\Models\User::where('id', $parentId)
+            ->where('type', 'owner')
+            ->firstOrFail();
+
+        try {
+            $result = $this->autoInvoiceService->generateInvoices($parentId, Carbon::now(), false);
+
+            return response()->json([
+                'success' => true,
+                'message' => __('Invoices generated successfully for :owner', ['owner' => $owner->name]),
+                'data' => $result,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Super admin manual invoice generation error', [
+                'parent_id' => $parentId,
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => __('Error generating invoices: :error', ['error' => $e->getMessage()]),
+            ], 500);
+        }
     }
 }
