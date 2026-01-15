@@ -28,9 +28,13 @@ use App\Models\User;
 
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\TenantImportController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceImportController;
+use App\Http\Controllers\AutoInvoiceController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ExpenseImportController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\InvoicePaymentController;
 use App\Http\Controllers\MaintainerController;
@@ -163,6 +167,18 @@ Route::group(
         Route::post('settings/twilio', [SettingController::class, 'twilio'])->name('setting.twilio');
     }
 );
+
+//-------------------------------Auto Invoice Settings-------------------------------------------
+Route::prefix('auto-invoice')->name('auto.invoice.')->middleware(['auth', 'XSS'])->group(function () {
+    Route::get('/', [AutoInvoiceController::class, 'index'])->name('index');
+    Route::post('/global-settings', [AutoInvoiceController::class, 'updateGlobalSettings'])->name('global.settings');
+    Route::post('/property/{id}/settings', [AutoInvoiceController::class, 'updatePropertySettings'])->name('property.settings');
+    Route::post('/unit/{id}/settings', [AutoInvoiceController::class, 'updateUnitSettings'])->name('unit.settings');
+    Route::post('/preview', [AutoInvoiceController::class, 'preview'])->name('preview');
+    Route::post('/generate', [AutoInvoiceController::class, 'generate'])->name('generate');
+    Route::get('/logs', [AutoInvoiceController::class, 'logs'])->name('logs');
+    Route::get('/logs/{id}/details', [AutoInvoiceController::class, 'logDetails'])->name('log.details');
+});
 
 
 //-------------------------------Role & Permissions-------------------------------------------
@@ -343,14 +359,58 @@ Route::get('/tenant/unit-details/{id}', [TenantController::class, 'getUnitDetail
 
 // Tenant Import Routes
 Route::prefix('tenant-import')->name('tenant.import.')->middleware(['auth', 'XSS'])->group(function () {
-    Route::get('/', [\App\Http\Controllers\TenantImportController::class, 'index'])->name('index');
-    Route::get('/mapping', [\App\Http\Controllers\TenantImportController::class, 'mapping'])->name('mapping');
-    Route::post('/upload', [\App\Http\Controllers\TenantImportController::class, 'upload'])->name('upload');
-    Route::post('/validate', [\App\Http\Controllers\TenantImportController::class, 'validateImport'])->name('validate');
-    Route::get('/units', [\App\Http\Controllers\TenantImportController::class, 'getUnits'])->name('units');
-    Route::post('/execute', [\App\Http\Controllers\TenantImportController::class, 'execute'])->name('execute');
-    Route::get('/result', [\App\Http\Controllers\TenantImportController::class, 'result'])->name('result');
-    Route::get('/cancel', [\App\Http\Controllers\TenantImportController::class, 'cancel'])->name('cancel');
+    Route::get('/', [TenantImportController::class, 'index'])->name('index');
+    Route::post('/upload', [TenantImportController::class, 'upload'])->name('upload');
+    Route::get('/mapping', [TenantImportController::class, 'mapping'])->name('mapping');
+    Route::post('/validate', [TenantImportController::class, 'validateImport'])->name('validate');
+    Route::post('/execute', [TenantImportController::class, 'import'])->name('execute');
+    Route::get('/result', [TenantImportController::class, 'result'])->name('result');
+    Route::post('/cancel', [TenantImportController::class, 'cancel'])->name('cancel');
+    Route::get('/units', [TenantImportController::class, 'getUnits'])->name('units');
+});
+
+Route::prefix('invoice-import')->name('invoice.import.')->middleware(['auth', 'XSS'])->group(function () {
+    Route::get('/', [InvoiceImportController::class, 'index'])->name('index');
+    Route::post('/upload', [InvoiceImportController::class, 'upload'])->name('upload');
+    Route::get('/mapping', [InvoiceImportController::class, 'mapping'])->name('mapping');
+    Route::post('/validate', [InvoiceImportController::class, 'validateImport'])->name('validate');
+    Route::post('/execute', [InvoiceImportController::class, 'import'])->name('execute');
+    Route::get('/result', [InvoiceImportController::class, 'result'])->name('result');
+    Route::post('/cancel', [InvoiceImportController::class, 'cancel'])->name('cancel');
+    Route::get('/units', [InvoiceImportController::class, 'getUnits'])->name('units');
+});
+
+Route::prefix('expense-import')->name('expense.import.')->middleware(['auth', 'XSS'])->group(function () {
+    Route::get('/', [ExpenseImportController::class, 'index'])->name('index');
+    Route::get('/mapping', [ExpenseImportController::class, 'mapping'])->name('mapping');
+    Route::post('/upload', [ExpenseImportController::class, 'upload'])->name('upload');
+    Route::post('/validate', [ExpenseImportController::class, 'validateImport'])->name('validate');
+    Route::get('/units', [ExpenseImportController::class, 'getUnits'])->name('units');
+    Route::post('/execute', [ExpenseImportController::class, 'import'])->name('execute');
+    Route::get('/result', [ExpenseImportController::class, 'result'])->name('result');
+    Route::get('/cancel', [ExpenseImportController::class, 'cancel'])->name('cancel');
+});
+
+Route::prefix('invoice-import')->name('invoice.import.')->middleware(['auth', 'XSS'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\InvoiceImportController::class, 'index'])->name('index');
+    Route::get('/mapping', [\App\Http\Controllers\InvoiceImportController::class, 'mapping'])->name('mapping');
+    Route::post('/upload', [\App\Http\Controllers\InvoiceImportController::class, 'upload'])->name('upload');
+    Route::post('/validate', [\App\Http\Controllers\InvoiceImportController::class, 'validateImport'])->name('validate');
+    Route::get('/units', [\App\Http\Controllers\InvoiceImportController::class, 'getUnits'])->name('units');
+    Route::post('/execute', [\App\Http\Controllers\InvoiceImportController::class, 'import'])->name('execute');
+    Route::get('/result', [\App\Http\Controllers\InvoiceImportController::class, 'result'])->name('result');
+    Route::get('/cancel', [\App\Http\Controllers\InvoiceImportController::class, 'cancel'])->name('cancel');
+});
+
+Route::prefix('expense-import')->name('expense.import.')->middleware(['auth', 'XSS'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\ExpenseImportController::class, 'index'])->name('index');
+    Route::get('/mapping', [\App\Http\Controllers\ExpenseImportController::class, 'mapping'])->name('mapping');
+    Route::post('/upload', [\App\Http\Controllers\ExpenseImportController::class, 'upload'])->name('upload');
+    Route::post('/validate', [\App\Http\Controllers\ExpenseImportController::class, 'validateImport'])->name('validate');
+    Route::get('/units', [\App\Http\Controllers\ExpenseImportController::class, 'getUnits'])->name('units');
+    Route::post('/execute', [\App\Http\Controllers\ExpenseImportController::class, 'import'])->name('execute');
+    Route::get('/result', [\App\Http\Controllers\ExpenseImportController::class, 'result'])->name('result');
+    Route::get('/cancel', [\App\Http\Controllers\ExpenseImportController::class, 'cancel'])->name('cancel');
 });
 
 //-------------------------------Type-------------------------------------------

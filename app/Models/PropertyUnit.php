@@ -28,6 +28,9 @@ class PropertyUnit extends Model
         'is_occupied',
         'parent_id',
         'notes',
+        'auto_invoice_enabled',
+        'default_invoice_type_id',
+        'last_invoice_generated_at',
     ];
 
     public static $Types=[

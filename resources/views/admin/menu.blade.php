@@ -197,7 +197,7 @@
 
                     @if (Gate::check('manage invoice') || Gate::check('manage expense'))
                         <li
-                            class="pc-item pc-hasmenu  {{ in_array($routeName, ['invoice.index', 'invoice.create', 'invoice.edit', 'invoice.show', 'expense.index']) ? 'pc-trigger  active' : '' }}">
+                            class="pc-item pc-hasmenu  {{ in_array($routeName, ['invoice.index', 'invoice.create', 'invoice.edit', 'invoice.show', 'expense.index', 'auto.invoice.index', 'auto.invoice.logs']) ? 'pc-trigger  active' : '' }}">
                             <a href="#!" class="pc-link">
                                 <span class="pc-micon">
                                     <i class="ti ti-file-invoice"></i>
@@ -206,12 +206,17 @@
                                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="pc-submenu"
-                                style="display: {{ in_array($routeName, ['invoice.index', 'invoice.create', 'invoice.edit', 'invoice.show', 'expense.index']) ? 'block' : 'none' }}">
+                                style="display: {{ in_array($routeName, ['invoice.index', 'invoice.create', 'invoice.edit', 'invoice.show', 'expense.index', 'auto.invoice.index', 'auto.invoice.logs']) ? 'block' : 'none' }}">
                                 @if (Gate::check('manage invoice'))
                                     <li
                                         class="pc-item {{ in_array($routeName, ['invoice.index', 'invoice.create', 'invoice.edit', 'invoice.show']) ? 'active' : '' }}">
                                         <a class="pc-link"
                                             href="{{ route('invoice.index') }}">{{ __('Invoices') }}</a>
+                                    </li>
+                                    <li
+                                        class="pc-item {{ in_array($routeName, ['auto.invoice.index', 'auto.invoice.logs']) ? 'active' : '' }}">
+                                        <a class="pc-link"
+                                            href="{{ route('auto.invoice.index') }}">{{ __('Auto Invoice Settings') }}</a>
                                     </li>
                                 @endif
                                 @if (Gate::check('manage expense'))

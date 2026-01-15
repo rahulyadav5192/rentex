@@ -16,6 +16,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        
+        // Generate monthly invoices on the 1st of each month at 00:00
+        $schedule->command('invoice:generate-monthly')
+            ->monthlyOn(1, '00:00')
+            ->timezone(config('app.timezone'));
     }
 
     /**

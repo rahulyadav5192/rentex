@@ -1,9 +1,12 @@
-{{ Form::open(['url' => 'expense', 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
+{{ Form::open(['url' => 'expense', 'method' => 'post', 'enctype' => 'multipart/form-data', 'class' => 'needs-validation', 'novalidate' => true, 'id' => 'expense_form']) }}
 <div class="modal-body">
     <div class="row">
         <div class="form-group  col-md-12 col-lg-12">
             {{ Form::label('title', __('Expense Title'), ['class' => 'form-label']) }}
-            {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => __('Enter Expense Title')]) }}
+            {{ Form::text('title', null, ['class' => 'form-control', 'placeholder' => __('Enter Expense Title'), 'required' => true]) }}
+            <div class="invalid-feedback">
+                {{ __('Please enter expense title.') }}
+            </div>
         </div>
         <div class="form-group col-md-6 col-lg-6">
             {{ Form::label('expense_id', __('Expense Number'), ['class' => 'form-label']) }}
@@ -16,27 +19,42 @@
         </div>
         <div class="form-group col-md-6 col-lg-6">
             {{ Form::label('expense_type', __('Expense Type'), ['class' => 'form-label']) }}
-            {{ Form::select('expense_type', $types, null, ['class' => 'form-control hidesearch']) }}
+            {{ Form::select('expense_type', $types, null, ['class' => 'form-control hidesearch', 'required' => true]) }}
+            <div class="invalid-feedback">
+                {{ __('Please select expense type.') }}
+            </div>
         </div>
         <div class="form-group col-md-6 col-lg-6">
             {{ Form::label('property_id', __('Property'), ['class' => 'form-label']) }}
-            {{ Form::select('property_id', $property, null, ['class' => 'form-control hidesearch', 'id' => 'property_id']) }}
+            {{ Form::select('property_id', $property, null, ['class' => 'form-control hidesearch', 'id' => 'property_id', 'required' => true]) }}
+            <div class="invalid-feedback">
+                {{ __('Please select a property.') }}
+            </div>
         </div>
         <div class="form-group col-lg-6 col-md-6">
             {{ Form::label('unit_id', __('Unit'), ['class' => 'form-label']) }}
             <div class="unit_div">
-                <select class="form-control hidesearch unit" id="unit_id" name="unit_id">
+                <select class="form-control hidesearch unit" id="unit_id" name="unit_id" required>
                     <option value="">{{ __('Select Unit') }}</option>
                 </select>
+                <div class="invalid-feedback">
+                    {{ __('Please select a unit.') }}
+                </div>
             </div>
         </div>
         <div class="form-group  col-md-6 col-lg-6">
             {{ Form::label('date', __('Date'), ['class' => 'form-label']) }}
-            {{ Form::date('date', null, ['class' => 'form-control']) }}
+            {{ Form::date('date', null, ['class' => 'form-control', 'required' => true]) }}
+            <div class="invalid-feedback">
+                {{ __('Please select date.') }}
+            </div>
         </div>
         <div class="form-group  col-md-6 col-lg-6">
             {{ Form::label('amount', __('Amount'), ['class' => 'form-label']) }}
-            {{ Form::number('amount', null, ['class' => 'form-control', 'placeholder' => __('Enter Expense Amount')]) }}
+            {{ Form::number('amount', null, ['class' => 'form-control', 'placeholder' => __('Enter Expense Amount'), 'required' => true, 'min' => '0', 'step' => '0.01']) }}
+            <div class="invalid-feedback">
+                {{ __('Please enter a valid amount.') }}
+            </div>
         </div>
         <div class="form-group  col-md-12 col-lg-12">
             {{ Form::label('receipt', __('Receipt'), ['class' => 'form-label']) }}
@@ -90,4 +108,20 @@
 
         });
     });
+    
+    // Bootstrap validation for expense form
+    (function() {
+        'use strict';
+        const form = document.getElementById('expense_form');
+        
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        }
+    })();
 </script>

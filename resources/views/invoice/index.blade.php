@@ -18,9 +18,11 @@
                             <h5>{{ __('Invoice List') }}</h5>
                         </div>
                         @if (Gate::check('create invoice'))
-                            <div class="col-auto">
+                            <div class="col-auto d-flex gap-2">
                                 <a href="{{ route('invoice.create') }}" class="btn btn-secondary"> <i
                                         class="ti ti-circle-plus align-text-bottom"></i> {{ __('Create Invoice') }}</a>
+                                <a href="{{ route('invoice.import.index') }}" class="btn btn-primary"> <i
+                                        class="ti ti-upload align-text-bottom"></i> {{ __('Import Invoices') }}</a>
                             </div>
                         @endif
                     </div>

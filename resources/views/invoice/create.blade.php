@@ -62,6 +62,10 @@
                             removeItemButton: true,
                         });
                     });
+                    
+                    // Add required attributes to new repeater items
+                    $(this).find('.invoice-type-select').attr('required', true);
+                    $(this).find('.invoice-amount').attr('required', true);
 
                     $(this).slideDown();
                 },
@@ -84,6 +88,57 @@
             }
         }
     </script>
+    <script>
+        // Bootstrap validation
+        (function() {
+            'use strict';
+            const form = document.getElementById('invoice_form');
+            
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    let isValid = form.checkValidity();
+                    
+                    // Validate repeater items
+                    let hasValidTypes = false;
+                    let hasInvalidTypes = false;
+                    
+                    $('[data-repeater-item]').each(function() {
+                        const typeSelect = $(this).find('.invoice-type-select');
+                        const amountInput = $(this).find('.invoice-amount');
+                        
+                        if (typeSelect.length && amountInput.length) {
+                            const typeValue = typeSelect.val();
+                            const amountValue = amountInput.val();
+                            
+                            if (!typeValue || !amountValue || parseFloat(amountValue) <= 0) {
+                                typeSelect.addClass('is-invalid');
+                                amountInput.addClass('is-invalid');
+                                hasInvalidTypes = true;
+                            } else {
+                                typeSelect.removeClass('is-invalid');
+                                amountInput.removeClass('is-invalid');
+                                hasValidTypes = true;
+                            }
+                        }
+                    });
+                    
+                    if (!hasValidTypes || hasInvalidTypes) {
+                        isValid = false;
+                        if (!hasValidTypes) {
+                            alert('{{ __("Please add at least one invoice type with valid amount.") }}');
+                        }
+                    }
+                    
+                    if (!isValid) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    
+                    form.classList.add('was-validated');
+                }, false);
+            }
+        })();
+    </script>
 @endpush
 
 @section('breadcrumb')
@@ -93,7 +148,7 @@
 @endsection
 
 @section('content')
-    {{ Form::open(['url' => 'invoice', 'method' => 'post', 'id' => 'invoice_form']) }}
+    {{ Form::open(['url' => 'invoice', 'method' => 'post', 'id' => 'invoice_form', 'class' => 'needs-validation', 'novalidate' => true]) }}
     <div class="row mt-4">
         <div class="col-sm-12">
             <div class="card">
@@ -102,14 +157,20 @@
                         <div class="row">
                             <div class="form-group col-md-6 col-lg-4">
                                 {{ Form::label('property_id', __('Property'), ['class' => 'form-label']) }}
-                                {{ Form::select('property_id', $property, null, ['class' => 'form-control hidesearch']) }}
+                                {{ Form::select('property_id', $property, null, ['class' => 'form-control hidesearch', 'required' => true]) }}
+                                <div class="invalid-feedback">
+                                    {{ __('Please select a property.') }}
+                                </div>
                             </div>
                             <div class="form-group col-md-6 col-lg-4">
                                 {{ Form::label('unit_id', __('Unit'), ['class' => 'form-label']) }}
                                 <div class="unit_div">
-                                    <select class="form-control hidesearch unit" id="unit" name="unit_id">
+                                    <select class="form-control hidesearch unit" id="unit" name="unit_id" required>
                                         <option value="">{{ __('Select Unit') }}</option>
                                     </select>
+                                    <div class="invalid-feedback">
+                                        {{ __('Please select a unit.') }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-md-6 col-lg-4">
@@ -125,11 +186,17 @@
                             </div>
                             <div class="form-group col-md-6 col-lg-4">
                                 {{ Form::label('invoice_month', __('Invoice Month'), ['class' => 'form-label']) }}
-                                {{ Form::month('invoice_month', null, ['class' => 'form-control']) }}
+                                {{ Form::month('invoice_month', null, ['class' => 'form-control', 'required' => true]) }}
+                                <div class="invalid-feedback">
+                                    {{ __('Please select invoice month.') }}
+                                </div>
                             </div>
                             <div class="form-group col-md-6 col-lg-4">
                                 {{ Form::label('end_date', __('Invoice End Date'), ['class' => 'form-label']) }}
-                                {{ Form::date('end_date', null, ['class' => 'form-control']) }}
+                                {{ Form::date('end_date', null, ['class' => 'form-control', 'required' => true]) }}
+                                <div class="invalid-feedback">
+                                    {{ __('Please select invoice end date.') }}
+                                </div>
                             </div>
                             <div class="form-group col-md-6 col-lg-4">
                                 {{ Form::label('notes', __('Notes'), ['class' => 'form-label']) }}
@@ -164,10 +231,16 @@
                         <tbody data-repeater-item>
                             <tr>
                                 <td width="30%">
-                                    {{ Form::select('invoice_type', $types, null, ['class' => 'form-control hidesearch']) }}
+                                    {{ Form::select('invoice_type', $types, null, ['class' => 'form-control hidesearch invoice-type-select', 'required' => true]) }}
+                                    <div class="invalid-feedback">
+                                        {{ __('Please select a type.') }}
+                                    </div>
                                 </td>
                                 <td>
-                                    {{ Form::number('amount', null, ['class' => 'form-control','required']) }}
+                                    {{ Form::number('amount', null, ['class' => 'form-control invoice-amount', 'required' => true, 'min' => '0', 'step' => '0.01']) }}
+                                    <div class="invalid-feedback">
+                                        {{ __('Please enter a valid amount.') }}
+                                    </div>
                                 </td>
                                 <td>
                                     {{ Form::textarea('description', null, ['class' => 'form-control', 'rows' => 1]) }}

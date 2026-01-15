@@ -23,6 +23,8 @@ class Property extends Model
         'address',
         'parent_id',
         'is_active',
+        'auto_invoice_enabled',
+        'invoice_generation_day',
     ];
 
     public static $Type = [

@@ -27,9 +27,11 @@
                             <h5>{{ __('Expense List') }}</h5>
                         </div>
                         @if (Gate::check('create expense'))
-                            <div class="col-auto">
+                            <div class="col-auto d-flex gap-2">
                                 <a class="btn btn-secondary customModal" href="#" data-size="lg" data-url="{{ route('expense.create') }}"
                                 data-title="{{ __('Create Expense') }}"> <i class="ti ti-circle-plus align-text-bottom"></i>{{ __('Create Expense') }}</a>
+                                <a href="{{ route('expense.import.index') }}" class="btn btn-primary"> <i
+                                        class="ti ti-upload align-text-bottom"></i> {{ __('Import Expenses') }}</a>
                             </div>
                         @endif
                     </div>
