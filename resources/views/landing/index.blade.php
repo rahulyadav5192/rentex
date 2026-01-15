@@ -1336,90 +1336,54 @@
                 <h2 class="cs_section_title cs_fs_48 cs_semibold mb-0 wow fadeInUp">Our Latest News and Articles</h2>
             </div>
             <div class="row cs_row_gap_30 cs_gap_y_30">
-                <div class="col-lg-4">
-                    <article class="cs_post cs_style_2 cs_radius_20">
-                        <a href="{{ route('landing.blog-details') }}" aria-label="Reading details post link"
-                            class="cs_post_thumbnail cs_radius_20 cs_mb_15 position-relative overflow-hidden">
-                            <img src="{{ asset('landing/assets/img/post-img-7.jpg') }}" alt="Post image">
-                        </a>
-                        <div class="cs_post_content">
-                            <div class="cs_post_meta_wrapper cs_mb_18">
-                                <div class="cs_post_meta cs_fs_14 cs_medium text-uppercase">
-                                    <span>Development</span>
+                @forelse($latestBlogs as $blog)
+                    <div class="col-lg-4">
+                        <article class="cs_post cs_style_2 cs_radius_20">
+                            <a href="{{ route('blog.detail', $blog->slug) }}" aria-label="Reading details post link"
+                                class="cs_post_thumbnail cs_radius_20 cs_mb_15 position-relative overflow-hidden">
+                                @if(!empty($blog->image))
+                                    @php
+                                        $imageUrl = asset('storage/upload/blog/image/' . $blog->image);
+                                    @endphp
+                                    <img src="{{ $imageUrl }}" alt="{{ $blog->title }}" onerror="this.src='{{ asset('landing/assets/img/post-img-7.jpg') }}'">
+                                @else
+                                    <img src="{{ asset('landing/assets/img/post-img-7.jpg') }}" alt="{{ $blog->title }}">
+                                @endif
+                            </a>
+                            <div class="cs_post_content">
+                                <div class="cs_post_meta_wrapper cs_mb_18">
+                                    @if($blog->category)
+                                        <div class="cs_post_meta cs_fs_14 cs_medium text-uppercase">
+                                            <span>{{ $blog->category }}</span>
+                                        </div>
+                                    @endif
+                                    <div class="cs_post_meta cs_fs_14">
+                                        <span>{{ $blog->created_at->format('M d, Y') }}</span>
+                                    </div>
                                 </div>
-                                <div class="cs_post_meta cs_fs_14">
-                                    <span>June 20, 2025</span>
-                                </div>
-                            </div>
-                            <h3 class="cs_post_title cs_fs_24 cs_semibold cs_mb_19"><a href="{{ route('landing.blog-details') }}"
-                                    aria-label="Reading details post link">Blind users are used to test websites and
-                                    apps.</a></h3>
-                            <div class="cs_post_btn_wrapper">
-                                <a href="{{ route('landing.blog-details') }}" aria-label="Reading details post link"
-                                    class="cs_post_btn cs_fs_14 cs_black text-uppercase">
-                                    <span>Read More</span>
-                                    <span><i class="fa-solid fa-arrow-right"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4">
-                    <article class="cs_post cs_style_2 cs_radius_20">
-                        <a href="{{ route('landing.blog-details') }}" aria-label="Reading details post link"
-                            class="cs_post_thumbnail cs_radius_20 cs_mb_15 position-relative overflow-hidden">
-                            <img src="{{ asset('landing/assets/img/post-img-8.jpg') }}" alt="Post image">
-                        </a>
-                        <div class="cs_post_content">
-                            <div class="cs_post_meta_wrapper cs_mb_18">
-                                <div class="cs_post_meta cs_fs_14 cs_medium text-uppercase">
-                                    <span>Design</span>
-                                </div>
-                                <div class="cs_post_meta cs_fs_14">
-                                    <span>June 20, 2025</span>
+                                <h3 class="cs_post_title cs_fs_24 cs_semibold cs_mb_19">
+                                    <a href="{{ route('blog.detail', $blog->slug) }}" aria-label="Reading details post link">
+                                        {{ $blog->title }}
+                                    </a>
+                                </h3>
+                                @if($blog->description)
+                                    <p class="cs_mb_15" style="color: #666; font-size: 14px;">{{ Str::limit($blog->description, 100) }}</p>
+                                @endif
+                                <div class="cs_post_btn_wrapper">
+                                    <a href="{{ route('blog.detail', $blog->slug) }}" aria-label="Reading details post link"
+                                        class="cs_post_btn cs_fs_14 cs_black text-uppercase">
+                                        <span>Read More</span>
+                                        <span><i class="fa-solid fa-arrow-right"></i></span>
+                                    </a>
                                 </div>
                             </div>
-                            <h3 class="cs_post_title cs_fs_24 cs_semibold cs_mb_19"><a href="{{ route('landing.blog-details') }}"
-                                    aria-label="Reading details post link">Gatsby Headaches was written by Juan Diego
-                                    Rodríguez.</a></h3>
-                            <div class="cs_post_btn_wrapper">
-                                <a href="{{ route('landing.blog-details') }}" aria-label="Reading details post link"
-                                    class="cs_post_btn cs_fs_14 cs_black text-uppercase">
-                                    <span>Read More</span>
-                                    <span><i class="fa-solid fa-arrow-right"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4">
-                    <article class="cs_post cs_style_2 cs_radius_20">
-                        <a href="{{ route('landing.blog-details') }}" aria-label="Reading details post link"
-                            class="cs_post_thumbnail cs_radius_20 cs_mb_15 position-relative overflow-hidden">
-                            <img src="{{ asset('landing/assets/img/post-img-9.jpg') }}" alt="Post image">
-                        </a>
-                        <div class="cs_post_content">
-                            <div class="cs_post_meta_wrapper cs_mb_18">
-                                <div class="cs_post_meta cs_fs_14 cs_medium text-uppercase">
-                                    <span>Development</span>
-                                </div>
-                                <div class="cs_post_meta cs_fs_14">
-                                    <span>June 20, 2025</span>
-                                </div>
-                            </div>
-                            <h3 class="cs_post_title cs_fs_24 cs_semibold cs_mb_19"><a href="{{ route('landing.blog-details') }}"
-                                    aria-label="Reading details post link">How To Build Server was written by Sriram
-                                    Thiagarajan.</a></h3>
-                            <div class="cs_post_btn_wrapper">
-                                <a href="{{ route('landing.blog-details') }}" aria-label="Reading details post link"
-                                    class="cs_post_btn cs_fs_14 cs_black text-uppercase">
-                                    <span>Read More</span>
-                                    <span><i class="fa-solid fa-arrow-right"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <p class="text-center text-muted">{{ __('No blog posts available yet.') }}</p>
+                    </div>
+                @endforelse
             </div>
         </div>
         <div class="cs_height_120 cs_height_lg_80"></div>

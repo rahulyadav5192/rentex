@@ -466,9 +466,41 @@ class FrontendController extends Controller
     {
         $user = User::where('code', $code)->firstOrFail();
         $settings = settingsById($user->id);
-        $blog = Blog::where('slug', $slug)->firstOrFail();
+        // Get super admin blog (parent_id = 0) that is enabled
+        $blog = Blog::where('parent_id', 0)
+            ->where('enabled', 1)
+            ->where('slug', $slug)
+            ->firstOrFail();
+        
+        // Increment views
+        $blog->increment('views');
 
-        return view('theme.blog-detail', compact('blog', 'settings', 'user'));
+        // Get related blogs (same category, excluding current)
+        $relatedBlogs = Blog::where('parent_id', 0)
+            ->where('enabled', 1)
+            ->where('id', '!=', $blog->id)
+            ->where(function($query) use ($blog) {
+                if ($blog->category) {
+                    $query->where('category', $blog->category);
+                }
+            })
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // If not enough related blogs, get any recent blogs
+        if ($relatedBlogs->count() < 3) {
+            $additionalBlogs = Blog::where('parent_id', 0)
+                ->where('enabled', 1)
+                ->where('id', '!=', $blog->id)
+                ->whereNotIn('id', $relatedBlogs->pluck('id'))
+                ->latest()
+                ->take(3 - $relatedBlogs->count())
+                ->get();
+            $relatedBlogs = $relatedBlogs->merge($additionalBlogs);
+        }
+
+        return view('theme.blog-detail', compact('blog', 'settings', 'user', 'relatedBlogs'));
     }
 
 

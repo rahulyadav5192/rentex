@@ -602,12 +602,67 @@ Route::get('/faqs', function () {
     return view('landing.faqs');
 })->name('landing.faqs');
 
+//-------------------------------Blog Management (Admin) - Must come before landing routes-------------------------------------------
+// Blog management for super admin - These routes must be defined BEFORE landing blog routes to avoid conflicts
+Route::get('/admin/blog', [BlogController::class, 'index'])->middleware(['auth', 'XSS'])->name('blog.index');
+Route::get('/blog/create', [BlogController::class, 'create'])->middleware(['auth', 'XSS'])->name('blog.create');
+Route::post('/blog', [BlogController::class, 'store'])->middleware(['auth', 'XSS'])->name('blog.store');
+Route::get('/blog/{blog}/edit', [BlogController::class, 'edit'])->middleware(['auth', 'XSS'])->name('blog.edit');
+Route::put('/blog/{blog}', [BlogController::class, 'update'])->middleware(['auth', 'XSS'])->name('blog.update');
+Route::patch('/blog/{blog}', [BlogController::class, 'update'])->middleware(['auth', 'XSS'])->name('blog.update');
+Route::delete('/blog/{blog}', [BlogController::class, 'destroy'])->middleware(['auth', 'XSS'])->name('blog.destroy');
+
+// Landing page blog routes (public)
 Route::get('/blog', function () {
-    return view('landing.blog');
+    // Get all enabled blogs (super admin blogs have parent_id = 0)
+    $blogs = \App\Models\Blog::where('parent_id', 0)
+        ->where('enabled', 1)
+        ->latest()
+        ->paginate(9);
+    return view('landing.blog', compact('blogs'));
 })->name('landing.blog');
 
-Route::get('/blog-details', function () {
-    return view('landing.blog-details');
+Route::get('/blog/{slug}', function ($slug) {
+    // Skip if slug is a reserved word (like 'create', 'edit', etc.)
+    if (in_array($slug, ['create', 'edit'])) {
+        abort(404);
+    }
+    
+    // Get super admin blog (parent_id = 0) that is enabled
+    $blog = \App\Models\Blog::where('parent_id', 0)
+        ->where('enabled', 1)
+        ->where('slug', $slug)
+        ->firstOrFail();
+    
+    // Increment views
+    $blog->increment('views');
+
+    // Get related blogs (same category, excluding current)
+    $relatedBlogs = \App\Models\Blog::where('parent_id', 0)
+        ->where('enabled', 1)
+        ->where('id', '!=', $blog->id)
+        ->where(function($query) use ($blog) {
+            if ($blog->category) {
+                $query->where('category', $blog->category);
+            }
+        })
+        ->latest()
+        ->take(3)
+        ->get();
+
+    // If not enough related blogs, get any recent blogs
+    if ($relatedBlogs->count() < 3) {
+        $additionalBlogs = \App\Models\Blog::where('parent_id', 0)
+            ->where('enabled', 1)
+            ->where('id', '!=', $blog->id)
+            ->whereNotIn('id', $relatedBlogs->pluck('id'))
+            ->latest()
+            ->take(3 - $relatedBlogs->count())
+            ->get();
+        $relatedBlogs = $relatedBlogs->merge($additionalBlogs);
+    }
+
+    return view('landing.blog-details', compact('blog', 'relatedBlogs'));
 })->name('landing.blog-details');
 
 Route::get('/contact', function () {
@@ -675,21 +730,6 @@ Route::resource('additional',   AdditionalController::class)->middleware(
 );
 
 
-//-------------------------------Blog-------------------------------------------
-// Exclude 'index' from resource to avoid conflict with landing page /blog route
-// Define blog.index separately for menu compatibility (BlogController index is commented out)
-Route::get('/admin/blog', function() {
-    // Placeholder for blog.index route name (menu compatibility)
-    // BlogController index method is commented out, redirect to create for now
-    return redirect()->route('blog.create');
-})->middleware(['auth', 'XSS'])->name('blog.index');
-
-Route::resource('blog', BlogController::class)->except(['index'])->middleware(
-    [
-        'auth',
-        'XSS',
-    ]
-);
 
 
 

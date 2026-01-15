@@ -14,7 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            //
+            $table->string('meta_title')->nullable()->after('slug');
+            $table->text('meta_description')->nullable()->after('meta_title');
+            $table->text('description')->nullable()->after('meta_description');
+            $table->string('category')->nullable()->after('description');
+            $table->text('tags')->nullable()->after('category');
+            $table->string('author')->nullable()->after('tags');
+            $table->integer('views')->default(0)->after('author');
         });
     }
 
@@ -26,7 +32,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('blogs', function (Blueprint $table) {
-            //
+            $table->dropColumn(['meta_title', 'meta_description', 'description', 'category', 'tags', 'author', 'views']);
         });
     }
 };

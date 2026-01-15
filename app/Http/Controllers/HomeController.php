@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Blog;
 use App\Models\Contact;
 use App\Models\Custom;
 use App\Models\FAQ;
@@ -97,7 +98,13 @@ class HomeController extends Controller
                     $subscriptions = Subscription::orderBy('package_amount', 'asc')->get();
                     $menus = Page::where('enabled', 1)->get();
                     $FAQs = FAQ::where('enabled', 1)->get();
-                    return view('landing.index', compact('subscriptions', 'menus', 'FAQs'));
+                    // Get latest 3 enabled blogs (super admin blogs have parent_id = 0)
+                    $latestBlogs = \App\Models\Blog::where('parent_id', 0)
+                        ->where('enabled', 1)
+                        ->orderBy('created_at', 'desc')
+                        ->take(3)
+                        ->get();
+                    return view('landing.index', compact('subscriptions', 'menus', 'FAQs', 'latestBlogs'));
                 } else {
                     return redirect()->route('login');
                 }

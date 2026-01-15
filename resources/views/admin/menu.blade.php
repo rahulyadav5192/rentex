@@ -56,6 +56,12 @@
                             <span class="pc-mtext">{{ __('Auto Invoice') }}</span>
                         </a>
                     </li>
+                    <li class="pc-item {{ in_array($routeName, ['blog.index', 'blog.create', 'blog.edit']) ? 'active' : '' }}">
+                        <a href="{{ route('blog.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-news"></i></span>
+                            <span class="pc-mtext">{{ __('Blog Management') }}</span>
+                        </a>
+                    </li>
                 @else
                     @if (Gate::check('manage user') || Gate::check('manage role') || Gate::check('manage logged history'))
                         <li
