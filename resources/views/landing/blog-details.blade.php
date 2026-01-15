@@ -20,7 +20,7 @@
             <ol class="breadcrumb cs_fs_18 cs_heading_font">
                 <li class="breadcrumb-item"><a aria-label="Back to home page link" href="/">Home</a></li>
                 <li class="breadcrumb-item"><a aria-label="Back to blog page link" href="{{ route('landing.blog') }}">Blog</a></li>
-                <li class="breadcrumb-item active">{{ Str::limit($blog->title, 30) }}</li>
+                <li class="breadcrumb-item active breadcrumb-title-mobile">{{ Str::limit($blog->title, 30) }}</li>
             </ol>
                 <div class="cs_hero_shape_1 position-absolute">
                     <img src="{{ asset('landing/assets/img/dna-shape.png') }}" alt="Shape">
@@ -37,7 +37,7 @@
         <div class="cs_height_120 cs_height_lg_80"></div>
         <div class="container">
             <div class="row cs_row_gap_30 cs_gap_y_60">
-                <aside class="col-xl-4 col-lg-5">
+                <aside class="col-xl-4 col-lg-5 order-2 order-lg-1">
                     <div class="cs_sidebar cs_style_1 cs_type_1">
                         <div class="cs_sidebar_widget cs_gray_bg cs_radius_10">
                             <h3 class="cs_sidebar_widget_title cs_fs_22 cs_semibold cs_mb_22">Search</h3>
@@ -133,7 +133,7 @@
                         @endif
                     </div>
                 </aside>
-                <div class="col-xl-8 col-lg-7">
+                <div class="col-xl-8 col-lg-7 order-1 order-lg-2">
                     <div class="cs_post_details">
                         <div class="cs_post_banner cs_radius_10 cs_mb_40 position-relative">
                             @if(!empty($blog->image))
@@ -258,5 +258,114 @@
       </svg>
     </button>
     <!-- End Scroll Up Button -->
+    
+    @push('styles')
+    <style>
+        /* Desktop styles for blog details hero section */
+        @media (min-width: 992px) {
+            .cs_page_heading.cs_style_hero .cs_page_heading_content h1 {
+                font-size: 48px !important;
+                line-height: 1.2;
+                margin-bottom: 20px !important;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content {
+                margin-bottom: 40px;
+                padding-bottom: 100px;
+            }
+        }
+
+        /* Mobile-specific styles for blog details hero section */
+        @media (max-width: 991px) {
+            .cs_page_heading.cs_style_hero .cs_page_heading_content {
+                height: auto;
+                min-height: 400px;
+                padding: 120px 15px 100px;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .cs_page_heading.cs_style_hero .cs_page_heading_content {
+                min-height: 350px;
+                padding: 100px 15px 80px;
+                margin-bottom: 25px;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content h1 {
+                font-size: 32px !important;
+                line-height: 1.3;
+                margin-bottom: 20px !important;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                padding: 0 10px;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content .breadcrumb {
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 0 10px;
+                margin-top: 15px;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content .breadcrumb-item {
+                font-size: 14px;
+                padding: 4px 8px;
+                margin: 2px;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content .breadcrumb-item a {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .cs_page_heading.cs_style_hero .cs_page_heading_content {
+                min-height: 320px;
+                padding: 80px 10px 70px;
+                margin-bottom: 20px;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content h1 {
+                font-size: 28px !important;
+                line-height: 1.25;
+                margin-bottom: 15px !important;
+                padding: 0 5px;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content .breadcrumb {
+                font-size: 12px;
+                padding: 0 5px;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content .breadcrumb-item {
+                font-size: 12px;
+                padding: 3px 6px;
+                margin: 2px;
+            }
+
+            .cs_page_heading.cs_style_hero .cs_page_heading_content .breadcrumb-item a {
+                font-size: 12px;
+            }
+
+            /* Truncate breadcrumb title on very small screens */
+            .cs_page_heading.cs_style_hero .cs_page_heading_content .breadcrumb-title-mobile {
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: inline-block;
+            }
+        }
+
+        /* Ensure container has proper padding on mobile */
+        @media (max-width: 767px) {
+            .cs_page_heading.cs_style_hero .cs_page_heading_content .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    </style>
+    @endpush
     
     @endsection

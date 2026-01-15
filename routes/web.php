@@ -54,6 +54,18 @@ use App\Http\Controllers\ReportController;
 
 require __DIR__ . '/auth.php';
 
+// Sitemap route - Must be before other routes
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
+// Robots.txt route - Dynamic with sitemap reference
+Route::get('/robots.txt', function () {
+    $sitemapUrl = url('/sitemap.xml');
+    $content = "User-agent: *\n";
+    $content .= "Disallow:\n\n";
+    $content .= "Sitemap: {$sitemapUrl}\n";
+    return response($content, 200)->header('Content-Type', 'text/plain');
+})->name('robots');
+
 Route::get('/', [HomeController::class, 'index'])->middleware(
     [
 

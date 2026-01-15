@@ -223,8 +223,8 @@
                                     <h3 class="cs_fs_32 cs_semibold cs_mb_15">{{ __('No blog posts found.') }}</h3>
                                     <p class="text-muted">
                                         @if(request()->filled('search') || request()->filled('category') || request()->filled('tag'))
-                                            {{ __('Try adjusting your search or filter criteria.') }}
-                                            <a href="{{ route('landing.blog') }}" class="btn btn-sm btn-primary mt-2">{{ __('View All Blogs') }}</a>
+                                            {{ __('Try adjusting your search or filter criteria.') }}<br>
+                                            <a href="{{ route('landing.blog') }}" class="cs_post_btn_wrapper btn btn-sm btn-primary mt-2">{{ __('View All Blogs') }}</a>
                                         @else
                                             {{ __('Check back soon for new articles and updates.') }}
                                         @endif
