@@ -1339,7 +1339,7 @@
                 @forelse($latestBlogs as $blog)
                     <div class="col-lg-4">
                         <article class="cs_post cs_style_2 cs_radius_20">
-                            <a href="{{ route('blog.detail', $blog->slug) }}" aria-label="Reading details post link"
+                            <a href="{{ route('landing.blog-details', $blog->slug) }}" aria-label="Reading details post link"
                                 class="cs_post_thumbnail cs_radius_20 cs_mb_15 position-relative overflow-hidden">
                                 @if(!empty($blog->image))
                                     @php
@@ -1362,7 +1362,7 @@
                                     </div>
                                 </div>
                                 <h3 class="cs_post_title cs_fs_24 cs_semibold cs_mb_19">
-                                    <a href="{{ route('blog.detail', $blog->slug) }}" aria-label="Reading details post link">
+                                    <a href="{{ route('landing.blog-details', $blog->slug) }}" aria-label="Reading details post link">
                                         {{ $blog->title }}
                                     </a>
                                 </h3>
@@ -1370,7 +1370,7 @@
                                     <p class="cs_mb_15" style="color: #666; font-size: 14px;">{{ Str::limit($blog->description, 100) }}</p>
                                 @endif
                                 <div class="cs_post_btn_wrapper">
-                                    <a href="{{ route('blog.detail', $blog->slug) }}" aria-label="Reading details post link"
+                                    <a href="{{ route('landing.blog-details', $blog->slug) }}" aria-label="Reading details post link"
                                         class="cs_post_btn cs_fs_14 cs_black text-uppercase">
                                         <span>Read More</span>
                                         <span><i class="fa-solid fa-arrow-right"></i></span>

@@ -615,10 +615,31 @@ Route::delete('/blog/{blog}', [BlogController::class, 'destroy'])->middleware(['
 // Landing page blog routes (public)
 Route::get('/blog', function () {
     // Get all enabled blogs (super admin blogs have parent_id = 0)
-    $blogs = \App\Models\Blog::where('parent_id', 0)
-        ->where('enabled', 1)
-        ->latest()
-        ->paginate(9);
+    $query = \App\Models\Blog::where('parent_id', 0)
+        ->where('enabled', 1);
+    
+    // Filter by search term
+    if (request()->filled('search')) {
+        $searchTerm = request('search');
+        $query->where(function($q) use ($searchTerm) {
+            $q->where('title', 'like', '%' . $searchTerm . '%')
+              ->orWhere('description', 'like', '%' . $searchTerm . '%')
+              ->orWhere('content', 'like', '%' . $searchTerm . '%');
+        });
+    }
+    
+    // Filter by category
+    if (request()->filled('category')) {
+        $query->where('category', request('category'));
+    }
+    
+    // Filter by tag
+    if (request()->filled('tag')) {
+        $tag = request('tag');
+        $query->where('tags', 'like', '%' . $tag . '%');
+    }
+    
+    $blogs = $query->latest()->paginate(9);
     return view('landing.blog', compact('blogs'));
 })->name('landing.blog');
 

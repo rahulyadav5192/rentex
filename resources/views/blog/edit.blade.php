@@ -48,7 +48,8 @@
 
         <div class="form-group col-md-12">
             {{Form::label('content',__('Content'),array('class'=>'form-label'))}}
-            {!! Form::textarea('content', null, ['class' => 'form-control', 'id' => 'classic-editor', 'required' => 'required', 'rows' => 15]) !!}
+            <span class="text-danger">*</span>
+            {!! Form::textarea('content', null, ['class' => 'form-control', 'id' => 'classic-editor', 'rows' => 15]) !!}
         </div>
 
         <div class="form-group col-md-6">
@@ -78,3 +79,52 @@
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
 </div>
 {{ Form::close() }}
+
+<script>
+$(document).ready(function() {
+    // Wait for CKEditor to initialize
+    setTimeout(function() {
+        // Update textarea with editor content before form submission
+        $('#blog-form').on('submit', function(e) {
+            var editorId = '#classic-editor';
+            var editorElement = document.querySelector(editorId);
+            
+            if (editorElement) {
+                // Try to get editor instance
+                if (typeof ClassicEditor !== 'undefined') {
+                    // Check if editor is initialized
+                    var editor = ClassicEditor.instances ? ClassicEditor.instances[editorId.replace('#', '')] : null;
+                    
+                    if (editor) {
+                        // Update the textarea with editor content
+                        editor.updateSourceElement();
+                    } else {
+                        // Try alternative method - get content from .ck-content div
+                        var ckContent = $(editorId).closest('.ck-editor').find('.ck-content');
+                        if (ckContent.length > 0) {
+                            var content = ckContent.html();
+                            if (!content || content.trim() === '' || content === '<p></p>') {
+                                e.preventDefault();
+                                alert('{{ __("Content is required") }}');
+                                ckContent.closest('.ck-editor').addClass('is-invalid');
+                                return false;
+                            }
+                            // Update textarea
+                            $(editorId).val(content);
+                        }
+                    }
+                }
+                
+                // Validate content is not empty
+                var contentValue = $(editorId).val();
+                if (!contentValue || contentValue.trim() === '' || contentValue === '<p></p>') {
+                    e.preventDefault();
+                    alert('{{ __("Content is required") }}');
+                    $(editorId).closest('.form-group').addClass('has-error');
+                    return false;
+                }
+            }
+        });
+    }, 500);
+});
+</script>
