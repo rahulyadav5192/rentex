@@ -14,14 +14,15 @@
     $(document).ready(function() {
         // Global settings toggle
         $('#global_auto_invoice_enabled').on('change', function() {
-            updateGlobalSettings();
+            const isEnabled = $(this).is(':checked');
+            updateGlobalSettings(isEnabled);
         });
 
         $('#global_invoice_generation_day').on('change', function() {
-            updateGlobalSettings();
+            updateGlobalSettings(null);
         });
 
-        function updateGlobalSettings() {
+        function updateGlobalSettings(enableAll) {
             $.ajax({
                 url: '{{ route("auto.invoice.global.settings") }}',
                 method: 'POST',
@@ -33,7 +34,25 @@
                 success: function(response) {
                     if (response.success) {
                         toastrs('Success', response.message, 'success');
-                        location.reload();
+                        
+                        // Update UI immediately if global toggle changed
+                        const isGlobalEnabled = $('#global_auto_invoice_enabled').is(':checked');
+                        if (enableAll !== null) {
+                            // Update all property toggles
+                            $('.property-auto-invoice-toggle').prop('checked', isGlobalEnabled);
+                            
+                            // Update all unit toggles (only for occupied units that aren't disabled)
+                            $('.unit-auto-invoice-toggle').each(function() {
+                                if (!$(this).prop('disabled')) {
+                                    $(this).prop('checked', isGlobalEnabled);
+                                }
+                            });
+                        }
+                        
+                        // Reload after a short delay to ensure UI is updated
+                        setTimeout(function() {
+                            location.reload();
+                        }, 500);
                     }
                 },
                 error: function(xhr) {
@@ -143,7 +162,7 @@
                 return;
             }
 
-            const month = $('#generate_month').val();
+            const month = $('#preview_month').val();
             $.ajax({
                 url: '{{ route("auto.invoice.generate") }}',
                 method: 'POST',
@@ -312,7 +331,7 @@
                                     <label class="form-label">{{ __('Enable Auto Invoice Generation') }}</label>
                                     <div class="form-check form-switch">
                                         <input type="checkbox" class="form-check-input" id="global_auto_invoice_enabled"
-                                            {{ $properties->where('auto_invoice_enabled', true)->count() > 0 ? 'checked' : '' }}>
+                                            {{ $properties->count() > 0 && $properties->where('auto_invoice_enabled', true)->count() == $properties->count() ? 'checked' : '' }}>
                                         <label class="form-check-label" for="global_auto_invoice_enabled">
                                             {{ __('Enable automatic invoice generation for all properties') }}
                                         </label>
@@ -342,25 +361,28 @@
                         <h6 class="mb-0">{{ __('Preview & Generate') }}</h6>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label">{{ __('Target Month') }}</label>
-                                    <input type="month" class="form-control" id="preview_month" value="{{ date('Y-m') }}">
+                        <div class="row align-items-end">
+                            <div class="col-md-6">
+                                <div class="row align-items-end">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">{{ __('Target Month') }}</label>
+                                            <input type="month" class="form-control" id="preview_month" value="{{ date('Y-m') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">&nbsp;</label>
+                                            <button type="button" class="btn btn-primary w-100" id="preview_invoices">
+                                                <i class="ti ti-eye align-text-bottom"></i> {{ __('Preview Invoices') }}
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">&nbsp;</label>
-                                    <button type="button" class="btn btn-primary w-100" id="preview_invoices">
-                                        <i class="ti ti-eye align-text-bottom"></i> {{ __('Preview Invoices') }}
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-label">&nbsp;</label>
-                                    <input type="month" class="form-control mb-2" id="generate_month" value="{{ date('Y-m') }}">
                                     <button type="button" class="btn btn-success w-100" id="generate_invoices">
                                         <i class="ti ti-check align-text-bottom"></i> {{ __('Generate Invoices Now') }}
                                     </button>
@@ -400,7 +422,8 @@
                                                 <div class="form-check form-switch">
                                                     <input type="checkbox" class="form-check-input property-auto-invoice-toggle"
                                                         data-property-id="{{ $property->id }}"
-                                                        {{ $property->auto_invoice_enabled ? 'checked' : '' }}>
+                                                        {{ $property->auto_invoice_enabled ? 'checked' : '' }}
+                                                        id="property_toggle_{{ $property->id }}">
                                                 </div>
                                             </div>
                                         </div>

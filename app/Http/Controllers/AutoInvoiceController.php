@@ -87,12 +87,20 @@ class AutoInvoiceController extends Controller
         ]);
 
         $parentId = parentId();
+        $autoInvoiceEnabled = $request->input('auto_invoice_enabled', false);
+        $invoiceGenerationDay = $request->input('invoice_generation_day', 1);
 
         // Update all properties
         Property::where('parent_id', $parentId)
             ->update([
-                'auto_invoice_enabled' => $request->input('auto_invoice_enabled', false),
-                'invoice_generation_day' => $request->input('invoice_generation_day', 1),
+                'auto_invoice_enabled' => $autoInvoiceEnabled,
+                'invoice_generation_day' => $invoiceGenerationDay,
+            ]);
+
+        // Update all units
+        PropertyUnit::where('parent_id', $parentId)
+            ->update([
+                'auto_invoice_enabled' => $autoInvoiceEnabled,
             ]);
 
         return response()->json([
