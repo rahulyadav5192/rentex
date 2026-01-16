@@ -81,14 +81,60 @@
             '<span class="cs_menu_dropdown_toggle"><span></span></span>',
         );
         $('.cs_menu_toggle').on('click', function() {
-            $(this)
-                .toggleClass('cs_toggle_active')
-                .siblings('.cs_nav_list')
-                .toggleClass('cs_active')
+            var $toggle = $(this);
+            var $navList = $toggle.siblings('.cs_nav_list');
+            var isOpening = !$navList.hasClass('cs_active');
+            var scrollPosition = 0;
+            
+            $toggle.toggleClass('cs_toggle_active');
+            $navList.toggleClass('cs_active');
+            
+            // Lock/unlock body scroll when menu opens/closes
+            if (isOpening) {
+                // Menu opening - lock body scroll
+                scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+                $('body').addClass('menu-open').css({
+                    'overflow': 'hidden',
+                    'position': 'fixed',
+                    'top': '-' + scrollPosition + 'px',
+                    'width': '100%',
+                    'height': '100%'
+                });
+            } else {
+                // Menu closing - unlock body scroll
+                var top = parseInt($('body').css('top'), 10);
+                $('body').removeClass('menu-open').css({
+                    'overflow': '',
+                    'position': '',
+                    'top': '',
+                    'width': '',
+                    'height': ''
+                });
+                
+                // Restore scroll position
+                if (top) {
+                    window.scrollTo(0, Math.abs(top));
+                }
+            }
         });
         $('.cs_menu_dropdown_toggle').on('click', function() {
-            $(this).toggleClass('active').siblings('ul').slideToggle();
-            $(this).parent().toggleClass('active');
+            var $toggle = $(this);
+            var $parent = $toggle.parent();
+            
+            // Check if this is a mega menu
+            if ($parent.hasClass('mega-menu')) {
+                var $megaDropdown = $parent.find('.mega-dropdown');
+                if ($megaDropdown.length) {
+                    $toggle.toggleClass('active');
+                    $parent.toggleClass('active');
+                    $megaDropdown.slideToggle();
+                    return false;
+                }
+            }
+            
+            // Default behavior for regular menus
+            $toggle.toggleClass('active').siblings('ul').slideToggle();
+            $parent.toggleClass('active');
         });
     }
 

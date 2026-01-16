@@ -597,6 +597,38 @@ Route::get('/service/complete-visibility-reports', function () {
     return view('landing.service-visibility-reports');
 })->name('landing.service.visibility-reports');
 
+Route::get('/service/rental-applications', function () {
+    return view('landing.service-rental-applications');
+})->name('landing.service.rental-applications');
+
+Route::get('/service/rent-reporting', function () {
+    return view('landing.service-rent-reporting');
+})->name('landing.service.rent-reporting');
+
+Route::get('/service/listing-website', function () {
+    return view('landing.service-listing-website');
+})->name('landing.service.listing-website');
+
+Route::get('/service/custom-domain', function () {
+    return view('landing.service-custom-domain');
+})->name('landing.service.custom-domain');
+
+Route::get('/service/lead-tracking', function () {
+    return view('landing.service-lead-tracking');
+})->name('landing.service.lead-tracking');
+
+Route::get('/service/listing-syndication', function () {
+    return view('landing.service-listing-syndication');
+})->name('landing.service.listing-syndication');
+
+Route::get('/service/team-management', function () {
+    return view('landing.service-team-management');
+})->name('landing.service.team-management');
+
+Route::get('/service/email-alerts', function () {
+    return view('landing.service-email-alerts');
+})->name('landing.service.email-alerts');
+
 Route::get('/team', function () {
     return view('landing.team');
 })->name('landing.team');

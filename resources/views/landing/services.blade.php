@@ -132,7 +132,7 @@
             <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Property Website icon">
             </span>
                     <h3 class="cs_fs_24 cs_semibold cs_mb_6">
-                        <a href="{{ route('landing.service-details') }}" aria-label="Service details link">Free Property Website</a>
+                        <a href="{{ route('landing.service.listing-website') }}" aria-label="Listing Website service details link">Listing Website</a>
                     </h3>
                     <ul class="cs_features_list cs_mp_0">
                         <li>
@@ -152,7 +152,337 @@
                             <span>No Technical Setup</span>
                         </li>
                     </ul>
-                    <a href="{{ route('landing.service-details') }}" aria-label="Service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+                    <a href="{{ route('landing.service.listing-website') }}" aria-label="Listing Website service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_center cs_bg_1 cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Tenant Management icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.tenant-management') }}" aria-label="Tenant Management service details link">Tenant Management</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Tenant Profiles & History</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Document Management</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Communication Tools</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Tenant Screening</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.tenant-management') }}" aria-label="Tenant Management service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_bg_2 cs_center cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Lease & Contracts icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.lease-contract') }}" aria-label="Lease & Contract Management service details link">Lease & Contract Management</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Digital Lease Creation</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Lease Renewal Tracking</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Contract Templates</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Automated Reminders</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.lease-contract') }}" aria-label="Lease & Contract Management service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_bg_3 cs_center cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Rental Applications icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.rental-applications') }}" aria-label="Rental Applications service details link">Rental Applications</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Digital Application Forms</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Automated Screening</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Document Verification</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Application Tracking</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.rental-applications') }}" aria-label="Rental Applications service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_center cs_bg_1 cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/analytics-2.svg') }}" alt="Rent Reporting icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.rent-reporting') }}" aria-label="Rent Reporting service details link">Rent Reporting</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Collection Analytics</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Occupancy Reports</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Financial Insights</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Export Capabilities</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.rent-reporting') }}" aria-label="Rent Reporting service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_bg_2 cs_center cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Listing Website icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.listing-website') }}" aria-label="Listing Website service details link">Listing Website</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Professional Design</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Mobile Responsive</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>SEO Optimized</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Online Applications</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.listing-website') }}" aria-label="Listing Website service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_bg_3 cs_center cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Custom Domain icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.custom-domain') }}" aria-label="Custom Domain service details link">Custom Domain</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Branded Website</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>SSL Certificate</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Easy Setup</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Email Forwarding</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.custom-domain') }}" aria-label="Custom Domain service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_center cs_bg_1 cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/analytics-2.svg') }}" alt="Reports & Insights icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.visibility-reports') }}" aria-label="Reports & Insights service details link">Reports & Insights</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Financial Visibility</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Performance Analytics</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Custom Reports</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Real-time Data</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.visibility-reports') }}" aria-label="Reports & Insights service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_bg_2 cs_center cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Lead Tracking icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.lead-tracking') }}" aria-label="Lead Tracking service details link">Lead Tracking</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Multi-source Capture</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Lead Scoring</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Activity Tracking</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Conversion Analytics</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.lead-tracking') }}" aria-label="Lead Tracking service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_bg_3 cs_center cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/automation.svg') }}" alt="Listing Syndication icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.listing-syndication') }}" aria-label="Automatic Listing Syndication service details link">Automatic Listing Syndication</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Multi-platform Publishing</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Auto Synchronization</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Platform Integration</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Performance Tracking</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.listing-syndication') }}" aria-label="Automatic Listing Syndication service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_center cs_bg_1 cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/security.svg') }}" alt="Team Management icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.team-management') }}" aria-label="Team Management service details link">Team Management</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Role-based Access</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Task Assignment</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Team Collaboration</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Performance Analytics</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.team-management') }}" aria-label="Team Management service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
+            <span>Read More</span>
+            <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+                </div>
+                <div class="cs_feature_item cs_white_bg cs_radius_20">
+                    <span class="cs_feature_icon cs_bg_2 cs_center cs_radius_12 cs_mb_15">
+            <img src="{{ asset('landing/assets/img/icons/email.svg') }}" alt="Email Alerts icon">
+            </span>
+                    <h3 class="cs_fs_24 cs_semibold cs_mb_6">
+                        <a href="{{ route('landing.service.email-alerts') }}" aria-label="Email Alerts service details link">Email Alerts</a>
+                    </h3>
+                    <ul class="cs_features_list cs_mp_0">
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Customizable Notifications</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Real-time Alerts</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Multiple Recipients</span>
+                        </li>
+                        <li>
+                            <img src="{{ asset('landing/assets/img/icons/caret-icon.svg') }}" alt="Caret icon">
+                            <span>Alert History</span>
+                        </li>
+                    </ul>
+                    <a href="{{ route('landing.service.email-alerts') }}" aria-label="Email Alerts service details link" class="cs_text_btn cs_fs_14 cs_bold text-uppercase">
             <span>Read More</span>
             <span class="cs_btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
             </a>
