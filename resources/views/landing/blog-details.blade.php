@@ -3,7 +3,7 @@
 @section('page-title', $blog->meta_title ?? $blog->title)
 @section('meta-description', $blog->meta_description ?? Str::limit(strip_tags($blog->content), 160))
 @section('meta-keywords', $blog->tags ?? 'property management, tenant management, real estate')
-@section('og-title', $blog->title)
+@section('og-title', $blog->meta_title ?? $blog->title)
 @if(!empty($blog->image))
     @php
         $ogImage = asset('storage/upload/blog/image/' . $blog->image);
@@ -164,6 +164,12 @@
                             <div class="cs_post_meta">
                                 <span class="cs_blue_color"><i class="fa-solid fa-tag"></i></span>
                                     <span class="cs_heading_color">{{ $blog->category }}</span>
+                            </div>
+                            @endif
+                            @if($blog->meta_title)
+                            <div class="cs_post_meta">
+                                <span class="cs_blue_color"><i class="fa-solid fa-heading"></i></span>
+                                    <span class="cs_heading_color" title="Meta Title">{{ $blog->meta_title }}</span>
                             </div>
                             @endif
                         </div>

@@ -54,7 +54,7 @@
 
         <div class="form-group col-md-6">
             {{ Form::label('meta_title', __('Meta Title (SEO)'), ['class' => 'form-label']) }}
-            {{ Form::text('meta_title', null, ['class' => 'form-control', 'placeholder' => __('SEO meta title (max 255 characters)'), 'maxlength' => '255']) }}
+            {{ Form::text('meta_title', $blog->meta_title ?? null, ['class' => 'form-control', 'placeholder' => __('SEO meta title (max 255 characters)'), 'maxlength' => '255']) }}
             <small class="text-muted">{{ __('For search engines') }}</small>
         </div>
 

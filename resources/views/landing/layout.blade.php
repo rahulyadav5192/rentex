@@ -37,7 +37,11 @@
     <link rel="stylesheet" href="{{ asset('landing/assets/css/odometer.css') }}">
     <link rel="stylesheet" href="{{ asset('landing/assets/css/slick.min.css') }}">
     <link rel="stylesheet" href="{{ asset('landing/assets/css/style.css') }}">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
     @stack('styles')
 </head>
 
@@ -63,6 +67,38 @@
     <script src="{{ asset('landing/assets/js/isotope.pkgd.min.js') }}"></script>
     <script src="{{ asset('landing/assets/js/odometer.js') }}"></script>
     <script src="{{ asset('landing/assets/js/main.js') }}"></script>
+    
+    <!-- Initialize Lucide Icons -->
+    <script>
+        (function() {
+            function initLucideIcons() {
+                if (typeof lucide !== 'undefined') {
+                    try {
+                        lucide.createIcons();
+                    } catch(e) {
+                        console.warn('Lucide icons initialization error:', e);
+                    }
+                }
+            }
+            
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initLucideIcons);
+            } else {
+                initLucideIcons();
+            }
+            
+            // Re-initialize when mega menu is shown
+            setTimeout(function() {
+                const megaMenu = document.querySelector('.mega-menu');
+                if (megaMenu) {
+                    megaMenu.addEventListener('mouseenter', function() {
+                        setTimeout(initLucideIcons, 100);
+                    });
+                }
+            }, 500);
+        })();
+    </script>
     
     @stack('scripts')
 </body>

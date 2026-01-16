@@ -40,7 +40,7 @@
                     </span>
                                     <div class="cs_iconbox_info">
                                         <p class="cs_white_color cs_heading_font cs_mb_4">Call Us 7/24</p>
-                                        <a href="tel:+2085550112" aria-label="Phone call button" class="cs_fs_24 cs_bold cs_white_color cs_heading_font">+208-555-0112</a>
+                                        <a href="tel:+2085550112" aria-label="Phone call button" class="cs_fs_24 cs_bold cs_white_color cs_heading_font">+91 8303084138</a>
                                     </div>
                                 </div>
                             </li>
@@ -51,7 +51,7 @@
                     </span>
                                     <div class="cs_iconbox_info">
                                         <p class="cs_white_color cs_heading_font cs_mb_4">Make a Quote</p>
-                                        <a href="mailto:Infotek@gmail.com" aria-label="Phone call button" class="cs_fs_24 cs_bold cs_white_color cs_heading_font">Infotek@gmail.com</a>
+                                        <a href="mailto:info.propilor@gmail.com" aria-label="Phone call button" class="cs_fs_24 cs_bold cs_white_color cs_heading_font">info.propilor@gmail.com</a>
                                     </div>
                                 </div>
                             </li>
@@ -62,7 +62,7 @@
                     </span>
                                     <div class="cs_iconbox_info">
                                         <p class="cs_white_color cs_heading_font cs_mb_4">Location</p>
-                                        <p class="cs_fs_24 cs_bold cs_white_color cs_heading_font mb-0">4517 Washington ave.</p>
+                                        <p class="cs_fs_24 cs_bold cs_white_color cs_heading_font mb-0">12 Division Park, Berlin</p>
                                     </div>
                                 </div>
                             </li>
